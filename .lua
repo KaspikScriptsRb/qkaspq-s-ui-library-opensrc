@@ -2078,75 +2078,202 @@ function _qkaspq:Init(titleText)
 		btn.MouseButton1Click:Connect(togglePicker)
 		accBtn.MouseButton1Click:Connect(togglePicker)
 	end
+	local moonColors = {
+		["Rainbow Moon"] = Color3.fromRGB(180, 120, 255),
+		["Goldmoon"] = Color3.fromRGB(255, 195, 55),
+		["Bloodmoon"] = Color3.fromRGB(240, 75, 75),
+	}
+	local moonGradients = {
+		["Rainbow Moon"] = {Color3.fromRGB(180, 120, 255), Color3.fromRGB(255, 140, 220)},
+		["Goldmoon"] = {Color3.fromRGB(255, 215, 0), Color3.fromRGB(255, 140, 0)},
+		["Bloodmoon"] = {Color3.fromRGB(255, 50, 50), Color3.fromRGB(150, 0, 0)},
+	}
+
+	local function renderPredictionRow(parent, item, index)
+		local rowH = 26
+		local row = Instance.new("Frame")
+		row.Size = UDim2.new(1, 0, 0, rowH)
+		row.BackgroundColor3 = cl.card
+		row.BorderSizePixel = 0
+		row.LayoutOrder = index
+		row.Parent = parent
+		rnd(row, 6)
+		stk(row, Color3.fromRGB(28, 28, 34), 1)
+
+		local accentCol = Color3.fromRGB(200, 200, 210)
+		local isRare = false
+		local rareName = ""
+		for mName, col in pairs(moonColors) do
+			if item:find(mName) then
+				accentCol = col
+				isRare = true
+				rareName = mName
+				break
+			end
+		end
+
+		local accent = Instance.new("Frame")
+		accent.BorderSizePixel = 0
+		accent.Position = UDim2.new(0, 6, 0.5, -4)
+		accent.Size = UDim2.new(0, 8, 0, 8)
+		accent.BackgroundColor3 = accentCol
+		accent.Parent = row
+		rnd(accent, 4)
+
+		if isRare and moonGradients[rareName] then
+			local grad = Instance.new("UIGradient")
+			grad.Color = ColorSequence.new(moonGradients[rareName][1], moonGradients[rareName][2])
+			grad.Parent = accent
+		end
+
+		local lbl = Instance.new("TextLabel")
+		lbl.Size = UDim2.new(1, -26, 1, 0)
+		lbl.Position = UDim2.new(0, 20, 0, 0)
+		lbl.BackgroundTransparency = 1
+		lbl.Text = item
+		lbl.TextColor3 = isRare and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(160, 160, 170)
+		lbl.TextSize = 10
+		lbl.Font = isRare and Enum.Font.MontserratBold or Enum.Font.MontserratMedium
+		lbl.TextXAlignment = Enum.TextXAlignment.Left
+		lbl.Parent = row
+
+		row.MouseEnter:Connect(function()
+			tw(row, {BackgroundColor3 = Color3.fromRGB(22, 22, 28)}, 0.15)
+			if isRare then
+				tw(lbl, {TextColor3 = accentCol}, 0.15)
+			end
+		end)
+		row.MouseLeave:Connect(function()
+			tw(row, {BackgroundColor3 = cl.card}, 0.15)
+			tw(lbl, {TextColor3 = isRare and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(160, 160, 170)}, 0.15)
+		end)
+	end
+
 	local function makePredList(parent, data, updateHeight)
 		local items = data.items or {}
-		local rowH = 22
-		local maxH = data.maxHeight or 160
-		local fullH = math.max(#items * rowH + 8, 1)
-		local visH = math.min(fullH, maxH)
-		local totalH = (data.label and data.label ~= "") and visH + 15 or visH
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, totalH)
+		frame.Size = UDim2.new(1, 0, 0, 40)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = totalH
-		local yOff = 0
-		if data.label and data.label ~= "" then
-			local lbl = Instance.new("TextLabel")
-			lbl.Size = UDim2.new(1, 0, 0, 13)
-			lbl.BackgroundTransparency = 1
-			lbl.Text = data.label
-			lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-			lbl.TextSize = 11
-			lbl.Font = Enum.Font.MontserratBold
-			lbl.TextXAlignment = Enum.TextXAlignment.Left
-			lbl.Parent = frame
-			yOff = 15
+		data.height = 40
+
+		local label = Instance.new("TextLabel")
+		label.Size = UDim2.new(1, 0, 0, 13)
+		label.BackgroundTransparency = 1
+		label.Text = data.label or "Weather Predictions"
+		label.TextColor3 = Color3.fromRGB(255, 255, 255)
+		label.TextSize = 11
+		label.Font = Enum.Font.MontserratBold
+		label.TextXAlignment = Enum.TextXAlignment.Left
+		label.Parent = frame
+
+		local field = Instance.new("Frame")
+		field.Size = UDim2.new(1, 0, 0, 24)
+		field.Position = UDim2.new(0, 0, 0, 15)
+		field.BackgroundColor3 = cl.field
+		field.BorderSizePixel = 0
+		field.ClipsDescendants = true
+		field.Parent = frame
+		rnd(field, 5)
+		stk(field, Color3.fromRGB(36, 36, 42))
+
+		local fieldHeader = Instance.new("Frame")
+		fieldHeader.Size = UDim2.new(1, 0, 0, 24)
+		fieldHeader.BackgroundTransparency = 1
+		fieldHeader.Parent = field
+
+		local ddIcon = Instance.new("ImageLabel")
+		ddIcon.Size = UDim2.new(0, 14, 0, 14)
+		ddIcon.Position = UDim2.new(0, 8, 0.5, -7)
+		ddIcon.BackgroundTransparency = 1
+		ddIcon.Image = "rbxassetid://10885640682"
+		ddIcon.ImageColor3 = Color3.fromRGB(160, 160, 170)
+		ddIcon.ScaleType = Enum.ScaleType.Fit
+		ddIcon.Parent = fieldHeader
+
+		local val = Instance.new("TextLabel")
+		val.Size = UDim2.new(1, -44, 1, 0)
+		val.Position = UDim2.new(0, 28, 0, 0)
+		val.BackgroundTransparency = 1
+		
+		local summaryText = "Show Predictions"
+		for _, item in ipairs(items) do
+			if item:find("Rainbow Moon") or item:find("Goldmoon") or item:find("Bloodmoon") then
+				summaryText = "Next: " .. item
+				break
+			end
 		end
-		local listField = Instance.new("ScrollingFrame")
-		listField.Size = UDim2.new(1, 0, 0, visH)
-		listField.Position = UDim2.new(0, 0, 0, yOff)
-		listField.BackgroundColor3 = cl.field
-		listField.BorderSizePixel = 0
-		listField.ScrollBarThickness = 3
-		listField.ScrollBarImageColor3 = ac
-		listField.ScrollBarImageTransparency = 0.4
-		listField.CanvasSize = UDim2.new(0, 0, 0, fullH)
-		listField.ClipsDescendants = true
-		listField.Parent = frame
-		rnd(listField, 5)
-		stk(listField, Color3.fromRGB(36, 36, 42))
+		val.Text = summaryText
+		val.TextColor3 = Color3.fromRGB(220, 220, 225)
+		val.TextSize = 11
+		val.Font = Enum.Font.MontserratMedium
+		val.TextXAlignment = Enum.TextXAlignment.Left
+		val.Parent = fieldHeader
+
+		local arrow = Instance.new("TextLabel")
+		arrow.Size = UDim2.new(0, 14, 1, 0)
+		arrow.Position = UDim2.new(1, -18, 0, 0)
+		arrow.BackgroundTransparency = 1
+		arrow.Text = "v"
+		arrow.TextColor3 = Color3.fromRGB(160, 160, 170)
+		arrow.TextSize = 10
+		arrow.Font = Enum.Font.MontserratBold
+		arrow.Parent = fieldHeader
+
+		local optList = Instance.new("ScrollingFrame")
+		optList.Size = UDim2.new(1, 0, 0, 0)
+		optList.Position = UDim2.new(0, 0, 0, 24)
+		optList.BackgroundTransparency = 1
+		optList.BorderSizePixel = 0
+		optList.Visible = false
+		optList.ClipsDescendants = true
+		optList.ScrollBarThickness = 3
+		optList.ScrollBarImageColor3 = ac
+		optList.ScrollBarImageTransparency = 0.4
+		optList.CanvasSize = UDim2.new(0, 0, 0, 0)
+		optList.Parent = field
+
 		local listLay = Instance.new("UIListLayout")
 		listLay.SortOrder = Enum.SortOrder.LayoutOrder
-		listLay.Padding = UDim.new(0, 2)
-		listLay.Parent = listField
-		pad(listField, 4, 4, 8, 8)
-		local moonColors = {
-			["Rainbow Moon"] = Color3.fromRGB(180, 120, 255),
-			["Goldmoon"] = Color3.fromRGB(255, 195, 55),
-			["Bloodmoon"] = Color3.fromRGB(240, 75, 75),
-		}
-		for i, item in ipairs(items) do
-			local rowCol = Color3.fromRGB(200, 200, 210)
-			for moonName, col in pairs(moonColors) do
-				if item:find(moonName) then
-					rowCol = col
-					break
-				end
-			end
-			local row = Instance.new("TextLabel")
-			row.Size = UDim2.new(1, 0, 0, rowH - 2)
-			row.BackgroundTransparency = 1
-			row.Text = item
-			row.TextColor3 = rowCol
-			row.TextSize = 11
-			row.Font = Enum.Font.MontserratMedium
-			row.TextXAlignment = Enum.TextXAlignment.Left
-			row.LayoutOrder = i
-			row.Parent = listField
-			pad(row, 0, 0, 0, 0)
+		listLay.Padding = UDim.new(0, 6)
+		listLay.Parent = optList
+		pad(optList, 4, 4, 8, 8)
+
+		local fieldBtn = Instance.new("TextButton")
+		fieldBtn.Size = UDim2.new(1, 0, 1, 0)
+		fieldBtn.BackgroundTransparency = 1
+		fieldBtn.Text = ""
+		fieldBtn.Parent = fieldHeader
+
+		for idx, item in ipairs(items) do
+			renderPredictionRow(optList, item, idx)
 		end
+
+		fieldBtn.MouseButton1Click:Connect(function()
+			data.expanded = not data.expanded
+			if data.expanded then
+				optList.Visible = true
+				tw(arrow, {Rotation = 180}, 0.15)
+				local rowH = 26
+				local _0xfullH = #items * (rowH + 6) + 8
+				local listH = math.min(_0xfullH, 180)
+				optList.CanvasSize = UDim2.new(0, 0, 0, _0xfullH)
+				tw(optList, {Size = UDim2.new(1, 0, 0, listH)}, 0.18)
+				tw(field, {Size = UDim2.new(1, 0, 0, 24 + listH)}, 0.18)
+				tw(frame, {Size = UDim2.new(1, 0, 0, 40 + listH)}, 0.18)
+			else
+				tw(arrow, {Rotation = 0}, 0.15)
+				tw(optList, {Size = UDim2.new(1, 0, 0, 0)}, 0.18)
+				task.delay(0.18, function()
+					optList.Visible = false
+				end)
+				tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.18)
+				tw(frame, {Size = UDim2.new(1, 0, 0, 40)}, 0.18)
+			end
+			task.delay(0.01, updateHeight)
+			task.delay(0.19, updateHeight)
+		end)
 	end
 	local function makeButton(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
