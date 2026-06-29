@@ -1588,13 +1588,17 @@ function _qkaspq:Init(titleText)
 		arrow.Font = Enum.Font.MontserratBold
 		arrow.Parent = fieldHeader
 		data.ui_arrow = arrow
-		local optList = Instance.new("Frame")
+		local optList = Instance.new("ScrollingFrame")
 		optList.Size = UDim2.new(1, 0, 0, 0)
 		optList.Position = UDim2.new(0, 0, 0, 24)
 		optList.BackgroundTransparency = 1
 		optList.BorderSizePixel = 0
 		optList.Visible = false
 		optList.ClipsDescendants = true
+		optList.ScrollBarThickness = 3
+		optList.ScrollBarImageColor3 = ac
+		optList.ScrollBarImageTransparency = 0.4
+		optList.CanvasSize = UDim2.new(0, 0, 0, 0)
 		optList.Parent = field
 		data.ui_optList = optList
 		local listLay = Instance.new("UIListLayout")
@@ -1693,7 +1697,9 @@ function _qkaspq:Init(titleText)
 				if data.expanded then
 					optList.Visible = true
 					tw(arrow, {Rotation = 180}, 0.15)
-					local listH = #data.list * 24 + 8
+					local _0xfullH = #data.list * 24 + 8
+					local listH = math.min(_0xfullH, 150)
+					optList.CanvasSize = UDim2.new(0, 0, 0, _0xfullH)
 					tw(optList, {Size = UDim2.new(1, 0, 0, listH)}, 0.18)
 					tw(field, {Size = UDim2.new(1, 0, 0, 24 + listH)}, 0.18)
 					tw(frame, {Size = UDim2.new(1, 0, 0, 40 + listH)}, 0.18)
@@ -2071,6 +2077,76 @@ function _qkaspq:Init(titleText)
 		end
 		btn.MouseButton1Click:Connect(togglePicker)
 		accBtn.MouseButton1Click:Connect(togglePicker)
+	end
+	local function makePredList(parent, data, updateHeight)
+		local items = data.items or {}
+		local rowH = 22
+		local maxH = data.maxHeight or 160
+		local fullH = math.max(#items * rowH + 8, 1)
+		local visH = math.min(fullH, maxH)
+		local totalH = (data.label and data.label ~= "") and visH + 15 or visH
+		local frame = Instance.new("Frame")
+		frame.Size = UDim2.new(1, 0, 0, totalH)
+		frame.BackgroundTransparency = 1
+		frame.Parent = parent
+		data.frame = frame
+		data.height = totalH
+		local yOff = 0
+		if data.label and data.label ~= "" then
+			local lbl = Instance.new("TextLabel")
+			lbl.Size = UDim2.new(1, 0, 0, 13)
+			lbl.BackgroundTransparency = 1
+			lbl.Text = data.label
+			lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+			lbl.TextSize = 11
+			lbl.Font = Enum.Font.MontserratBold
+			lbl.TextXAlignment = Enum.TextXAlignment.Left
+			lbl.Parent = frame
+			yOff = 15
+		end
+		local listField = Instance.new("ScrollingFrame")
+		listField.Size = UDim2.new(1, 0, 0, visH)
+		listField.Position = UDim2.new(0, 0, 0, yOff)
+		listField.BackgroundColor3 = cl.field
+		listField.BorderSizePixel = 0
+		listField.ScrollBarThickness = 3
+		listField.ScrollBarImageColor3 = ac
+		listField.ScrollBarImageTransparency = 0.4
+		listField.CanvasSize = UDim2.new(0, 0, 0, fullH)
+		listField.ClipsDescendants = true
+		listField.Parent = frame
+		rnd(listField, 5)
+		stk(listField, Color3.fromRGB(36, 36, 42))
+		local listLay = Instance.new("UIListLayout")
+		listLay.SortOrder = Enum.SortOrder.LayoutOrder
+		listLay.Padding = UDim.new(0, 2)
+		listLay.Parent = listField
+		pad(listField, 4, 4, 8, 8)
+		local moonColors = {
+			["Rainbow Moon"] = Color3.fromRGB(180, 120, 255),
+			["Goldmoon"] = Color3.fromRGB(255, 195, 55),
+			["Bloodmoon"] = Color3.fromRGB(240, 75, 75),
+		}
+		for i, item in ipairs(items) do
+			local rowCol = Color3.fromRGB(200, 200, 210)
+			for moonName, col in pairs(moonColors) do
+				if item:find(moonName) then
+					rowCol = col
+					break
+				end
+			end
+			local row = Instance.new("TextLabel")
+			row.Size = UDim2.new(1, 0, 0, rowH - 2)
+			row.BackgroundTransparency = 1
+			row.Text = item
+			row.TextColor3 = rowCol
+			row.TextSize = 11
+			row.Font = Enum.Font.MontserratMedium
+			row.TextXAlignment = Enum.TextXAlignment.Left
+			row.LayoutOrder = i
+			row.Parent = listField
+			pad(row, 0, 0, 0, 0)
+		end
 	end
 	local function makeButton(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
@@ -2596,6 +2672,8 @@ function _qkaspq:Init(titleText)
 					makeTextBox(optsContainer, opt, updateCardHeight)
 				elseif opt.type == "bind" then
 					makeBind(optsContainer, opt, updateCardHeight)
+				elseif opt.type == "predlist" then
+					makePredList(optsContainer, opt, updateCardHeight)
 				end
 			end
 		end
