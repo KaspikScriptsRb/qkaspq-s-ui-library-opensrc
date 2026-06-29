@@ -233,11 +233,11 @@ _qkaspq.tabBtns = {}
 _qkaspq.columns = {}
 _qkaspq.activeCards = {}
 _qkaspq.tabNamesRu = {
-	Combat = "Бой",
-	Movement = "Движение",
-	Visuals = "Визуалы",
-	Misc = "Разное",
-	Settings = "Настройки"
+	Combat = "Combat",
+	Movement = "Movement",
+	Visuals = "Visuals",
+	Misc = "Misc",
+	Settings = "Settings"
 }
 local wmText
 local wmTime
