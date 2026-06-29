@@ -2570,9 +2570,9 @@ function _qkaspq:Init(titleText)
 		nameLabel.TextTruncate = Enum.TextTruncate.AtEnd
 		nameLabel.Parent = headBtn
 		modData.ui_nameLabel = nameLabel
-		local bindVisible = (not modData.nobind)
+		local bindVisible = (not modData.nobind) and (not modData.notoggle)
 		local badgeVisible = (modData.badge ~= nil) or modData.beta
-		local rightOffset = 48
+		local rightOffset = modData.notoggle and 12 or 48
 
 		local bindFrame = Instance.new("Frame")
 		bindFrame.Size = UDim2.new(0, 46, 0, 16)
@@ -2689,43 +2689,48 @@ function _qkaspq:Init(titleText)
 				end
 			end))
 		end)
-		local togBg = Instance.new("Frame")
-		togBg.Size = UDim2.new(0, 30, 0, 14)
-		togBg.Position = UDim2.new(1, -38, 0.5, -7)
-		togBg.BackgroundColor3 = modData.on and ac or cl.tog_off
-		togBg.BorderSizePixel = 0
-		togBg.Parent = headBtn
-		rnd(togBg, 8)
-		modData.ui_togBg = togBg
-		local togDot = Instance.new("Frame")
-		togDot.Size = UDim2.new(0, 10, 0, 10)
-		togDot.Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)
-		togDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		togDot.BorderSizePixel = 0
-		togDot.Parent = togBg
-		rnd(togDot, 6)
-		modData.ui_togDot = togDot
-		local togBtn = Instance.new("TextButton")
-		togBtn.Size = UDim2.new(0, 36, 0, 24)
-		togBtn.Position = UDim2.new(1, -40, 0.5, -12)
-		togBtn.BackgroundTransparency = 1
-		togBtn.Text = ""
-		togBtn.ZIndex = 4
-		togBtn.Parent = headBtn
-		togBtn.MouseButton1Click:Connect(function()
-			modData.on = not modData.on
-			tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
-			tw(togDot, {Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)}, 0.18)
-			tw(modIcon, {ImageColor3 = modData.on and ac or cl.dim}, 0.18)
-			if modData.callback then
-				pcall(modData.callback, modData.on)
-			end
-			triggerBindRefresh()
-			self:Notify("Module <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> is now " .. (modData.on and "<font color=\"rgb(80, 220, 100)\">enabled</font>" or "<font color=\"rgb(240, 80, 80)\">disabled</font>"), MOD_ICON)
-			if modData.name == "Music GUI" then
-				updateMusicGui()
-			end
-		end)
+		local togBg, togDot, togBtn
+		if not modData.notoggle then
+			togBg = Instance.new("Frame")
+			togBg.Size = UDim2.new(0, 30, 0, 14)
+			togBg.Position = UDim2.new(1, -38, 0.5, -7)
+			togBg.BackgroundColor3 = modData.on and ac or cl.tog_off
+			togBg.BorderSizePixel = 0
+			togBg.Parent = headBtn
+			rnd(togBg, 8)
+			modData.ui_togBg = togBg
+			
+			togDot = Instance.new("Frame")
+			togDot.Size = UDim2.new(0, 10, 0, 10)
+			togDot.Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)
+			togDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			togDot.BorderSizePixel = 0
+			togDot.Parent = togBg
+			rnd(togDot, 6)
+			modData.ui_togDot = togDot
+			
+			togBtn = Instance.new("TextButton")
+			togBtn.Size = UDim2.new(0, 36, 0, 24)
+			togBtn.Position = UDim2.new(1, -40, 0.5, -12)
+			togBtn.BackgroundTransparency = 1
+			togBtn.Text = ""
+			togBtn.ZIndex = 4
+			togBtn.Parent = headBtn
+			togBtn.MouseButton1Click:Connect(function()
+				modData.on = not modData.on
+				tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
+				tw(togDot, {Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)}, 0.18)
+				tw(modIcon, {ImageColor3 = modData.on and ac or cl.dim}, 0.18)
+				if modData.callback then
+					pcall(modData.callback, modData.on)
+				end
+				triggerBindRefresh()
+				self:Notify("Module <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> is now " .. (modData.on and "<font color=\"rgb(80, 220, 100)\">enabled</font>" or "<font color=\"rgb(240, 80, 80)\">disabled</font>"), MOD_ICON)
+				if modData.name == "Music GUI" then
+					updateMusicGui()
+				end
+			end)
+		end
 		local optsContainer = Instance.new("Frame")
 		optsContainer.BackgroundTransparency = 1
 		optsContainer.Position = UDim2.new(0, 0, 0, 32)
@@ -2809,11 +2814,13 @@ function _qkaspq:Init(titleText)
 			if bindVisible and bindLbl then
 				bindLbl.Text = modData.bind or "None"
 			end
-			modIcon.ImageColor3 = modData.on and ac or cl.dim
-			tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
-			tw(togDot, {Position = modData.on and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6)}, 0.18)
+			modIcon.ImageColor3 = (modData.on or modData.notoggle) and ac or cl.dim
+			if togBg and togDot then
+				tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
+				tw(togDot, {Position = modData.on and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6)}, 0.18)
+			end
 			if currentHoveredMod == modData then
-				ttIcon.ImageColor3 = modData.on and ac or cl.dim
+				ttIcon.ImageColor3 = (modData.on or modData.notoggle) and ac or cl.dim
 			end
 		end
 		headBtn.InputBegan:Connect(function(input)
