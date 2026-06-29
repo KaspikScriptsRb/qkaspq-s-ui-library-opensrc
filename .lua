@@ -3025,6 +3025,16 @@ function _qkaspq:Init(titleText)
 		if not tabDef then
 			return
 		end
+		if tabDef.customCallback then
+			for _, child in pairs(colScroll:GetChildren()) do
+				if child:IsA("Frame") then
+					child:Destroy()
+				end
+			end
+			self.columns = {}
+			pcall(tabDef.customCallback, colScroll)
+			return
+		end
 		local mods = _qkaspq_store.Modules[tabDef.id]
 		if not mods then
 			return
@@ -3134,9 +3144,9 @@ function _qkaspq:Init(titleText)
 		updateArrayList()
 	end)
 end
-function _qkaspq:CreateTab(tabId, icon)
+function _qkaspq:CreateTab(tabId, icon, customCallback)
 	local tabIndex = #self.tabDefs + 1
-	self.tabDefs[tabIndex] = {id = tabId, icon = icon}
+	self.tabDefs[tabIndex] = {id = tabId, icon = icon, customCallback = customCallback}
 	_qkaspq_store.Modules[tabId] = _qkaspq_store.Modules[tabId] or {}
 end
 function _qkaspq:CreateModule(tabId, moduleData)
