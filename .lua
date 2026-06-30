@@ -277,7 +277,6 @@ function _qkaspq:Init(titleText)
 	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	gui.ResetOnSpawn = false
 	gui.IgnoreGuiInset = true
-	
 	local targetParent
 	if typeof(gethui) == "function" then
 		targetParent = gethui()
@@ -702,19 +701,16 @@ function _qkaspq:Init(titleText)
 		local btnSc = Instance.new("UIScale")
 		btnSc.Scale = 1
 		btnSc.Parent = btn
-		
 		local contentFrame = Instance.new("Frame")
 		contentFrame.Size = UDim2.new(1, 0, 1, 0)
 		contentFrame.BackgroundTransparency = 1
 		contentFrame.Parent = btn
-
 		local btnLay = Instance.new("UIListLayout")
 		btnLay.FillDirection = Enum.FillDirection.Vertical
 		btnLay.VerticalAlignment = Enum.VerticalAlignment.Center
 		btnLay.HorizontalAlignment = Enum.HorizontalAlignment.Center
 		btnLay.Padding = UDim.new(0, 1)
 		btnLay.Parent = contentFrame
-		
 		local icon = Instance.new("ImageLabel")
 		icon.Size = UDim2.new(0, 16, 0, 16)
 		icon.BackgroundTransparency = 1
@@ -722,7 +718,6 @@ function _qkaspq:Init(titleText)
 		icon.ImageColor3 = cl.dim
 		icon.ScaleType = Enum.ScaleType.Fit
 		icon.Parent = contentFrame
-		
 		local lbl = Instance.new("TextLabel")
 		lbl.BackgroundTransparency = 1
 		lbl.Text = self.tabNamesRu[tab.id] or tab.id
@@ -733,7 +728,6 @@ function _qkaspq:Init(titleText)
 		lbl.TextTruncate = Enum.TextTruncate.AtEnd
 		lbl.TextXAlignment = Enum.TextXAlignment.Center
 		lbl.Parent = contentFrame
-		
 		self.tabBtns[i] = {btn = btn, icon = icon, lbl = lbl, sc = btnSc}
 		btn.MouseEnter:Connect(function()
 			if _qkaspq_store.ActiveTab ~= i then
@@ -2088,7 +2082,6 @@ function _qkaspq:Init(titleText)
 		["Goldmoon"] = {Color3.fromRGB(255, 215, 0), Color3.fromRGB(255, 140, 0)},
 		["Bloodmoon"] = {Color3.fromRGB(255, 50, 50), Color3.fromRGB(150, 0, 0)},
 	}
-
 	local function renderPredictionRow(parent, item, index)
 		local rowH = 26
 		local row = Instance.new("Frame")
@@ -2099,7 +2092,6 @@ function _qkaspq:Init(titleText)
 		row.Parent = parent
 		rnd(row, 6)
 		stk(row, Color3.fromRGB(28, 28, 34), 1)
-
 		local accentCol = Color3.fromRGB(200, 200, 210)
 		local isRare = false
 		local rareName = ""
@@ -2111,7 +2103,6 @@ function _qkaspq:Init(titleText)
 				break
 			end
 		end
-
 		local accent = Instance.new("Frame")
 		accent.BorderSizePixel = 0
 		accent.Position = UDim2.new(0, 6, 0.5, -4)
@@ -2119,13 +2110,11 @@ function _qkaspq:Init(titleText)
 		accent.BackgroundColor3 = accentCol
 		accent.Parent = row
 		rnd(accent, 4)
-
 		if isRare and moonGradients[rareName] then
 			local grad = Instance.new("UIGradient")
 			grad.Color = ColorSequence.new(moonGradients[rareName][1], moonGradients[rareName][2])
 			grad.Parent = accent
 		end
-
 		local lbl = Instance.new("TextLabel")
 		lbl.Size = UDim2.new(1, -26, 1, 0)
 		lbl.Position = UDim2.new(0, 20, 0, 0)
@@ -2136,7 +2125,6 @@ function _qkaspq:Init(titleText)
 		lbl.Font = isRare and Enum.Font.MontserratBold or Enum.Font.MontserratMedium
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.Parent = row
-
 		row.MouseEnter:Connect(function()
 			tw(row, {BackgroundColor3 = Color3.fromRGB(22, 22, 28)}, 0.15)
 			if isRare then
@@ -2148,7 +2136,6 @@ function _qkaspq:Init(titleText)
 			tw(lbl, {TextColor3 = isRare and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(160, 160, 170)}, 0.15)
 		end)
 	end
-
 	local function makePredList(parent, data, updateHeight)
 		local items = data.items or {}
 		local frame = Instance.new("Frame")
@@ -2157,7 +2144,6 @@ function _qkaspq:Init(titleText)
 		frame.Parent = parent
 		data.frame = frame
 		data.height = 40
-
 		local label = Instance.new("TextLabel")
 		label.Size = UDim2.new(1, 0, 0, 13)
 		label.BackgroundTransparency = 1
@@ -2167,7 +2153,6 @@ function _qkaspq:Init(titleText)
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
-
 		local field = Instance.new("Frame")
 		field.Size = UDim2.new(1, 0, 0, 24)
 		field.Position = UDim2.new(0, 0, 0, 15)
@@ -2177,12 +2162,10 @@ function _qkaspq:Init(titleText)
 		field.Parent = frame
 		rnd(field, 5)
 		stk(field, Color3.fromRGB(36, 36, 42))
-
 		local fieldHeader = Instance.new("Frame")
 		fieldHeader.Size = UDim2.new(1, 0, 0, 24)
 		fieldHeader.BackgroundTransparency = 1
 		fieldHeader.Parent = field
-
 		local ddIcon = Instance.new("ImageLabel")
 		ddIcon.Size = UDim2.new(0, 14, 0, 14)
 		ddIcon.Position = UDim2.new(0, 8, 0.5, -7)
@@ -2191,12 +2174,10 @@ function _qkaspq:Init(titleText)
 		ddIcon.ImageColor3 = Color3.fromRGB(160, 160, 170)
 		ddIcon.ScaleType = Enum.ScaleType.Fit
 		ddIcon.Parent = fieldHeader
-
 		local val = Instance.new("TextLabel")
 		val.Size = UDim2.new(1, -44, 1, 0)
 		val.Position = UDim2.new(0, 28, 0, 0)
 		val.BackgroundTransparency = 1
-		
 		local summaryText = "Show Predictions"
 		for _, item in ipairs(items) do
 			if item:find("Rainbow Moon") or item:find("Goldmoon") or item:find("Bloodmoon") then
@@ -2210,7 +2191,6 @@ function _qkaspq:Init(titleText)
 		val.Font = Enum.Font.MontserratMedium
 		val.TextXAlignment = Enum.TextXAlignment.Left
 		val.Parent = fieldHeader
-
 		local arrow = Instance.new("TextLabel")
 		arrow.Size = UDim2.new(0, 14, 1, 0)
 		arrow.Position = UDim2.new(1, -18, 0, 0)
@@ -2220,7 +2200,6 @@ function _qkaspq:Init(titleText)
 		arrow.TextSize = 10
 		arrow.Font = Enum.Font.MontserratBold
 		arrow.Parent = fieldHeader
-
 		local optList = Instance.new("ScrollingFrame")
 		optList.Size = UDim2.new(1, 0, 0, 0)
 		optList.Position = UDim2.new(0, 0, 0, 24)
@@ -2233,23 +2212,19 @@ function _qkaspq:Init(titleText)
 		optList.ScrollBarImageTransparency = 0.4
 		optList.CanvasSize = UDim2.new(0, 0, 0, 0)
 		optList.Parent = field
-
 		local listLay = Instance.new("UIListLayout")
 		listLay.SortOrder = Enum.SortOrder.LayoutOrder
 		listLay.Padding = UDim.new(0, 6)
 		listLay.Parent = optList
 		pad(optList, 4, 4, 8, 8)
-
 		local fieldBtn = Instance.new("TextButton")
 		fieldBtn.Size = UDim2.new(1, 0, 1, 0)
 		fieldBtn.BackgroundTransparency = 1
 		fieldBtn.Text = ""
 		fieldBtn.Parent = fieldHeader
-
 		for idx, item in ipairs(items) do
 			renderPredictionRow(optList, item, idx)
 		end
-
 		fieldBtn.MouseButton1Click:Connect(function()
 			data.expanded = not data.expanded
 			if data.expanded then
@@ -2573,7 +2548,6 @@ function _qkaspq:Init(titleText)
 		local bindVisible = (not modData.nobind) and (not modData.notoggle)
 		local badgeVisible = (modData.badge ~= nil) or modData.beta
 		local rightOffset = modData.notoggle and 12 or 48
-
 		local bindFrame = Instance.new("Frame")
 		bindFrame.Size = UDim2.new(0, 46, 0, 16)
 		bindFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
@@ -2582,7 +2556,6 @@ function _qkaspq:Init(titleText)
 		bindFrame.Parent = headBtn
 		rnd(bindFrame, 5)
 		stk(bindFrame, Color3.fromRGB(36, 36, 44), 1)
-		
 		local bindIcon = Instance.new("ImageLabel")
 		bindIcon.Size = UDim2.new(0, 8, 0, 8)
 		bindIcon.Position = UDim2.new(0, 5, 0.5, -4)
@@ -2591,7 +2564,6 @@ function _qkaspq:Init(titleText)
 		bindIcon.ImageColor3 = cl.dim
 		bindIcon.ScaleType = Enum.ScaleType.Fit
 		bindIcon.Parent = bindFrame
-		
 		local bindLbl = Instance.new("TextLabel")
 		bindLbl.Size = UDim2.new(1, -18, 1, 0)
 		bindLbl.Position = UDim2.new(0, 15, 0, 0)
@@ -2603,19 +2575,16 @@ function _qkaspq:Init(titleText)
 		bindLbl.TextXAlignment = Enum.TextXAlignment.Left
 		bindLbl.TextTruncate = Enum.TextTruncate.AtEnd
 		bindLbl.Parent = bindFrame
-		
 		local bindBtn = Instance.new("TextButton")
 		bindBtn.Size = UDim2.new(1, 0, 1, 0)
 		bindBtn.BackgroundTransparency = 1
 		bindBtn.Text = ""
 		bindBtn.ZIndex = 4
 		bindBtn.Parent = bindFrame
-
 		if bindVisible then
 			bindFrame.Position = UDim2.new(1, -92, 0.5, -8)
 			rightOffset = 92
 		end
-
 		if badgeVisible then
 			local badgeText = "BETA"
 			local badgeCol = ac
@@ -2627,7 +2596,6 @@ function _qkaspq:Init(titleText)
 			elseif type(modData.badge) == "string" then
 				badgeText = modData.badge
 			end
-			
 			local badgeFrame = Instance.new("Frame")
 			badgeFrame.Size = UDim2.new(0, 46, 0, 16)
 			badgeFrame.Position = UDim2.new(1, -rightOffset - 46, 0.5, -8)
@@ -2636,7 +2604,6 @@ function _qkaspq:Init(titleText)
 			badgeFrame.Parent = headBtn
 			rnd(badgeFrame, 5)
 			stk(badgeFrame, Color3.fromRGB(36, 36, 44), 1)
-
 			if badgeGrad and type(badgeGrad) == "table" then
 				local grad = Instance.new("UIGradient")
 				local keypoints = {}
@@ -2646,7 +2613,6 @@ function _qkaspq:Init(titleText)
 				grad.Color = ColorSequence.new(keypoints)
 				grad.Parent = badgeFrame
 			end
-
 			local badgeLbl = Instance.new("TextLabel")
 			badgeLbl.Size = UDim2.new(1, 0, 1, 0)
 			badgeLbl.Position = UDim2.new(0, 0, 0, 0)
@@ -2699,7 +2665,6 @@ function _qkaspq:Init(titleText)
 			togBg.Parent = headBtn
 			rnd(togBg, 8)
 			modData.ui_togBg = togBg
-			
 			togDot = Instance.new("Frame")
 			togDot.Size = UDim2.new(0, 10, 0, 10)
 			togDot.Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)
@@ -2708,7 +2673,6 @@ function _qkaspq:Init(titleText)
 			togDot.Parent = togBg
 			rnd(togDot, 6)
 			modData.ui_togDot = togDot
-			
 			togBtn = Instance.new("TextButton")
 			togBtn.Size = UDim2.new(0, 36, 0, 24)
 			togBtn.Position = UDim2.new(1, -40, 0.5, -12)
@@ -2824,7 +2788,7 @@ function _qkaspq:Init(titleText)
 			end
 		end
 		headBtn.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton2 then
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.MouseButton2 then
 				modData.expanded = not modData.expanded
 				updateCardHeight(false)
 			end
@@ -3427,8 +3391,8 @@ function _qkaspq:GetOption(tabId, moduleName, optionLabel)
 	return nil
 end
 function _qkaspq:Destroy()
-	if gui then gui:Destroy() end
-	if bindsWin then bindsWin.Parent:Destroy() end
+if gui then pcall(function() gui:Destroy() end) end
+if bindsWin and bindsWin.Parent and bindsWin.Parent ~= gui then pcall(function() bindsWin.Parent:Destroy() end) end
 	for _, conn in ipairs(_qkaspq_store.Connections or {}) do
 		pcall(function() conn:Disconnect() end)
 	end
