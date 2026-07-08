@@ -1572,13 +1572,13 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			arrayListListLay.Padding = UDim.new(0, 4)
 			arrayListListLay.Parent = arrayListContainer
 		end
-		local alignment = "Справа"
+		local alignment = "Right"
 		for _, opt in ipairs(arraylistMod.opts or {}) do
-			if opt.label == "Расположение" then
+			if opt.label == "Location" or opt.label == "Расположение" then
 				alignment = opt.value
 			end
 		end
-		if alignment == "Слева" then
+		if alignment == "Left" or alignment == "Слева" then
 			arrayListContainer.Position = UDim2.new(0, 20, 0, 20)
 			arrayListContainer.AnchorPoint = Vector2.new(0, 0)
 			arrayListListLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
@@ -3267,7 +3267,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local list = _qkaspq_store.Modules[tabDef.id]
 			if list then
 				for _, mod in ipairs(list) do
-					if mod.on and mod.bind and mod.bind ~= "None" then
+					if mod.bind and mod.bind ~= "None" then
 						table.insert(allModules, mod)
 					end
 				end
