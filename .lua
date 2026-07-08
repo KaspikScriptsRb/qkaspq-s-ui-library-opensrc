@@ -895,7 +895,7 @@ _qkaspq.Init = function(self, titleText)
 		tooltip.Visible = true
 		tooltip.GroupTransparency = 1
 		currentTtTween = TS:Create(tooltip, TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-			GroupTransparency = 0
+			GroupTransparency = currentTransparencyValue
 		})
 		currentTtTween:Play()
 	end
@@ -1006,6 +1006,23 @@ _qkaspq.Init = function(self, titleText)
 			self.columns[i] = col
 		end
 	end
+
+	local function updateScrollCanvasSize()
+		local maxH = 0
+		for _, col in ipairs(self.columns or {}) do
+			local h = 16
+			for _, ch in pairs(col:GetChildren()) do
+				if ch:IsA("Frame") then
+					h = h + ch.Size.Y.Offset + 8
+				end
+			end
+			if h > maxH then
+				maxH = h
+			end
+		end
+		colScroll.CanvasSize = UDim2.new(0, 0, 0, maxH)
+	end
+
 
 	local function triggerBindRefresh()
 		if buildBindsList then
@@ -2721,15 +2738,16 @@ _qkaspq.Init = function(self, titleText)
 		field.BackgroundColor3 = cl.field
 		field.BorderSizePixel = 0
 		field.Parent = frame
+		registerRecolor(field, "BackgroundColor3", "field")
 		rnd(field, 5)
-		stk(field, Color3.fromRGB(36, 36, 42))
+		local stroke = stk(field, Color3.fromRGB(36, 36, 42))
 		data.ui_field = field
 		local box = Instance.new("TextBox")
 		box.Size = UDim2.new(1, -16, 1, 0)
 		box.Position = UDim2.new(0, 8, 0, 0)
 		box.BackgroundTransparency = 1
 		box.Text = data.value or ""
-		box.PlaceholderText = data.placeholder or "Введите значение..."
+		box.PlaceholderText = data.placeholder or "Enter value..."
 		box.TextColor3 = Color3.fromRGB(220, 220, 230)
 		box.PlaceholderColor3 = Color3.fromRGB(90, 90, 110)
 		box.TextSize = 11
@@ -2739,10 +2757,10 @@ _qkaspq.Init = function(self, titleText)
 		box.Parent = field
 		data.ui_box = box
 		box.Focused:Connect(function()
-			tw(field, {BackgroundColor3 = Color3.fromRGB(22, 22, 30)}, 0.14)
+			tw(stroke, {Color = ac}, 0.14)
 		end)
 		box.FocusLost:Connect(function(enterPressed)
-			tw(field, {BackgroundColor3 = cl.field}, 0.14)
+			tw(stroke, {Color = Color3.fromRGB(36, 36, 42)}, 0.14)
 			data.value = box.Text
 			if data.callback then pcall(data.callback, box.Text, enterPressed) end
 		end)
@@ -3111,21 +3129,7 @@ _qkaspq.Init = function(self, titleText)
 					end)
 				end
 			end
-			task.delay(instant and 0 or dur + 0.01, function()
-				local maxH = 0
-				for _, col in ipairs(self.columns) do
-					local h = 16
-					for _, ch in pairs(col:GetChildren()) do
-						if ch:IsA("Frame") then
-							h = h + ch.Size.Y.Offset + 8
-						end
-					end
-					if h > maxH then
-						maxH = h
-					end
-				end
-				colScroll.CanvasSize = UDim2.new(0, 0, 0, maxH)
-			end)
+			task.delay(instant and 0 or dur + 0.01, updateScrollCanvasSize)
 		end
 		if modData.opts and #modData.opts > 0 then
 			for _, opt in ipairs(modData.opts) do
@@ -3222,150 +3226,122 @@ _qkaspq.Init = function(self, titleText)
 		for idx, modData in ipairs(allModules) do
 			activeCount = activeCount + 1
 			local row = bindsScroll:FindFirstChild(modData.name)
-			local stroke
 			local bindLbl
-			local modIcon
+			local dot
 			local bindFrame
 			local bStroke
-			local bindIcon
 			if not row then
 				row = Instance.new("Frame")
 				row.Name = modData.name
 				row.Size = UDim2.new(1, 0, 0, 0)
-				row.BackgroundColor3 = cl.field
+				row.BackgroundTransparency = 1
 				row.BorderSizePixel = 0
 				row.LayoutOrder = idx
 				row.ClipsDescendants = true
 				row.Parent = bindsScroll
-				registerRecolor(row, "BackgroundColor3", "field")
-				rnd(row, 6)
-				stroke = Instance.new("UIStroke")
-				stroke.Color = Color3.fromRGB(36, 36, 42)
-				stroke.Thickness = 1
-				stroke.Transparency = 1
-				stroke.Enabled = false
-				stroke.Parent = row
-				modIcon = Instance.new("ImageLabel")
-				modIcon.Size = UDim2.new(0, 14, 0, 14)
-				modIcon.Position = UDim2.new(0, 10, 0.5, -7)
-				modIcon.BackgroundTransparency = 1
-				modIcon.Image = MOD_ICON
-				modIcon.ImageColor3 = ac
-				modIcon.ImageTransparency = 1
-				modIcon.ScaleType = Enum.ScaleType.Fit
-				modIcon.Parent = row
+
+				dot = Instance.new("Frame")
+				dot.Name = "StatusDot"
+				dot.Size = UDim2.new(0, 6, 0, 6)
+				dot.Position = UDim2.new(0, 4, 0.5, -3)
+				dot.BorderSizePixel = 0
+				dot.BackgroundTransparency = 1
+				dot.BackgroundColor3 = modData.on and ac or Color3.fromRGB(60, 60, 70)
+				dot.Parent = row
+				rnd(dot, 3)
+
 				local nameLabel = Instance.new("TextLabel")
 				nameLabel.Size = UDim2.new(0.5, 0, 1, 0)
-				nameLabel.Position = UDim2.new(0, 30, 0, 0)
+				nameLabel.Position = UDim2.new(0, 18, 0, 0)
 				nameLabel.BackgroundTransparency = 1
 				nameLabel.Text = modData.name
-				nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+				nameLabel.TextColor3 = modData.on and Color3.fromRGB(225, 225, 230) or Color3.fromRGB(130, 130, 140)
 				nameLabel.TextTransparency = 1
 				nameLabel.TextSize = 11
 				nameLabel.Font = Enum.Font.MontserratBold
 				nameLabel.TextXAlignment = Enum.TextXAlignment.Left
 				nameLabel.Parent = row
+
 				bindFrame = Instance.new("Frame")
 				bindFrame.Name = "BindFrame"
-				bindFrame.Size = UDim2.new(0, 56, 0, 20)
-				bindFrame.Position = UDim2.new(1, -66, 0.5, -10)
+				bindFrame.Size = UDim2.new(0, 46, 0, 18)
+				bindFrame.Position = UDim2.new(1, -50, 0.5, -9)
 				bindFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 20)
 				bindFrame.BackgroundTransparency = 1
 				bindFrame.BorderSizePixel = 0
 				bindFrame.Parent = row
-				rnd(bindFrame, 5)
+				rnd(bindFrame, 4)
+
 				bStroke = Instance.new("UIStroke")
-				bStroke.Color = Color3.fromRGB(48, 48, 56)
+				bStroke.Color = modData.on and ac or Color3.fromRGB(50, 50, 60)
 				bStroke.Thickness = 1
 				bStroke.Transparency = 1
 				bStroke.Enabled = false
 				bStroke.Parent = bindFrame
+
 				local bLay = Instance.new("UIListLayout")
 				bLay.FillDirection = Enum.FillDirection.Horizontal
 				bLay.VerticalAlignment = Enum.VerticalAlignment.Center
 				bLay.HorizontalAlignment = Enum.HorizontalAlignment.Center
-				bLay.Padding = UDim.new(0, 4)
 				bLay.Parent = bindFrame
-				bindIcon = Instance.new("ImageLabel")
-				bindIcon.Name = "BindIcon"
-				bindIcon.Size = UDim2.new(0, 10, 0, 10)
-				bindIcon.BackgroundTransparency = 1
-				bindIcon.Image = BIND_ICON
-				bindIcon.ImageColor3 = ac
-				bindIcon.ImageTransparency = 1
-				bindIcon.ScaleType = Enum.ScaleType.Fit
-				bindIcon.Parent = bindFrame
+
 				bindLbl = Instance.new("TextLabel")
 				bindLbl.Name = "BindLbl"
-				bindLbl.Size = UDim2.new(0, 0, 0, 14)
-				bindLbl.AutomaticSize = Enum.AutomaticSize.X
+				bindLbl.Size = UDim2.new(1, 0, 1, 0)
 				bindLbl.BackgroundTransparency = 1
 				bindLbl.Text = modData.bind or "None"
-				bindLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
+				bindLbl.TextColor3 = modData.on and ac or Color3.fromRGB(130, 130, 140)
 				bindLbl.TextTransparency = 1
 				bindLbl.TextSize = 9
 				bindLbl.Font = Enum.Font.MontserratBold
 				bindLbl.TextXAlignment = Enum.TextXAlignment.Center
 				bindLbl.Parent = bindFrame
-				tw(row, {Size = UDim2.new(1, 0, 0, 36)}, 0.22)
-				tw(modIcon, {ImageTransparency = 0}, 0.22)
+
+				tw(row, {Size = UDim2.new(1, 0, 0, 26)}, 0.22)
+				tw(dot, {BackgroundTransparency = 0}, 0.22)
 				tw(nameLabel, {TextTransparency = 0}, 0.22)
 				tw(bindFrame, {BackgroundTransparency = 0}, 0.22)
-				tw(bindIcon, {ImageTransparency = 0}, 0.22)
 				tw(bindLbl, {TextTransparency = 0}, 0.22)
 				task.spawn(function()
 					task.wait(0.06)
-					stroke.Enabled = true
 					bStroke.Enabled = true
-					tw(stroke, {Transparency = 0.35}, 0.16)
 					tw(bStroke, {Transparency = 0.35}, 0.16)
 				end)
 			else
 				row:SetAttribute("Removing", nil)
 				row.LayoutOrder = idx
-				stroke = row:FindFirstChildOfClass("UIStroke")
+				dot = row:FindFirstChild("StatusDot")
 				bindFrame = row:FindFirstChild("BindFrame")
-				modIcon = row:FindFirstChildOfClass("ImageLabel")
 				local nameLabel = row:FindFirstChildOfClass("TextLabel")
 				if bindFrame then
 					bindLbl = bindFrame:FindFirstChild("BindLbl")
-					bindIcon = bindFrame:FindFirstChild("BindIcon")
 					bStroke = bindFrame:FindFirstChildOfClass("UIStroke")
 					if bindLbl then
 						bindLbl.Text = modData.bind or "None"
 					end
 				end
-				tw(row, {Size = UDim2.new(1, 0, 0, 36)}, 0.22)
-				if stroke then
-					tw(stroke, {Transparency = 0.35}, 0.22)
-				end
-				if modIcon then
-					tw(modIcon, {ImageTransparency = 0}, 0.22)
+				tw(row, {Size = UDim2.new(1, 0, 0, 26)}, 0.22)
+				if dot then
+					tw(dot, {BackgroundTransparency = 0, BackgroundColor3 = modData.on and ac or Color3.fromRGB(60, 60, 70)}, 0.22)
 				end
 				if nameLabel then
-					tw(nameLabel, {TextTransparency = 0}, 0.22)
+					tw(nameLabel, {TextColor3 = modData.on and Color3.fromRGB(225, 225, 230) or Color3.fromRGB(130, 130, 140), TextTransparency = 0}, 0.22)
 				end
 				if bindFrame then
 					tw(bindFrame, {BackgroundTransparency = 0}, 0.22)
 				end
 				if bStroke then
-					tw(bStroke, {Transparency = 0.35}, 0.22)
-				end
-				if bindIcon then
-					tw(bindIcon, {ImageTransparency = 0}, 0.22)
+					bStroke.Enabled = true
+					tw(bStroke, {Color = modData.on and ac or Color3.fromRGB(50, 50, 60), Transparency = 0.35}, 0.22)
 				end
 				if bindLbl then
-					tw(bindLbl, {TextTransparency = 0}, 0.22)
+					tw(bindLbl, {TextColor3 = modData.on and ac or Color3.fromRGB(130, 130, 140), TextTransparency = 0}, 0.22)
 				end
 			end
-			listH = listH + 42
+			listH = listH + 32
 		end
-		local targetH = 40 + (activeCount * 42)
+		local targetH = 36 + (activeCount * 32) + 8
 		if activeCount > 0 then
-			targetH = targetH + 10
-			if bindsTopbarCover then
-				bindsTopbarCover.Visible = true
-			end
 			if bindsTopSep then
 				bindsTopSep.Visible = true
 			end
@@ -3417,6 +3393,7 @@ _qkaspq.Init = function(self, titleText)
 				buildCard(mod, colIdx, visibleCount)
 			end
 		end
+		updateScrollCanvasSize()
 		if tabDef.id == "Movement" and updateSpeedOptions then
 			pcall(updateSpeedOptions)
 		end
