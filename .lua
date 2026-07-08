@@ -662,12 +662,7 @@ _qkaspq.Init = function(self, titleText)
 	rnd(closeBtn, 5)
 	registerRecolor(closeBtn, "BackgroundColor3", "field")
 
-	closeBtn.MouseEnter:Connect(function()
-		tw(closeBtn, {BackgroundColor3 = Color3.fromRGB(35, 35, 42), TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.12)
-	end)
-	closeBtn.MouseLeave:Connect(function()
-		tw(closeBtn, {BackgroundColor3 = cl.field, TextColor3 = Color3.fromRGB(200, 200, 200)}, 0.12)
-	end)
+
 	closeBtn.MouseButton1Click:Connect(function()
 		_qkaspq_store.Open = false
 		tw(mainScale, {Scale = 0.88}, 0.25)
