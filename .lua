@@ -358,7 +358,7 @@ local wmText
 local wmTime
 local wmFps
 local Playlist
-function _qkaspq:Init(titleText)
+_qkaspq.Init = function(self, titleText)
 	titleText = titleText or "Zenith Client"
 	if game:GetService("CoreGui"):FindFirstChild("ZenithGUI") then
 		game:GetService("CoreGui"):FindFirstChild("ZenithGUI"):Destroy()
