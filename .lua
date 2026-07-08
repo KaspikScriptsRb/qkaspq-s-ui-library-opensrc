@@ -141,6 +141,10 @@ local function applyTheme(themeName)
 			end
 		end
 	end
+	if buildBindsList then pcall(buildBindsList) end
+	if updateArrayList then pcall(updateArrayList) end
+	if updateMusicGui then pcall(updateMusicGui) end
+	if triggerBindRefresh then pcall(triggerBindRefresh) end
 end
 
 local transparencyRegistry = {}
@@ -659,7 +663,7 @@ _qkaspq.Init = function(self, titleText)
 	registerRecolor(closeBtn, "BackgroundColor3", "field")
 
 	closeBtn.MouseEnter:Connect(function()
-		tw(closeBtn, {BackgroundColor3 = Color3.fromRGB(240, 80, 80), TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.12)
+		tw(closeBtn, {BackgroundColor3 = Color3.fromRGB(35, 35, 42), TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.12)
 	end)
 	closeBtn.MouseLeave:Connect(function()
 		tw(closeBtn, {BackgroundColor3 = cl.field, TextColor3 = Color3.fromRGB(200, 200, 200)}, 0.12)
@@ -1347,6 +1351,8 @@ _qkaspq.Init = function(self, titleText)
 			trackFill.BackgroundColor3 = ac
 			trackFill.BorderSizePixel = 0
 			trackFill.Parent = trackBar
+			registerRecolor(trackFill, "BackgroundColor3", "ac")
+			registerRecolor(trackBar, "BackgroundColor3", "field")
 			rnd(trackFill, 2)
 			local timeText = Instance.new("TextLabel")
 			timeText.Size = UDim2.new(0, 64, 0, 12)
@@ -1428,9 +1434,12 @@ _qkaspq.Init = function(self, titleText)
 				loadTrack(idx)
 			end
 			local prevBtn = createIconBtn(109754291227660, 12, prevTrack)
+			prevBtn.LayoutOrder = 1
 			playBtn = createIconBtn(127467405552658, 14, updatePlayState)
 			playBtn.Name = "PlayBtn"
+			playBtn.LayoutOrder = 2
 			local nextBtn = createIconBtn(130872317323632, 12, nextTrack)
+			nextBtn.LayoutOrder = 3
 			musicSound.Ended:Connect(nextTrack)
 			regConn(game:GetService("RunService").RenderStepped:Connect(function()
 				if musicGuiInstance and musicSound then
@@ -1615,6 +1624,7 @@ _qkaspq.Init = function(self, titleText)
 			local accent = frame:FindFirstChild("Accent")
 			local lbl = frame:FindFirstChild("Label")
 			if lbl and accent then
+				accent.BackgroundColor3 = ac
 				if alignment == "Слева" then
 					accent.Position = UDim2.new(0, 0, 0, 0)
 					accent.Size = UDim2.new(0, 3, 1, 0)
