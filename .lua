@@ -172,7 +172,7 @@ local function applyTransparency(value)
 	for _, item in ipairs(transparencyRegistry) do
 		pcall(function()
 			local tVal = currentTransparencyValue
-			if item.obj ~= main and item.obj.Name ~= "Sidebar" and item.obj.Name ~= "ZenithWatermark" then
+			if item.obj ~= main and item.obj.Name ~= "Sidebar" and item.obj.Name ~= "ZenithWatermark" and item.obj.Name ~= "Notify" then
 				tVal = currentTransparencyValue * 0.4
 			end
 			item.obj.BackgroundTransparency = math.clamp(item.baseAlpha + (1 - item.baseAlpha) * tVal, 0, 1)
@@ -1195,11 +1195,11 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			else
 				notif.Size = UDim2.new(1, 0, 0, 36)
 			end
-			notif.BackgroundColor3 = cl.field
+			notif.BackgroundColor3 = cl.bg
 			notif.BorderSizePixel = 0
 			notif.GroupTransparency = 1
 			notif.Parent = parent
-			registerRecolor(notif, "BackgroundColor3", "field")
+			registerRecolor(notif, "BackgroundColor3", "bg")
 			registerTransparency(notif, 0)
 			rnd(notif, 6)
 			local stroke = Instance.new("UIStroke")
