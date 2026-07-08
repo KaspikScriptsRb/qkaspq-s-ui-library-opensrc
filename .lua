@@ -406,6 +406,41 @@ _qkaspq.Init = function(self, titleText)
 	mainScale.Scale = 1
 	mainScale.Parent = main
 
+	local resizeHandle = Instance.new("ImageButton")
+	resizeHandle.Name = "ResizeHandle"
+	resizeHandle.Size = UDim2.new(0, 14, 0, 14)
+	resizeHandle.Position = UDim2.new(1, -14, 1, -14)
+	resizeHandle.BackgroundTransparency = 1
+	resizeHandle.Image = "rbxassetid://9748425718"
+	resizeHandle.ImageColor3 = Color3.fromRGB(150, 150, 150)
+	resizeHandle.ImageTransparency = 0.5
+	resizeHandle.ZIndex = 10
+	resizeHandle.Parent = main
+
+	local rDragging = false
+	local rDragStart, rStartSize
+	resizeHandle.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			rDragging = true
+			rDragStart = input.Position
+			rStartSize = main.Size
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					rDragging = false
+				end
+			end)
+		end
+	end)
+
+	regConn(UIS.InputChanged:Connect(function(input)
+		if rDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+			local delta = input.Position - rDragStart
+			local newW = math.clamp(rStartSize.X.Offset + delta.X, 480, 950)
+			local newH = math.clamp(rStartSize.Y.Offset + delta.Y, 350, 700)
+			main.Size = UDim2.new(0, newW, 0, newH)
+		end
+	end))
+
 	local sidebarFrame = Instance.new("Frame")
 	sidebarFrame.Name = "Sidebar"
 	sidebarFrame.Size = UDim2.new(0, 180, 1, 0)
@@ -470,23 +505,19 @@ _qkaspq.Init = function(self, titleText)
 	pad(tabScroll, 0, 0, 12, 12)
 
 	profFrame = Instance.new("Frame")
-	profFrame.Size = UDim2.new(1, 0, 0, 75)
-	profFrame.Position = UDim2.new(0, 0, 1, -75)
-	profFrame.BackgroundTransparency = 1
+	profFrame.Size = UDim2.new(1, -24, 0, 65)
+	profFrame.Position = UDim2.new(0, 12, 1, -77)
+	profFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
+	profFrame.BorderSizePixel = 0
 	profFrame.Parent = sidebarFrame
-
-	local profSep = Instance.new("Frame")
-	profSep.Size = UDim2.new(1, -28, 0, 1)
-	profSep.Position = UDim2.new(0, 14, 0, 0)
-	profSep.BorderSizePixel = 0
-	profSep.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	profSep.BackgroundTransparency = 0.9
-	profSep.Parent = profFrame
-	rnd(profSep, 1)
+	registerRecolor(profFrame, "BackgroundColor3", "field")
+	registerTransparency(profFrame, 0.1)
+	rnd(profFrame, 6)
+	stk(profFrame, Color3.fromRGB(36, 36, 42))
 
 	profAvatar = Instance.new("ImageLabel")
 	profAvatar.Size = UDim2.new(0, 30, 0, 30)
-	profAvatar.Position = UDim2.new(0, 14, 0, 10)
+	profAvatar.Position = UDim2.new(0, 10, 0, 8)
 	profAvatar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 	profAvatar.BorderSizePixel = 0
 	profAvatar.Parent = profFrame
@@ -496,8 +527,8 @@ _qkaspq.Init = function(self, titleText)
 	end)
 
 	profName = Instance.new("TextLabel")
-	profName.Size = UDim2.new(1, -60, 0, 14)
-	profName.Position = UDim2.new(0, 52, 0, 10)
+	profName.Size = UDim2.new(1, -52, 0, 14)
+	profName.Position = UDim2.new(0, 46, 0, 8)
 	profName.BackgroundTransparency = 1
 	profName.Text = (lp.DisplayName ~= "" and lp.DisplayName ~= lp.Name) and lp.DisplayName or lp.Name
 	profName.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -508,8 +539,8 @@ _qkaspq.Init = function(self, titleText)
 	profName.Parent = profFrame
 
 	profSub = Instance.new("TextLabel")
-	profSub.Size = UDim2.new(1, -60, 0, 11)
-	profSub.Position = UDim2.new(0, 52, 0, 23)
+	profSub.Size = UDim2.new(1, -52, 0, 11)
+	profSub.Position = UDim2.new(0, 46, 0, 21)
 	profSub.BackgroundTransparency = 1
 	profSub.Text = "Premium User"
 	profSub.TextColor3 = Color3.fromRGB(150, 150, 150)
@@ -520,8 +551,8 @@ _qkaspq.Init = function(self, titleText)
 	registerRecolor(profSub, "TextColor3", "ac2")
 
 	local sessionText = Instance.new("TextLabel")
-	sessionText.Size = UDim2.new(1, -28, 0, 12)
-	sessionText.Position = UDim2.new(0, 14, 0, 48)
+	sessionText.Size = UDim2.new(1, -20, 0, 12)
+	sessionText.Position = UDim2.new(0, 10, 0, 43)
 	sessionText.BackgroundTransparency = 1
 	sessionText.Text = "Session 00:00 — 60 FPS"
 	sessionText.TextColor3 = Color3.fromRGB(110, 110, 120)
@@ -617,7 +648,8 @@ _qkaspq.Init = function(self, titleText)
 	registerRecolor(closeBtn, "BackgroundColor3", "field")
 	closeBtn.MouseButton1Click:Connect(function()
 		_qkaspq_store.Open = false
-		tw(mainScale, {Scale = 0}, 0.25)
+		tw(mainScale, {Scale = 0.88}, 0.25)
+		tw(main, {GroupTransparency = 1}, 0.25)
 		task.delay(0.25, function()
 			if not _qkaspq_store.Open then
 				main.Visible = false
@@ -1095,11 +1127,13 @@ _qkaspq.Init = function(self, titleText)
 			else
 				notif.Size = UDim2.new(1, 0, 0, 36)
 			end
-			notif.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+			notif.BackgroundColor3 = cl.field
 			notif.BorderSizePixel = 0
 			notif.GroupTransparency = 1
 			notif.Parent = parent
-			rnd(notif, 8)
+			registerRecolor(notif, "BackgroundColor3", "field")
+			registerTransparency(notif, 0.1)
+			rnd(notif, 6)
 			local stroke = Instance.new("UIStroke")
 			stroke.Color = Color3.fromRGB(36, 36, 42)
 			stroke.Thickness = 1
@@ -1218,6 +1252,8 @@ _qkaspq.Init = function(self, titleText)
 			musicGuiInstance.Parent = gui
 			rnd(musicGuiInstance, 8)
 			stk(musicGuiInstance, Color3.fromRGB(36, 36, 42))
+			registerRecolor(musicGuiInstance, "BackgroundColor3", "bg")
+			registerTransparency(musicGuiInstance, 0)
 			pad(musicGuiInstance, 8, 8, 10, 10)
 			local mainScale = Instance.new("UIScale")
 			mainScale.Scale = 0.8
@@ -3191,14 +3227,15 @@ _qkaspq.Init = function(self, titleText)
 				row = Instance.new("Frame")
 				row.Name = modData.name
 				row.Size = UDim2.new(1, 0, 0, 0)
-				row.BackgroundColor3 = cl.card
+				row.BackgroundColor3 = cl.field
 				row.BorderSizePixel = 0
 				row.LayoutOrder = idx
 				row.ClipsDescendants = true
 				row.Parent = bindsScroll
+				registerRecolor(row, "BackgroundColor3", "field")
 				rnd(row, 6)
 				stroke = Instance.new("UIStroke")
-				stroke.Color = Color3.fromRGB(28, 28, 34)
+				stroke.Color = Color3.fromRGB(36, 36, 42)
 				stroke.Thickness = 1
 				stroke.Transparency = 1
 				stroke.Enabled = false
@@ -3227,13 +3264,13 @@ _qkaspq.Init = function(self, titleText)
 				bindFrame.Name = "BindFrame"
 				bindFrame.Size = UDim2.new(0, 56, 0, 20)
 				bindFrame.Position = UDim2.new(1, -66, 0.5, -10)
-				bindFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
+				bindFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 20)
 				bindFrame.BackgroundTransparency = 1
 				bindFrame.BorderSizePixel = 0
 				bindFrame.Parent = row
 				rnd(bindFrame, 5)
 				bStroke = Instance.new("UIStroke")
-				bStroke.Color = Color3.fromRGB(36, 36, 44)
+				bStroke.Color = Color3.fromRGB(48, 48, 56)
 				bStroke.Thickness = 1
 				bStroke.Transparency = 1
 				bStroke.Enabled = false
@@ -3362,7 +3399,12 @@ _qkaspq.Init = function(self, titleText)
 		for i, mod in ipairs(mods) do
 			local matchesSearch = true
 			if searchFilter and searchFilter ~= "" then
-				matchesSearch = string.find(string.lower(mod.name), string.lower(searchFilter)) ~= nil
+				local cleanQuery = string.lower(string.gsub(searchFilter, "^%s*(.-)%s*$", "%1"))
+				if cleanQuery ~= "" then
+					local nameMatch = string.find(string.lower(mod.name), cleanQuery, 1, true) ~= nil
+					local descMatch = mod.desc and string.find(string.lower(mod.desc), cleanQuery, 1, true) ~= nil
+					matchesSearch = nameMatch or descMatch
+				end
 			end
 			if matchesSearch then
 				visibleCount = visibleCount + 1
@@ -3419,10 +3461,13 @@ _qkaspq.Init = function(self, titleText)
 			_qkaspq_store.Open = not _qkaspq_store.Open
 			if _qkaspq_store.Open then
 				main.Visible = true
-				mainScale.Scale = 0
-				tw(mainScale, {Scale = 1}, 0.35)
+				mainScale.Scale = 0.88
+				main.GroupTransparency = 1
+				tw(mainScale, {Scale = 1}, 0.3)
+				tw(main, {GroupTransparency = 0}, 0.3)
 			else
-				tw(mainScale, {Scale = 0}, 0.25)
+				tw(mainScale, {Scale = 0.88}, 0.25)
+				tw(main, {GroupTransparency = 1}, 0.25)
 				tooltip.Visible = false
 				currentHoveredMod = nil
 				task.delay(0.25, function()
