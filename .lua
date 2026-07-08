@@ -376,8 +376,19 @@ local wmText
 local wmTime
 local wmFps
 local Playlist
-_qkaspq.Init = function(self, titleText)
+_qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
+	if type(titleText) == "table" then
+		local opts = titleText
+		titleText = opts.Title or opts.title
+		toggleKey = opts.ToggleKey or opts.toggleKey or opts.Key or opts.key
+		subtitleText = opts.Subtitle or opts.subtitle
+		iconId = opts.Icon or opts.icon or opts.IconId or opts.iconId
+	end
 	titleText = titleText or "Zenith Client"
+	_qkaspq_store.ToggleKey = toggleKey or Enum.KeyCode.RightShift
+	_qkaspq_store.TitleText = titleText
+	_qkaspq_store.SubtitleText = subtitleText or "Premium Executor"
+	_qkaspq_store.IconId = iconId or MOD_ICON
 	if game:GetService("CoreGui"):FindFirstChild("ZenithGUI") then
 		game:GetService("CoreGui"):FindFirstChild("ZenithGUI"):Destroy()
 	end
@@ -467,7 +478,7 @@ _qkaspq.Init = function(self, titleText)
 	logoIcon.Size = UDim2.new(0, 24, 0, 24)
 	logoIcon.Position = UDim2.new(0, 14, 0, 14)
 	logoIcon.BackgroundTransparency = 1
-	logoIcon.Image = MOD_ICON
+	logoIcon.Image = _qkaspq_store.IconId
 	logoIcon.ScaleType = Enum.ScaleType.Fit
 	logoIcon.Parent = sidebarFrame
 	registerRecolor(logoIcon, "ImageColor3", "ac")
@@ -476,7 +487,7 @@ _qkaspq.Init = function(self, titleText)
 	mainTitle.Size = UDim2.new(1, -54, 0, 14)
 	mainTitle.Position = UDim2.new(0, 46, 0, 12)
 	mainTitle.BackgroundTransparency = 1
-	mainTitle.Text = titleText
+	mainTitle.Text = _qkaspq_store.TitleText
 	mainTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 	mainTitle.TextSize = 12
 	mainTitle.Font = Enum.Font.MontserratBold
@@ -3474,7 +3485,7 @@ _qkaspq.Init = function(self, titleText)
 		if gpe then
 			return
 		end
-		if input.KeyCode == Enum.KeyCode.RightShift then
+		if input.KeyCode == _qkaspq_store.ToggleKey then
 			_qkaspq_store.Open = not _qkaspq_store.Open
 			if _qkaspq_store.Open then
 				main.Visible = true
