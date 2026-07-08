@@ -725,9 +725,15 @@ _qkaspq.Init = function(self, titleText)
 
 	searchBox:GetPropertyChangedSignal("Text"):Connect(function()
 		local activeTabIdx = _qkaspq_store.ActiveTab or 1
+		local wasFocused = searchBox:IsFocused()
 		pcall(function()
 			loadTab(activeTabIdx, searchBox.Text)
 		end)
+		if wasFocused then
+			task.spawn(function()
+				searchBox:CaptureFocus()
+			end)
+		end
 	end)
 
 	tooltip = Instance.new("CanvasGroup")
@@ -856,9 +862,7 @@ _qkaspq.Init = function(self, titleText)
 	bindsScroll.Position = UDim2.new(0, 0, 0, 37)
 	bindsScroll.BackgroundTransparency = 1
 	bindsScroll.BorderSizePixel = 0
-	bindsScroll.ScrollBarThickness = 3
-	bindsScroll.ScrollBarImageColor3 = Color3.fromRGB(150, 150, 150)
-	bindsScroll.ScrollBarImageTransparency = 0.5
+	bindsScroll.ScrollBarThickness = 0
 	bindsScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
 	bindsScroll.Parent = bindsWin
 
@@ -1371,6 +1375,7 @@ _qkaspq.Init = function(self, titleText)
 			ctrlLay.FillDirection = Enum.FillDirection.Horizontal
 			ctrlLay.VerticalAlignment = Enum.VerticalAlignment.Center
 			ctrlLay.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			ctrlLay.SortOrder = Enum.SortOrder.LayoutOrder
 			ctrlLay.Padding = UDim.new(0, 6)
 			ctrlLay.Parent = ctrlFrame
 			local function createIconBtn(img, size, cb)
@@ -1603,19 +1608,19 @@ _qkaspq.Init = function(self, titleText)
 				lbl.Text = mod.name
 				lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
 				lbl.Font = Enum.Font.MontserratBold
-				lbl.TextSize = 11
+				lbl.TextSize = 12
 				lbl.Parent = frame
 				local accent = Instance.new("Frame")
 				accent.Name = "Accent"
 				accent.BackgroundColor3 = ac
 				accent.BorderSizePixel = 0
 				accent.Parent = frame
-				local textW = game:GetService("TextService"):GetTextSize(mod.name, 11, Enum.Font.MontserratBold, Vector2.new(1000, 24)).X
-				local width = textW + 24
+				local textW = game:GetService("TextService"):GetTextSize(mod.name, 12, Enum.Font.MontserratBold, Vector2.new(1000, 28)).X
+				local width = textW + 30
 				frame.Size = UDim2.new(0, width, 0, 0)
 				frame.Parent = arrayListContainer
 				activeArrayListFrames[mod.name] = {frame = frame, scale = scale, width = width}
-				tw(frame, {Size = UDim2.new(0, width, 0, 24), GroupTransparency = 0}, 0.22)
+				tw(frame, {Size = UDim2.new(0, width, 0, 28), GroupTransparency = 0}, 0.22)
 				tw(scale, {Scale = 1}, 0.22)
 			end
 			local frameObj = activeArrayListFrames[mod.name]
@@ -1627,15 +1632,15 @@ _qkaspq.Init = function(self, titleText)
 				accent.BackgroundColor3 = ac
 				if alignment == "Слева" then
 					accent.Position = UDim2.new(0, 0, 0, 0)
-					accent.Size = UDim2.new(0, 3, 1, 0)
-					lbl.Position = UDim2.new(0, 10, 0, 0)
-					lbl.Size = UDim2.new(1, -12, 1, 0)
+					accent.Size = UDim2.new(0, 4, 1, 0)
+					lbl.Position = UDim2.new(0, 12, 0, 0)
+					lbl.Size = UDim2.new(1, -16, 1, 0)
 					lbl.TextXAlignment = Enum.TextXAlignment.Left
 				else
-					accent.Position = UDim2.new(1, -3, 0, 0)
-					accent.Size = UDim2.new(0, 3, 1, 0)
-					lbl.Position = UDim2.new(0, 8, 0, 0)
-					lbl.Size = UDim2.new(1, -14, 1, 0)
+					accent.Position = UDim2.new(1, -4, 0, 0)
+					accent.Size = UDim2.new(0, 4, 1, 0)
+					lbl.Position = UDim2.new(0, 10, 0, 0)
+					lbl.Size = UDim2.new(1, -18, 1, 0)
 					lbl.TextXAlignment = Enum.TextXAlignment.Left
 				end
 			end
@@ -3258,7 +3263,6 @@ _qkaspq.Init = function(self, titleText)
 			local bindLbl
 			local dot
 			local bindFrame
-			local bStroke
 			if not row then
 				row = Instance.new("Frame")
 				row.Name = modData.name
@@ -3301,13 +3305,6 @@ _qkaspq.Init = function(self, titleText)
 				bindFrame.Parent = row
 				rnd(bindFrame, 4)
 
-				bStroke = Instance.new("UIStroke")
-				bStroke.Color = modData.on and ac or Color3.fromRGB(50, 50, 60)
-				bStroke.Thickness = 1
-				bStroke.Transparency = 1
-				bStroke.Enabled = false
-				bStroke.Parent = bindFrame
-
 				local bLay = Instance.new("UIListLayout")
 				bLay.FillDirection = Enum.FillDirection.Horizontal
 				bLay.VerticalAlignment = Enum.VerticalAlignment.Center
@@ -3331,11 +3328,6 @@ _qkaspq.Init = function(self, titleText)
 				tw(nameLabel, {TextTransparency = 0}, 0.22)
 				tw(bindFrame, {BackgroundTransparency = 0}, 0.22)
 				tw(bindLbl, {TextTransparency = 0}, 0.22)
-				task.spawn(function()
-					task.wait(0.06)
-					bStroke.Enabled = true
-					tw(bStroke, {Transparency = 0.35}, 0.16)
-				end)
 			else
 				row:SetAttribute("Removing", nil)
 				row.LayoutOrder = idx
@@ -3344,7 +3336,6 @@ _qkaspq.Init = function(self, titleText)
 				local nameLabel = row:FindFirstChildOfClass("TextLabel")
 				if bindFrame then
 					bindLbl = bindFrame:FindFirstChild("BindLbl")
-					bStroke = bindFrame:FindFirstChildOfClass("UIStroke")
 					if bindLbl then
 						bindLbl.Text = modData.bind or "None"
 					end
@@ -3359,10 +3350,6 @@ _qkaspq.Init = function(self, titleText)
 				if bindFrame then
 					tw(bindFrame, {BackgroundTransparency = 0}, 0.22)
 				end
-				if bStroke then
-					bStroke.Enabled = true
-					tw(bStroke, {Color = modData.on and ac or Color3.fromRGB(50, 50, 60), Transparency = 0.35}, 0.22)
-				end
 				if bindLbl then
 					tw(bindLbl, {TextColor3 = modData.on and ac or Color3.fromRGB(130, 130, 140), TextTransparency = 0}, 0.22)
 				end
@@ -3374,13 +3361,21 @@ _qkaspq.Init = function(self, titleText)
 			if bindsTopSep then
 				bindsTopSep.Visible = true
 			end
-		else
-			if bindsTopbarCover then
-				bindsTopbarCover.Visible = false
+			local bindsListMod
+			for _, m in ipairs(_qkaspq_store.Modules["Settings"] or {}) do
+				if m.name == "Binds List" then
+					bindsListMod = m
+					break
+				end
 			end
+			if bindsListMod and bindsListMod.on then
+				bindsWin.Visible = true
+			end
+		else
 			if bindsTopSep then
 				bindsTopSep.Visible = false
 			end
+			bindsWin.Visible = false
 		end
 		tw(bindsWin, {Size = UDim2.new(0, 220, 0, math.clamp(targetH, 40, 500))}, 0.25)
 		bindsScroll.CanvasSize = UDim2.new(0, 0, 0, listH)
@@ -3413,7 +3408,20 @@ _qkaspq.Init = function(self, titleText)
 				if cleanQuery ~= "" then
 					local nameMatch = string.find(string.lower(mod.name), cleanQuery, 1, true) ~= nil
 					local descMatch = mod.desc and string.find(string.lower(mod.desc), cleanQuery, 1, true) ~= nil
-					matchesSearch = nameMatch or descMatch
+					local optMatch = false
+					if mod.opts then
+						for _, opt in ipairs(mod.opts) do
+							if opt.label and string.find(string.lower(opt.label), cleanQuery, 1, true) ~= nil then
+								optMatch = true
+								break
+							end
+							if opt.desc and string.find(string.lower(opt.desc), cleanQuery, 1, true) ~= nil then
+								optMatch = true
+								break
+							end
+						end
+					end
+					matchesSearch = nameMatch or descMatch or optMatch
 				end
 			end
 			if matchesSearch then
