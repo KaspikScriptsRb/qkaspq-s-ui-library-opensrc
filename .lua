@@ -387,7 +387,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	titleText = titleText or "Zenith Client"
 	_qkaspq_store.ToggleKey = toggleKey or Enum.KeyCode.RightShift
 	_qkaspq_store.TitleText = titleText
-	_qkaspq_store.SubtitleText = subtitleText or "Premium Executor"
+	_qkaspq_store.SubtitleText = subtitleText or "Grow a Garden 2"
 	_qkaspq_store.IconId = iconId or MOD_ICON
 	if game:GetService("CoreGui"):FindFirstChild("ZenithGUI") then
 		game:GetService("CoreGui"):FindFirstChild("ZenithGUI"):Destroy()
