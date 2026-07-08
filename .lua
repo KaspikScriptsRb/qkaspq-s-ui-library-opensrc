@@ -118,7 +118,7 @@ local function registerRecolor(obj, property, colorKey)
 	end)
 end
 
-local currentThemeName = "Amethyst"
+local currentThemeName = "Default"
 local function applyTheme(themeName)
 	local theme = themes[themeName]
 	if not theme then return end
@@ -156,6 +156,9 @@ local function applyTheme(themeName)
 	if updateArrayList then pcall(updateArrayList) end
 	if updateMusicGui then pcall(updateMusicGui) end
 	if triggerBindRefresh then pcall(triggerBindRefresh) end
+	if loadTab and _qkaspq_store and _qkaspq_store.ActiveTab and searchBox then
+		pcall(loadTab, _qkaspq_store.ActiveTab, searchBox.Text)
+	end
 end
 
 local transparencyRegistry = {}
