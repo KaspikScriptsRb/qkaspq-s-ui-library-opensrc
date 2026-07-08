@@ -18,22 +18,138 @@ local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
 local TS = game:GetService("TweenService")
 local lp = Players.LocalPlayer
-local ac = Color3.fromRGB(82, 70, 210)
-local ac2 = Color3.fromRGB(100, 88, 235)
+local ac = Color3.fromRGB(120, 90, 255)
+local ac2 = Color3.fromRGB(150, 120, 255)
 local MOD_ICON = "rbxassetid://16000149927"
 local BIND_ICON = "rbxassetid://11738672671"
 local cl = {}
-cl.bg = Color3.fromRGB(8, 8, 12)
-cl.topbar = Color3.fromRGB(14, 14, 18)
-cl.card = Color3.fromRGB(16, 16, 21)
-cl.field = Color3.fromRGB(22, 22, 28)
+cl.bg = Color3.fromRGB(10, 10, 15)
+cl.topbar = Color3.fromRGB(16, 16, 22)
+cl.card = Color3.fromRGB(20, 20, 28)
+cl.field = Color3.fromRGB(26, 26, 36)
 cl.text = Color3.fromRGB(195, 195, 202)
 cl.dim = Color3.fromRGB(130, 130, 140)
 cl.dark = Color3.fromRGB(70, 70, 80)
 cl.sep = Color3.fromRGB(26, 26, 32)
-cl.tog_off = Color3.fromRGB(38, 38, 44)
-cl.check = Color3.fromRGB(34, 34, 40)
+cl.tog_off = Color3.fromRGB(38, 38, 48)
+cl.check = Color3.fromRGB(34, 34, 44)
 cl.tab_sel = Color3.fromRGB(28, 28, 36)
+
+local themes = {
+	Amethyst = {
+		ac = Color3.fromRGB(120, 90, 255),
+		ac2 = Color3.fromRGB(150, 120, 255),
+		bg = Color3.fromRGB(10, 10, 15),
+		topbar = Color3.fromRGB(16, 16, 22),
+		card = Color3.fromRGB(20, 20, 28),
+		field = Color3.fromRGB(26, 26, 36),
+		tog_off = Color3.fromRGB(38, 38, 48),
+		check = Color3.fromRGB(34, 34, 44),
+	},
+	Cyberpunk = {
+		ac = Color3.fromRGB(255, 0, 128),
+		ac2 = Color3.fromRGB(255, 200, 0),
+		bg = Color3.fromRGB(5, 5, 8),
+		topbar = Color3.fromRGB(12, 12, 16),
+		card = Color3.fromRGB(18, 18, 24),
+		field = Color3.fromRGB(24, 24, 32),
+		tog_off = Color3.fromRGB(36, 36, 44),
+		check = Color3.fromRGB(30, 30, 38),
+	},
+	Aquamarine = {
+		ac = Color3.fromRGB(0, 220, 180),
+		ac2 = Color3.fromRGB(0, 250, 220),
+		bg = Color3.fromRGB(8, 12, 12),
+		topbar = Color3.fromRGB(14, 18, 18),
+		card = Color3.fromRGB(18, 24, 24),
+		field = Color3.fromRGB(24, 32, 32),
+		tog_off = Color3.fromRGB(36, 44, 44),
+		check = Color3.fromRGB(30, 38, 38),
+	},
+	Ruby = {
+		ac = Color3.fromRGB(240, 40, 70),
+		ac2 = Color3.fromRGB(255, 80, 100),
+		bg = Color3.fromRGB(12, 8, 8),
+		topbar = Color3.fromRGB(18, 14, 14),
+		card = Color3.fromRGB(24, 18, 18),
+		field = Color3.fromRGB(32, 24, 24),
+		tog_off = Color3.fromRGB(44, 36, 36),
+		check = Color3.fromRGB(38, 30, 30),
+	},
+	Sapphire = {
+		ac = Color3.fromRGB(30, 144, 255),
+		ac2 = Color3.fromRGB(0, 191, 255),
+		bg = Color3.fromRGB(8, 10, 15),
+		topbar = Color3.fromRGB(12, 15, 22),
+		card = Color3.fromRGB(16, 20, 28),
+		field = Color3.fromRGB(22, 26, 36),
+		tog_off = Color3.fromRGB(34, 38, 48),
+		check = Color3.fromRGB(30, 34, 44),
+	}
+}
+
+local recolorRegistry = {
+	ac = {},
+	ac2 = {},
+	bg = {},
+	topbar = {},
+	card = {},
+	field = {},
+	tog_off = {},
+	check = {}
+}
+
+local function registerRecolor(obj, property, colorKey)
+	if not recolorRegistry[colorKey] then return end
+	table.insert(recolorRegistry[colorKey], {obj = obj, prop = property})
+	pcall(function()
+		obj[property] = cl[colorKey] or ac
+	end)
+end
+
+local currentThemeName = "Amethyst"
+local function applyTheme(themeName)
+	local theme = themes[themeName]
+	if not theme then return end
+	currentThemeName = themeName
+	ac = theme.ac
+	ac2 = theme.ac2
+	cl.bg = theme.bg
+	cl.topbar = theme.topbar
+	cl.card = theme.card
+	cl.field = theme.field
+	cl.tog_off = theme.tog_off
+	cl.check = theme.check
+
+	for colorKey, items in pairs(recolorRegistry) do
+		local targetColor = theme[colorKey] or cl[colorKey]
+		if targetColor then
+			for _, item in ipairs(items) do
+				pcall(function()
+					item.obj[item.prop] = targetColor
+				end)
+			end
+		end
+	end
+end
+
+local transparencyRegistry = {}
+local currentTransparencyValue = 0
+local function registerTransparency(obj, baseAlpha)
+	table.insert(transparencyRegistry, {obj = obj, baseAlpha = baseAlpha or 0})
+	pcall(function()
+		obj.BackgroundTransparency = math.clamp(baseAlpha + (1 - baseAlpha) * currentTransparencyValue, 0, 1)
+	end)
+end
+
+local function applyTransparency(value)
+	currentTransparencyValue = math.clamp(value, 0, 0.8)
+	for _, item in ipairs(transparencyRegistry) do
+		pcall(function()
+			item.obj.BackgroundTransparency = math.clamp(item.baseAlpha + (1 - item.baseAlpha) * currentTransparencyValue, 0, 1)
+		end)
+	end
+end
 local profFrame, profName, profSub, profAvatar
 local function tw(obj, props, t)
 	local info = TweenInfo.new(t or 0.22, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
@@ -337,11 +453,17 @@ function _qkaspq:Init(titleText)
 	main.Size = UDim2.new(0, 580, 0, 420)
 	main.AnchorPoint = Vector2.new(0.5, 0.5)
 	main.Position = UDim2.new(0.5, -140, 0.5, 0)
-	main.BackgroundColor3 = cl.bg
 	main.BorderSizePixel = 0
 	main.ClipsDescendants = true
 	main.Parent = gui
+	registerRecolor(main, "BackgroundColor3", "bg")
+	registerTransparency(main, 0)
 	rnd(main, 12)
+	local mainStroke = Instance.new("UIStroke")
+	mainStroke.Thickness = 1.5
+	mainStroke.Transparency = 0.2
+	mainStroke.Parent = main
+	registerRecolor(mainStroke, "Color", "ac")
 	mainScale = Instance.new("UIScale")
 	mainScale.Scale = 1
 	mainScale.Parent = main
@@ -490,24 +612,26 @@ function _qkaspq:Init(titleText)
 	notifyListLay.Parent = notifyContainer
 	local topbar = Instance.new("Frame")
 	topbar.Size = UDim2.new(1, 0, 0, 40)
-	topbar.BackgroundColor3 = cl.topbar
 	topbar.BorderSizePixel = 0
 	topbar.Parent = main
+	registerRecolor(topbar, "BackgroundColor3", "topbar")
+	registerTransparency(topbar, 0)
 	local topbarRound = Instance.new("UICorner")
 	topbarRound.CornerRadius = UDim.new(0, 12)
 	topbarRound.Parent = topbar
 	local topbarCover = Instance.new("Frame")
 	topbarCover.Size = UDim2.new(1, 0, 0, 12)
 	topbarCover.Position = UDim2.new(0, 0, 1, -12)
-	topbarCover.BackgroundColor3 = cl.topbar
 	topbarCover.BorderSizePixel = 0
 	topbarCover.Parent = topbar
+	registerRecolor(topbarCover, "BackgroundColor3", "topbar")
+	registerTransparency(topbarCover, 0)
 	local topSep = Instance.new("Frame")
 	topSep.Size = UDim2.new(1, 0, 0, 1)
 	topSep.Position = UDim2.new(0, 0, 1, -1)
-	topSep.BackgroundColor3 = cl.sep
 	topSep.BorderSizePixel = 0
 	topSep.Parent = topbar
+	registerRecolor(topSep, "BackgroundColor3", "sep")
 	local topTitle = Instance.new("TextLabel")
 	topTitle.Size = UDim2.new(0, 200, 0, 20)
 	topTitle.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -544,12 +668,14 @@ function _qkaspq:Init(titleText)
 	profFrame = Instance.new("Frame")
 	profFrame.Size = UDim2.new(0, 140, 0, 32)
 	profFrame.Position = UDim2.new(1, -150, 0.5, -16)
-	profFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 26)
 	profFrame.BorderSizePixel = 0
 	profFrame.Visible = false
 	profFrame.Parent = topbar
+	registerRecolor(profFrame, "BackgroundColor3", "card")
+	registerTransparency(profFrame, 0.1)
 	rnd(profFrame, 16)
-	stk(profFrame, Color3.fromRGB(35, 35, 42))
+	local profStroke = stk(profFrame, Color3.fromRGB(35, 35, 42))
+	registerRecolor(profStroke, "Color", "sep")
 	pad(profFrame, 0, 0, 8, 8)
 	profName = Instance.new("TextLabel")
 	profName.Size = UDim2.new(1, -34, 0, 14)
@@ -615,22 +741,24 @@ function _qkaspq:Init(titleText)
 	tabBar.Name = "ZenithTabBar"
 	tabBar.Size = UDim2.new(1, 0, 0, 50)
 	tabBar.Position = UDim2.new(0, 0, 1, -50)
-	tabBar.BackgroundColor3 = Color3.fromRGB(14, 14, 20)
 	tabBar.BorderSizePixel = 0
 	tabBar.Parent = main
+	registerRecolor(tabBar, "BackgroundColor3", "topbar")
+	registerTransparency(tabBar, 0)
 	rnd(tabBar, 12)
 	local tabCover = Instance.new("Frame")
 	tabCover.Size = UDim2.new(1, 0, 0, 12)
 	tabCover.Position = UDim2.new(0, 0, 0, 0)
-	tabCover.BackgroundColor3 = Color3.fromRGB(14, 14, 20)
 	tabCover.BorderSizePixel = 0
 	tabCover.Parent = tabBar
+	registerRecolor(tabCover, "BackgroundColor3", "topbar")
+	registerTransparency(tabCover, 0)
 	local bottomSep = Instance.new("Frame")
 	bottomSep.Size = UDim2.new(1, 0, 0, 1)
 	bottomSep.Position = UDim2.new(0, 0, 0, 0)
-	bottomSep.BackgroundColor3 = cl.sep
 	bottomSep.BorderSizePixel = 0
 	bottomSep.Parent = tabBar
+	registerRecolor(bottomSep, "BackgroundColor3", "sep")
 	local tabFrame = Instance.new("ScrollingFrame")
 	tabFrame.Size = UDim2.new(1, -8, 1, 0)
 	tabFrame.Position = UDim2.new(0, 4, 0, 0)
@@ -647,6 +775,19 @@ function _qkaspq:Init(titleText)
 	tabLay.VerticalAlignment = Enum.VerticalAlignment.Center
 	tabLay.Padding = UDim.new(0, 8)
 	tabLay.Parent = tabFrame
+	
+	local tabOverlay = Instance.new("Frame")
+	tabOverlay.Size = tabFrame.Size
+	tabOverlay.Position = tabFrame.Position
+	tabOverlay.BackgroundTransparency = 1
+	tabOverlay.Parent = tabBar
+	
+	local tabIndicator = Instance.new("Frame")
+	tabIndicator.Name = "TabIndicator"
+	tabIndicator.Size = UDim2.new(0, 0, 0, 2)
+	tabIndicator.BorderSizePixel = 0
+	tabIndicator.Parent = tabOverlay
+	registerRecolor(tabIndicator, "BackgroundColor3", "ac")
 	local function showTooltip(descText, modActive)
 		ttIcon.ImageColor3 = modActive and ac or cl.dim
 		ttText.Text = descText or "Описание отсутствует."
@@ -1518,6 +1659,9 @@ function _qkaspq:Init(titleText)
 			end
 			triggerBindRefresh()
 		end)
+		data.refresh = function()
+			box.BackgroundColor3 = data.value and ac or cl.check
+		end
 	end
 	local function makeDropdown(parent, data, updateHeight)
 		local isMulti = data.type == "multiselect"
@@ -1710,6 +1854,16 @@ function _qkaspq:Init(titleText)
 				task.delay(0.19, updateHeight)
 			end)
 		end
+		data.refresh = function()
+			field.BackgroundColor3 = cl.field
+			optList.ScrollBarImageColor3 = ac
+			for _, ch in pairs(optList:GetChildren()) do
+				if ch:IsA("TextButton") then
+					local isSel = isMulti and activeSelections[ch.Text] or (ch.Text == data.value)
+					ch.TextColor3 = isSel and ac2 or Color3.fromRGB(200, 200, 205)
+				end
+			end
+		end
 	end
 	local function makeSlider(parent, data, updateHeight)
 		local hasDesc = data.desc ~= nil
@@ -1817,6 +1971,12 @@ function _qkaspq:Init(titleText)
 				end
 			end
 		end)
+		data.refresh = function()
+			track.BackgroundColor3 = cl.field
+			fill.BackgroundColor3 = ac
+			knob.BackgroundColor3 = ac
+			valText.TextColor3 = ac2
+		end
 	end
 	local function makeColorPicker(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
@@ -2071,6 +2231,11 @@ function _qkaspq:Init(titleText)
 		end
 		btn.MouseButton1Click:Connect(togglePicker)
 		accBtn.MouseButton1Click:Connect(togglePicker)
+		data.refresh = function()
+			checkbox.BackgroundColor3 = data.value and ac or cl.check
+			pickerPanel.BackgroundColor3 = cl.field
+			accBtn.BackgroundColor3 = ac
+		end
 	end
 	local moonColors = {
 		["Rainbow Moon"] = Color3.fromRGB(180, 120, 255),
@@ -2249,6 +2414,10 @@ function _qkaspq:Init(titleText)
 			task.delay(0.01, updateHeight)
 			task.delay(0.19, updateHeight)
 		end)
+		data.refresh = function()
+			field.BackgroundColor3 = cl.field
+			optList.ScrollBarImageColor3 = ac
+		end
 	end
 	local function makeButton(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
@@ -2287,6 +2456,9 @@ function _qkaspq:Init(titleText)
 				pcall(data.callback)
 			end
 		end)
+		data.refresh = function()
+			btn.BackgroundColor3 = cl.field
+		end
 	end
 	local function makeToggle(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
@@ -2334,6 +2506,10 @@ function _qkaspq:Init(titleText)
 			tw(togDot, {Position = data.value and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}, 0.18)
 			if data.callback then pcall(data.callback, data.value) end
 		end)
+		data.refresh = function()
+			togBg.BackgroundColor3 = data.value and ac or cl.tog_off
+			togDot.Position = data.value and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)
+		end
 	end
 	local function makeText(parent, data, updateHeight)
 		local h = data.desc and 30 or 16
@@ -2419,6 +2595,9 @@ function _qkaspq:Init(titleText)
 			data.value = box.Text
 			if data.callback then pcall(data.callback, box.Text, enterPressed) end
 		end)
+		data.refresh = function()
+			field.BackgroundColor3 = cl.field
+		end
 	end
 	local function makeBind(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
@@ -2503,6 +2682,9 @@ function _qkaspq:Init(titleText)
 				end
 			end
 		end))
+		data.refresh = function()
+			bindF.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
+		end
 	end
 	local function buildCard(modData, colIdx, order)
 		local target = self.columns[colIdx]
@@ -2511,13 +2693,15 @@ function _qkaspq:Init(titleText)
 		end
 		local card = Instance.new("Frame")
 		card.Name = modData.name
-		card.BackgroundColor3 = cl.card
 		card.BorderSizePixel = 0
 		card.LayoutOrder = order
 		card.Parent = target
 		card.ClipsDescendants = true
+		registerRecolor(card, "BackgroundColor3", "card")
+		registerTransparency(card, 0.1)
 		rnd(card, 8)
-		stk(card, Color3.fromRGB(28, 28, 34))
+		local cardStroke = stk(card, Color3.fromRGB(28, 28, 34))
+		registerRecolor(cardStroke, "Color", "sep")
 		modData.ui_card = card
 		local headBtn = Instance.new("TextButton")
 		headBtn.Size = UDim2.new(1, 0, 0, 32)
@@ -2651,7 +2835,11 @@ function _qkaspq:Init(titleText)
 					binding = false
 					connection:Disconnect()
 					triggerBindRefresh()
-					self:Notify("Module bind <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> changed to: <font color=\"rgb(120, 110, 250)\">" .. key .. "</font>", BIND_ICON)
+					if self.currentLanguage == "ENG" then
+						self:Notify("Module bind <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> changed to: <font color=\"rgb(120, 110, 250)\">" .. key .. "</font>", BIND_ICON)
+					else
+						self:Notify("Бинд модуля <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> изменен на: <font color=\"rgb(120, 110, 250)\">" .. key .. "</font>", BIND_ICON)
+					end
 				end
 			end))
 		end)
@@ -2689,7 +2877,11 @@ function _qkaspq:Init(titleText)
 					pcall(modData.callback, modData.on)
 				end
 				triggerBindRefresh()
-				self:Notify("Module <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> is now " .. (modData.on and "<font color=\"rgb(80, 220, 100)\">enabled</font>" or "<font color=\"rgb(240, 80, 80)\">disabled</font>"), MOD_ICON)
+				if self.currentLanguage == "ENG" then
+					self:Notify("Module <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> is now " .. (modData.on and "<font color=\"rgb(80, 220, 100)\">enabled</font>" or "<font color=\"rgb(240, 80, 80)\">disabled</font>"), MOD_ICON)
+				else
+					self:Notify("Модуль <font color=\"rgb(255, 255, 255)\">" .. modData.name .. "</font> теперь " .. (modData.on and "<font color=\"rgb(80, 220, 100)\">включен</font>" or "<font color=\"rgb(240, 80, 80)\">выключен</font>"), MOD_ICON)
+				end
 				if modData.name == "Music GUI" then
 					updateMusicGui()
 				end
@@ -2785,6 +2977,13 @@ function _qkaspq:Init(titleText)
 			end
 			if currentHoveredMod == modData then
 				ttIcon.ImageColor3 = (modData.on or modData.notoggle) and ac or cl.dim
+			end
+			if modData.opts then
+				for _, opt in ipairs(modData.opts) do
+					if opt.refresh then
+						pcall(opt.refresh)
+					end
+				end
 			end
 		end
 		headBtn.InputBegan:Connect(function(input)
@@ -3023,16 +3222,27 @@ function _qkaspq:Init(titleText)
 		tw(columnsGroup, {GroupTransparency = 1}, 0.15)
 		for i, data in ipairs(self.tabBtns) do
 			if i == idx then
-				tw(data.btn, {BackgroundColor3 = Color3.fromRGB(30, 26, 56), BackgroundTransparency = 0}, 0.22)
+				tw(data.btn, {BackgroundColor3 = Color3.fromRGB(30, 26, 56), BackgroundTransparency = 0.2}, 0.22)
 				tw(data.icon, {ImageColor3 = ac}, 0.22)
 				tw(data.lbl, {TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.22)
-				if data.sc then tw(data.sc, {Scale = 1}, 0.22) end
+				if data.sc then tw(data.sc, {Scale = 1.05}, 0.22) end
 			else
-				tw(data.btn, {BackgroundColor3 = Color3.fromRGB(8, 8, 12), BackgroundTransparency = 0}, 0.22)
+				tw(data.btn, {BackgroundColor3 = Color3.fromRGB(8, 8, 12), BackgroundTransparency = 0.5}, 0.22)
 				tw(data.icon, {ImageColor3 = cl.dim}, 0.22)
 				tw(data.lbl, {TextColor3 = cl.dim}, 0.22)
 				if data.sc then tw(data.sc, {Scale = 1}, 0.22) end
 			end
+		end
+		local activeBtn = self.tabBtns[idx]
+		if activeBtn and activeBtn.btn then
+			task.spawn(function()
+				game:GetService("RunService").RenderStepped:Wait()
+				local relX = activeBtn.btn.AbsolutePosition.X - tabBar.AbsolutePosition.X
+				tw(tabIndicator, {
+					Size = UDim2.new(0, activeBtn.btn.AbsoluteSize.X - 24, 0, 3),
+					Position = UDim2.new(0, relX + 12, 1, -4)
+				}, 0.22)
+			end)
 		end
 		task.delay(0.15, function()
 			if _qkaspq_store.ActiveTab == idx then
@@ -3047,16 +3257,10 @@ function _qkaspq:Init(titleText)
 		end)
 	end
 	_qkaspq_store.ActiveTab = 1
-	do
-		local d = self.tabBtns[1]
-		if d then
-			d.btn.BackgroundColor3 = Color3.fromRGB(30, 26, 56)
-			d.btn.BackgroundTransparency = 0
-			d.icon.ImageColor3 = ac
-			d.lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-		end
-	end
-	loadTab(1)
+	task.spawn(function()
+		task.wait(0.05)
+		setTab(1)
+	end)
 	buildBindsList()
 	regConn(UIS.InputBegan:Connect(function(input, gpe)
 		if gpe then
@@ -3088,7 +3292,11 @@ function _qkaspq:Init(titleText)
 							pcall(mod.callback, mod.on)
 						end
 						triggerBindRefresh()
-						self:Notify("Модуль <font color=\"rgb(255, 255, 255)\">" .. mod.name .. "</font> " .. (mod.on and "<font color=\"rgb(80, 220, 100)\">включен</font>" or "<font color=\"rgb(240, 80, 80)\">выключен</font>") .. " клавишей <font color=\"rgb(120, 110, 250)\">" .. key .. "</font>", BIND_ICON)
+						if self.currentLanguage == "ENG" then
+							self:Notify("Module <font color=\"rgb(255, 255, 255)\">" .. mod.name .. "</font> was " .. (mod.on and "<font color=\"rgb(80, 220, 100)\">enabled</font>" or "<font color=\"rgb(240, 80, 80)\">disabled</font>") .. " by key <font color=\"rgb(120, 110, 250)\">" .. key .. "</font>", BIND_ICON)
+						else
+							self:Notify("Модуль <font color=\"rgb(255, 255, 255)\">" .. mod.name .. "</font> " .. (mod.on and "<font color=\"rgb(80, 220, 100)\">включен</font>" or "<font color=\"rgb(240, 80, 80)\">выключен</font>") .. " клавишей <font color=\"rgb(120, 110, 250)\">" .. key .. "</font>", BIND_ICON)
+						end
 						if mod.name == "Music GUI" then
 							updateMusicGui()
 						end
@@ -3155,7 +3363,11 @@ function _qkaspq:SetModuleState(tabId, moduleName, isOn)
 	if triggerBindRefresh then
 		pcall(triggerBindRefresh)
 	end
-	self:Notify("Модуль <font color=\"rgb(255, 255, 255)\">" .. mod.name .. "</font> " .. (isOn and "<font color=\"rgb(80, 220, 100)\">включен</font>" or "<font color=\"rgb(240, 80, 80)\">выключен</font>"), MOD_ICON)
+	if self.currentLanguage == "ENG" then
+		self:Notify("Module <font color=\"rgb(255, 255, 255)\">" .. mod.name .. "</font> is now " .. (isOn and "<font color=\"rgb(80, 220, 100)\">enabled</font>" or "<font color=\"rgb(240, 80, 80)\">disabled</font>"), MOD_ICON)
+	else
+		self:Notify("Модуль <font color=\"rgb(255, 255, 255)\">" .. mod.name .. "</font> " .. (isOn and "<font color=\"rgb(80, 220, 100)\">включен</font>" or "<font color=\"rgb(240, 80, 80)\">выключен</font>"), MOD_ICON)
+	end
 	if mod.name == "Music GUI" and updateMusicGui then
 		pcall(updateMusicGui)
 	end
@@ -3466,5 +3678,34 @@ _qkaspq:CreateModule("Settings", {
 	callback = function(val)
 		if updateArrayList then updateArrayList() end
 	end
+})
+_qkaspq:CreateModule("Settings", {
+	name = "UI Customization",
+	on = true,
+	bind = "None",
+	nobind = true,
+	desc = "Adjust visual themes and transparency.",
+	opts = {
+		{
+			type = "dropdown",
+			label = "UI Theme",
+			value = "Amethyst",
+			list = {"Amethyst", "Cyberpunk", "Aquamarine", "Ruby", "Sapphire"},
+			callback = function(val)
+				applyTheme(val)
+			end
+		},
+		{
+			type = "slider",
+			label = "UI Transparency",
+			value = 0,
+			min = 0,
+			max = 80,
+			suffix = "%",
+			callback = function(val)
+				applyTransparency(val / 100)
+			end
+		}
+	}
 })
 return _qkaspq
