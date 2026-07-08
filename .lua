@@ -391,7 +391,7 @@ _qkaspq.Init = function(self, titleText)
 	wmFrame.Visible = false
 	wmFrame.Parent = gui
 
-	main = Instance.new("Frame")
+	main = Instance.new("CanvasGroup")
 	main.Size = UDim2.new(0, 680, 0, 480)
 	main.AnchorPoint = Vector2.new(0.5, 0.5)
 	main.Position = UDim2.new(0.5, 0, 0.5, 0)
@@ -430,7 +430,7 @@ _qkaspq.Init = function(self, titleText)
 	mainTitle.Text = titleText
 	mainTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 	mainTitle.TextSize = 12
-	mainTitle.Font = Enum.Font.Ubuntu
+	mainTitle.Font = Enum.Font.MontserratBold
 	mainTitle.TextXAlignment = Enum.TextXAlignment.Left
 	mainTitle.Parent = sidebarFrame
 
@@ -441,7 +441,7 @@ _qkaspq.Init = function(self, titleText)
 	mainSubtitle.Text = "Premium Executor"
 	mainSubtitle.TextColor3 = Color3.fromRGB(150, 150, 150)
 	mainSubtitle.TextSize = 9
-	mainSubtitle.Font = Enum.Font.Ubuntu
+	mainSubtitle.Font = Enum.Font.MontserratBold
 	mainSubtitle.TextXAlignment = Enum.TextXAlignment.Left
 	mainSubtitle.Parent = sidebarFrame
 	registerRecolor(mainSubtitle, "TextColor3", "ac2")
@@ -502,7 +502,7 @@ _qkaspq.Init = function(self, titleText)
 	profName.Text = (lp.DisplayName ~= "" and lp.DisplayName ~= lp.Name) and lp.DisplayName or lp.Name
 	profName.TextColor3 = Color3.fromRGB(255, 255, 255)
 	profName.TextSize = 11
-	profName.Font = Enum.Font.Ubuntu
+	profName.Font = Enum.Font.MontserratBold
 	profName.TextXAlignment = Enum.TextXAlignment.Left
 	profName.TextTruncate = Enum.TextTruncate.AtEnd
 	profName.Parent = profFrame
@@ -514,7 +514,7 @@ _qkaspq.Init = function(self, titleText)
 	profSub.Text = "Premium User"
 	profSub.TextColor3 = Color3.fromRGB(150, 150, 150)
 	profSub.TextSize = 9
-	profSub.Font = Enum.Font.Ubuntu
+	profSub.Font = Enum.Font.MontserratBold
 	profSub.TextXAlignment = Enum.TextXAlignment.Left
 	profSub.Parent = profFrame
 	registerRecolor(profSub, "TextColor3", "ac2")
@@ -526,7 +526,7 @@ _qkaspq.Init = function(self, titleText)
 	sessionText.Text = "Session 00:00 — 60 FPS"
 	sessionText.TextColor3 = Color3.fromRGB(110, 110, 120)
 	sessionText.TextSize = 9
-	sessionText.Font = Enum.Font.Ubuntu
+	sessionText.Font = Enum.Font.MontserratBold
 	sessionText.TextXAlignment = Enum.TextXAlignment.Left
 	sessionText.Parent = profFrame
 
@@ -571,7 +571,7 @@ _qkaspq.Init = function(self, titleText)
 	activeTabTitle.Text = "Combat"
 	activeTabTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 	activeTabTitle.TextSize = 14
-	activeTabTitle.Font = Enum.Font.Ubuntu
+	activeTabTitle.Font = Enum.Font.MontserratBold
 	activeTabTitle.TextXAlignment = Enum.TextXAlignment.Left
 	activeTabTitle.Parent = topbar
 
@@ -601,7 +601,7 @@ _qkaspq.Init = function(self, titleText)
 	searchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 	searchBox.PlaceholderColor3 = Color3.fromRGB(110, 110, 120)
 	searchBox.TextSize = 11
-	searchBox.Font = Enum.Font.Ubuntu
+	searchBox.Font = Enum.Font.MontserratBold
 	searchBox.TextXAlignment = Enum.TextXAlignment.Left
 	searchBox.Parent = searchFrame
 
@@ -611,7 +611,7 @@ _qkaspq.Init = function(self, titleText)
 	closeBtn.Text = "X"
 	closeBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
 	closeBtn.TextSize = 10
-	closeBtn.Font = Enum.Font.Ubuntu
+	closeBtn.Font = Enum.Font.MontserratBold
 	closeBtn.Parent = topbar
 	rnd(closeBtn, 5)
 	registerRecolor(closeBtn, "BackgroundColor3", "field")
@@ -705,7 +705,7 @@ _qkaspq.Init = function(self, titleText)
 	ttText.BackgroundTransparency = 1
 	ttText.TextColor3 = Color3.fromRGB(255, 255, 255)
 	ttText.TextSize = 11
-	ttText.Font = Enum.Font.Ubuntu
+	ttText.Font = Enum.Font.MontserratBold
 	ttText.Size = UDim2.new(0, 0, 0, 14)
 	ttText.AutomaticSize = Enum.AutomaticSize.X
 	ttText.Parent = tooltip
@@ -726,12 +726,13 @@ _qkaspq.Init = function(self, titleText)
 	bindsWin.Size = UDim2.new(0, 220, 0, 40)
 	bindsWin.AnchorPoint = Vector2.new(0.5, 0.5)
 	bindsWin.Position = UDim2.new(0.85, 0, 0.35, 0)
-	bindsWin.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+	bindsWin.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 	bindsWin.BorderSizePixel = 0
 	bindsWin.ClipsDescendants = true
 	bindsWin.Visible = false
 	bindsWin.Parent = gui
-	rnd(bindsWin, 10)
+	rnd(bindsWin, 8)
+	stk(bindsWin, Color3.fromRGB(36, 36, 42))
 
 	bindsScale = Instance.new("UIScale")
 	bindsScale.Scale = 1
@@ -739,25 +740,25 @@ _qkaspq.Init = function(self, titleText)
 
 	local bindsTopbar = Instance.new("Frame")
 	bindsTopbar.Size = UDim2.new(1, 0, 0, 40)
-	bindsTopbar.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+	bindsTopbar.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
 	bindsTopbar.BorderSizePixel = 0
 	bindsTopbar.Parent = bindsWin
 
 	local bindsTopbarRound = Instance.new("UICorner")
-	bindsTopbarRound.CornerRadius = UDim.new(0, 10)
+	bindsTopbarRound.CornerRadius = UDim.new(0, 8)
 	bindsTopbarRound.Parent = bindsTopbar
 
 	bindsTopbarCover = Instance.new("Frame")
 	bindsTopbarCover.Size = UDim2.new(1, 0, 0, 12)
 	bindsTopbarCover.Position = UDim2.new(0, 0, 1, -12)
-	bindsTopbarCover.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+	bindsTopbarCover.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
 	bindsTopbarCover.BorderSizePixel = 0
 	bindsTopbarCover.Parent = bindsTopbar
 
 	bindsTopSep = Instance.new("Frame")
 	bindsTopSep.Size = UDim2.new(1, 0, 0, 1)
 	bindsTopSep.Position = UDim2.new(0, 0, 1, -1)
-	bindsTopSep.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+	bindsTopSep.BackgroundColor3 = Color3.fromRGB(36, 36, 42)
 	bindsTopSep.BorderSizePixel = 0
 	bindsTopSep.Parent = bindsTopbar
 
@@ -777,7 +778,7 @@ _qkaspq.Init = function(self, titleText)
 	bindsTitle.Text = "Binds"
 	bindsTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 	bindsTitle.TextSize = 12
-	bindsTitle.Font = Enum.Font.Ubuntu
+	bindsTitle.Font = Enum.Font.MontserratBold
 	bindsTitle.TextXAlignment = Enum.TextXAlignment.Left
 	bindsTitle.Parent = bindsTopbar
 
@@ -917,7 +918,7 @@ _qkaspq.Init = function(self, titleText)
 		lbl.Text = self.tabNamesRu[tab.id] or tab.id
 		lbl.TextColor3 = cl.dim
 		lbl.TextSize = 12
-		lbl.Font = Enum.Font.Ubuntu
+		lbl.Font = Enum.Font.MontserratBold
 		lbl.Size = UDim2.new(1, -26, 0, 14)
 		lbl.TextTruncate = Enum.TextTruncate.AtEnd
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
@@ -1094,23 +1095,38 @@ _qkaspq.Init = function(self, titleText)
 			else
 				notif.Size = UDim2.new(1, 0, 0, 36)
 			end
-			notif.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+			notif.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 			notif.BorderSizePixel = 0
 			notif.GroupTransparency = 1
 			notif.Parent = parent
-			rnd(notif, 18)
+			rnd(notif, 8)
 			local stroke = Instance.new("UIStroke")
-			stroke.Color = Color3.fromRGB(30, 30, 35)
+			stroke.Color = Color3.fromRGB(36, 36, 42)
 			stroke.Thickness = 1
 			stroke.Transparency = 1
 			stroke.Parent = notif
-			pad(notif, 8, 8, 14, 14)
+			pad(notif, 6, 6, 8, 8)
 			local notifLay = Instance.new("UIListLayout")
 			notifLay.FillDirection = Enum.FillDirection.Horizontal
 			notifLay.VerticalAlignment = Enum.VerticalAlignment.Center
 			notifLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
 			notifLay.Padding = UDim.new(0, 8)
 			notifLay.Parent = notif
+
+			local accentBar = Instance.new("Frame")
+			accentBar.Size = UDim2.new(0, 3, 1, 0)
+			accentBar.BorderSizePixel = 0
+			local lowerText = string.lower(text)
+			if lowerText:find("enabled") or lowerText:find("включен") or lowerText:find("успешно") or lowerText:find("пройден") then
+				accentBar.BackgroundColor3 = Color3.fromRGB(80, 220, 100)
+			elseif lowerText:find("disabled") or lowerText:find("выключен") or lowerText:find("ошибка") then
+				accentBar.BackgroundColor3 = Color3.fromRGB(240, 80, 80)
+			else
+				accentBar.BackgroundColor3 = ac
+			end
+			accentBar.Parent = notif
+			rnd(accentBar, 2)
+
 			local notifIcon = Instance.new("ImageLabel")
 			notifIcon.Size = UDim2.new(0, 14, 0, 14)
 			notifIcon.BackgroundTransparency = 1
@@ -1122,8 +1138,8 @@ _qkaspq.Init = function(self, titleText)
 			notifText.BackgroundTransparency = 1
 			notifText.TextColor3 = Color3.fromRGB(255, 255, 255)
 			notifText.TextSize = 11
-			notifText.Font = Enum.Font.Ubuntu
-			notifText.Size = UDim2.new(1, -22, 1, 0)
+			notifText.Font = Enum.Font.MontserratBold
+			notifText.Size = UDim2.new(1, -35, 1, 0)
 			notifText.TextXAlignment = Enum.TextXAlignment.Left
 			notifText.RichText = true
 			notifText.Text = text
@@ -1196,12 +1212,12 @@ _qkaspq.Init = function(self, titleText)
 			musicGuiInstance.AnchorPoint = Vector2.new(0.5, 0)
 			musicGuiInstance.Position = UDim2.new(0.5, 0, 0, 70)
 			musicGuiInstance.Size = UDim2.new(0, 310, 0, 52)
-			musicGuiInstance.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+			musicGuiInstance.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 			musicGuiInstance.BorderSizePixel = 0
 			musicGuiInstance.GroupTransparency = 1
 			musicGuiInstance.Parent = gui
-			rnd(musicGuiInstance, 12)
-			stk(musicGuiInstance, Color3.fromRGB(30, 30, 35))
+			rnd(musicGuiInstance, 8)
+			stk(musicGuiInstance, Color3.fromRGB(36, 36, 42))
 			pad(musicGuiInstance, 8, 8, 10, 10)
 			local mainScale = Instance.new("UIScale")
 			mainScale.Scale = 0.8
@@ -1243,7 +1259,7 @@ _qkaspq.Init = function(self, titleText)
 			trackTitle.Text = Playlist[currentTrackIdx].name
 			trackTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 			trackTitle.TextSize = 10
-			trackTitle.Font = Enum.Font.Ubuntu
+			trackTitle.Font = Enum.Font.MontserratBold
 			trackTitle.TextXAlignment = Enum.TextXAlignment.Left
 			trackTitle.TextTruncate = Enum.TextTruncate.AtEnd
 			trackTitle.Parent = midFrame
@@ -1275,7 +1291,7 @@ _qkaspq.Init = function(self, titleText)
 			timeText.Text = "0:00 / 0:00"
 			timeText.TextColor3 = Color3.fromRGB(150, 150, 160)
 			timeText.TextSize = 8
-			timeText.Font = Enum.Font.Ubuntu
+			timeText.Font = Enum.Font.MontserratBold
 			timeText.TextXAlignment = Enum.TextXAlignment.Right
 			timeText.Parent = seekContainer
 			local ctrlFrame = Instance.new("Frame")
@@ -1486,21 +1502,21 @@ _qkaspq.Init = function(self, titleText)
 			if not cached then
 				local frame = Instance.new("CanvasGroup")
 				frame.Name = mod.name
-				frame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+				frame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 				frame.BorderSizePixel = 0
 				frame.GroupTransparency = 1
 				frame.ClipsDescendants = true
 				local scale = Instance.new("UIScale")
 				scale.Scale = 0.8
 				scale.Parent = frame
-				rnd(frame, 4)
-				stk(frame, Color3.fromRGB(30, 30, 35), 1)
+				rnd(frame, 6)
+				stk(frame, Color3.fromRGB(36, 36, 42))
 				local lbl = Instance.new("TextLabel")
 				lbl.Name = "Label"
 				lbl.BackgroundTransparency = 1
 				lbl.Text = mod.name
 				lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-				lbl.Font = Enum.Font.Ubuntu
+				lbl.Font = Enum.Font.MontserratBold
 				lbl.TextSize = 11
 				lbl.Parent = frame
 				local accent = Instance.new("Frame")
@@ -1508,7 +1524,7 @@ _qkaspq.Init = function(self, titleText)
 				accent.BackgroundColor3 = ac
 				accent.BorderSizePixel = 0
 				accent.Parent = frame
-				local textW = game:GetService("TextService"):GetTextSize(mod.name, 11, Enum.Font.Ubuntu, Vector2.new(1000, 24)).X
+				local textW = game:GetService("TextService"):GetTextSize(mod.name, 11, Enum.Font.MontserratBold, Vector2.new(1000, 24)).X
 				local width = textW + 24
 				frame.Size = UDim2.new(0, width, 0, 0)
 				frame.Parent = arrayListContainer
@@ -1598,7 +1614,7 @@ _qkaspq.Init = function(self, titleText)
 		nameLbl.Size = UDim2.new(0.65, 0, 1, 0)
 		nameLbl.BackgroundTransparency = 1
 		nameLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-		nameLbl.Font = Enum.Font.Ubuntu
+		nameLbl.Font = Enum.Font.MontserratBold
 		nameLbl.TextSize = 11
 		nameLbl.TextXAlignment = Enum.TextXAlignment.Left
 		nameLbl.TextTruncate = Enum.TextTruncate.AtEnd
@@ -1609,7 +1625,7 @@ _qkaspq.Init = function(self, titleText)
 		hpLbl.Position = UDim2.new(0.65, 0, 0, 0)
 		hpLbl.BackgroundTransparency = 1
 		hpLbl.TextColor3 = ac2
-		hpLbl.Font = Enum.Font.Ubuntu
+		hpLbl.Font = Enum.Font.MontserratBold
 		hpLbl.TextSize = 10
 		hpLbl.TextXAlignment = Enum.TextXAlignment.Right
 		hpLbl.Parent = topRow
@@ -1663,7 +1679,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
@@ -1677,7 +1693,7 @@ _qkaspq.Init = function(self, titleText)
 			desc.Text = data.desc
 			desc.TextColor3 = Color3.fromRGB(180, 180, 190)
 			desc.TextSize = 10
-			desc.Font = Enum.Font.Ubuntu
+			desc.Font = Enum.Font.MontserratBold
 			desc.TextXAlignment = Enum.TextXAlignment.Left
 			desc.TextTruncate = Enum.TextTruncate.AtEnd
 			desc.Parent = frame
@@ -1744,7 +1760,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
@@ -1779,7 +1795,7 @@ _qkaspq.Init = function(self, titleText)
 		val.Text = data.value
 		val.TextColor3 = Color3.fromRGB(220, 220, 225)
 		val.TextSize = 11
-		val.Font = Enum.Font.Ubuntu
+		val.Font = Enum.Font.MontserratBold
 		val.TextXAlignment = Enum.TextXAlignment.Left
 		val.Parent = fieldHeader
 		data.ui_val = val
@@ -1849,7 +1865,7 @@ _qkaspq.Init = function(self, titleText)
 				local isSel = isMulti and activeSelections[opt] or (opt == data.value)
 				optBtn.TextColor3 = isSel and ac2 or Color3.fromRGB(200, 200, 205)
 				optBtn.TextSize = 11
-				optBtn.Font = Enum.Font.Ubuntu
+				optBtn.Font = Enum.Font.MontserratBold
 				optBtn.TextXAlignment = Enum.TextXAlignment.Left
 				optBtn.AutoButtonColor = false
 				optBtn.Parent = optList
@@ -1967,7 +1983,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
@@ -1980,7 +1996,7 @@ _qkaspq.Init = function(self, titleText)
 		valText.Text = tostring(data.value) .. (data.suffix or "")
 		valText.TextColor3 = ac2
 		valText.TextSize = 11
-		valText.Font = Enum.Font.Ubuntu
+		valText.Font = Enum.Font.MontserratBold
 		valText.TextXAlignment = Enum.TextXAlignment.Right
 		valText.Parent = frame
 		data.ui_valText = valText
@@ -1992,7 +2008,7 @@ _qkaspq.Init = function(self, titleText)
 			desc.Text = data.desc
 			desc.TextColor3 = Color3.fromRGB(160, 160, 170)
 			desc.TextSize = 10
-			desc.Font = Enum.Font.Ubuntu
+			desc.Font = Enum.Font.MontserratBold
 			desc.TextXAlignment = Enum.TextXAlignment.Left
 			desc.TextTruncate = Enum.TextTruncate.AtEnd
 			desc.Parent = frame
@@ -2080,7 +2096,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
@@ -2277,7 +2293,7 @@ _qkaspq.Init = function(self, titleText)
 		accBtn.Text = "Принять"
 		accBtn.TextColor3 = Color3.fromRGB(20, 20, 20)
 		accBtn.TextSize = 10
-		accBtn.Font = Enum.Font.Ubuntu
+		accBtn.Font = Enum.Font.MontserratBold
 		accBtn.LayoutOrder = 3
 		accBtn.Parent = pickerPanel
 		rnd(accBtn, 4)
@@ -2377,7 +2393,7 @@ _qkaspq.Init = function(self, titleText)
 		lbl.Text = item
 		lbl.TextColor3 = isRare and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(160, 160, 170)
 		lbl.TextSize = 10
-		lbl.Font = isRare and Enum.Font.Ubuntu or Enum.Font.Ubuntu
+		lbl.Font = isRare and Enum.Font.MontserratBold or Enum.Font.MontserratBold
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.Parent = row
 		row.MouseEnter:Connect(function()
@@ -2405,7 +2421,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label or "Weather Predictions"
 		label.TextColor3 = Color3.fromRGB(255, 255, 255)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		local field = Instance.new("Frame")
@@ -2443,7 +2459,7 @@ _qkaspq.Init = function(self, titleText)
 		val.Text = summaryText
 		val.TextColor3 = Color3.fromRGB(220, 220, 225)
 		val.TextSize = 11
-		val.Font = Enum.Font.Ubuntu
+		val.Font = Enum.Font.MontserratBold
 		val.TextXAlignment = Enum.TextXAlignment.Left
 		val.Parent = fieldHeader
 		local arrow = Instance.new("ImageLabel")
@@ -2523,7 +2539,7 @@ _qkaspq.Init = function(self, titleText)
 		btn.Text = data.label
 		btn.TextColor3 = Color3.fromRGB(20, 20, 20)
 		btn.TextSize = 11
-		btn.Font = Enum.Font.Ubuntu
+		btn.Font = Enum.Font.MontserratBold
 		btn.Parent = frame
 		rnd(btn, 6)
 		stk(btn, Color3.fromRGB(200, 200, 200))
@@ -2564,7 +2580,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
@@ -2619,7 +2635,7 @@ _qkaspq.Init = function(self, titleText)
 		lbl.Text = data.label
 		lbl.TextColor3 = data.color or Color3.fromRGB(190, 190, 210)
 		lbl.TextSize = 11
-		lbl.Font = Enum.Font.Ubuntu
+		lbl.Font = Enum.Font.MontserratBold
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.RichText = true
 		lbl.Parent = frame
@@ -2633,7 +2649,7 @@ _qkaspq.Init = function(self, titleText)
 			sub.Text = data.desc
 			sub.TextColor3 = Color3.fromRGB(120, 120, 140)
 			sub.TextSize = 10
-			sub.Font = Enum.Font.Ubuntu
+			sub.Font = Enum.Font.MontserratBold
 			sub.TextXAlignment = Enum.TextXAlignment.Left
 			sub.RichText = true
 			sub.Parent = frame
@@ -2653,7 +2669,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
@@ -2676,7 +2692,7 @@ _qkaspq.Init = function(self, titleText)
 		box.TextColor3 = Color3.fromRGB(220, 220, 230)
 		box.PlaceholderColor3 = Color3.fromRGB(90, 90, 110)
 		box.TextSize = 11
-		box.Font = Enum.Font.Ubuntu
+		box.Font = Enum.Font.MontserratBold
 		box.TextXAlignment = Enum.TextXAlignment.Left
 		box.ClearTextOnFocus = data.clearOnFocus == true
 		box.Parent = field
@@ -2707,7 +2723,7 @@ _qkaspq.Init = function(self, titleText)
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
 		label.TextSize = 11
-		label.Font = Enum.Font.Ubuntu
+		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
@@ -2737,7 +2753,7 @@ _qkaspq.Init = function(self, titleText)
 		bLbl.Text = data.key or "None"
 		bLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
 		bLbl.TextSize = 10
-		bLbl.Font = Enum.Font.Ubuntu
+		bLbl.Font = Enum.Font.MontserratBold
 		bLbl.TextXAlignment = Enum.TextXAlignment.Left
 		bLbl.Parent = bindF
 		data.ui_bindLbl = bLbl
@@ -2823,7 +2839,7 @@ _qkaspq.Init = function(self, titleText)
 		nameLabel.Text = modData.name
 		nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 		nameLabel.TextSize = 11
-		nameLabel.Font = Enum.Font.Ubuntu
+		nameLabel.Font = Enum.Font.MontserratBold
 		nameLabel.TextXAlignment = Enum.TextXAlignment.Left
 		nameLabel.TextTruncate = Enum.TextTruncate.AtEnd
 		nameLabel.Parent = headBtn
@@ -2854,7 +2870,7 @@ _qkaspq.Init = function(self, titleText)
 		bindLbl.Text = modData.bind or "None"
 		bindLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
 		bindLbl.TextSize = 9
-		bindLbl.Font = Enum.Font.Ubuntu
+		bindLbl.Font = Enum.Font.MontserratBold
 		bindLbl.TextXAlignment = Enum.TextXAlignment.Left
 		bindLbl.TextTruncate = Enum.TextTruncate.AtEnd
 		bindLbl.Parent = bindFrame
@@ -2903,7 +2919,7 @@ _qkaspq.Init = function(self, titleText)
 			badgeLbl.Text = badgeText
 			badgeLbl.TextColor3 = (badgeCol.R + badgeCol.G + badgeCol.B > 1.8) and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 			badgeLbl.TextSize = 9
-			badgeLbl.Font = Enum.Font.Ubuntu
+			badgeLbl.Font = Enum.Font.MontserratBold
 			badgeLbl.TextXAlignment = Enum.TextXAlignment.Center
 			badgeLbl.Parent = badgeFrame
 		end
@@ -3204,7 +3220,7 @@ _qkaspq.Init = function(self, titleText)
 				nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 				nameLabel.TextTransparency = 1
 				nameLabel.TextSize = 11
-				nameLabel.Font = Enum.Font.Ubuntu
+				nameLabel.Font = Enum.Font.MontserratBold
 				nameLabel.TextXAlignment = Enum.TextXAlignment.Left
 				nameLabel.Parent = row
 				bindFrame = Instance.new("Frame")
@@ -3246,7 +3262,7 @@ _qkaspq.Init = function(self, titleText)
 				bindLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
 				bindLbl.TextTransparency = 1
 				bindLbl.TextSize = 9
-				bindLbl.Font = Enum.Font.Ubuntu
+				bindLbl.Font = Enum.Font.MontserratBold
 				bindLbl.TextXAlignment = Enum.TextXAlignment.Center
 				bindLbl.Parent = bindFrame
 				tw(row, {Size = UDim2.new(1, 0, 0, 36)}, 0.22)
@@ -3368,12 +3384,10 @@ _qkaspq.Init = function(self, titleText)
 				tw(data.btn, {BackgroundColor3 = ac, BackgroundTransparency = 0.9}, 0.22)
 				tw(data.icon, {ImageColor3 = ac}, 0.22)
 				tw(data.lbl, {TextColor3 = ac}, 0.22)
-				if data.sc then tw(data.sc, {Scale = 1.02}, 0.22) end
 			else
 				tw(data.btn, {BackgroundTransparency = 1}, 0.22)
 				tw(data.icon, {ImageColor3 = cl.dim}, 0.22)
 				tw(data.lbl, {TextColor3 = cl.dim}, 0.22)
-				if data.sc then tw(data.sc, {Scale = 1}, 0.22) end
 			end
 		end
 		task.delay(0.15, function()
@@ -3443,15 +3457,17 @@ _qkaspq.Init = function(self, titleText)
 
 	main.Size = UDim2.new(0, 680, 0, 480)
 	main.Position = UDim2.new(0.5, 0, 0.5, 0)
+	main.GroupTransparency = 1
 	columnsGroup.GroupTransparency = 0
 	bindsWin.Size = UDim2.new(0, 220, 0, 40)
 	bindsWin.Position = UDim2.new(0.85, 0, 0.35, 0)
 	bindsWin.Visible = false
-	mainScale.Scale = 0
+	mainScale.Scale = 0.88
 	bindsScale.Scale = 0
 	for i = 1, 3 do
 		game:GetService("RunService").RenderStepped:Wait()
 	end
+	tw(main, {GroupTransparency = 0}, 0.4)
 	tw(mainScale, {Scale = 1}, 0.4)
 	pcall(function()
 		updateArrayList()
