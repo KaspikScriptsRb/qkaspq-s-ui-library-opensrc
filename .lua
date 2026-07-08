@@ -37,22 +37,22 @@ cl.tab_sel = Color3.fromRGB(30, 30, 35)
 
 local themes = {
 	Default = {
-		ac = Color3.fromRGB(160, 110, 255),
-		ac2 = Color3.fromRGB(200, 180, 255),
-		bg = Color3.fromRGB(14, 14, 16),
-		topbar = Color3.fromRGB(20, 20, 24),
-		card = Color3.fromRGB(20, 20, 24),
-		field = Color3.fromRGB(30, 30, 38),
-		tog_off = Color3.fromRGB(48, 48, 54),
-		check = Color3.fromRGB(40, 40, 46),
+		ac = Color3.fromRGB(255, 255, 255),
+		ac2 = Color3.fromRGB(160, 160, 160),
+		bg = Color3.fromRGB(14, 14, 14),
+		topbar = Color3.fromRGB(22, 22, 22),
+		card = Color3.fromRGB(22, 22, 22),
+		field = Color3.fromRGB(32, 32, 32),
+		tog_off = Color3.fromRGB(48, 48, 48),
+		check = Color3.fromRGB(40, 40, 40),
 	},
 	Amethyst = {
 		ac = Color3.fromRGB(160, 110, 255),
 		ac2 = Color3.fromRGB(200, 180, 255),
-		bg = Color3.fromRGB(14, 14, 16),
-		topbar = Color3.fromRGB(20, 20, 24),
-		card = Color3.fromRGB(20, 20, 24),
-		field = Color3.fromRGB(30, 30, 38),
+		bg = Color3.fromRGB(15, 12, 20),
+		topbar = Color3.fromRGB(22, 18, 30),
+		card = Color3.fromRGB(22, 18, 30),
+		field = Color3.fromRGB(30, 26, 40),
 		tog_off = Color3.fromRGB(48, 48, 54),
 		check = Color3.fromRGB(40, 40, 46),
 	},
@@ -97,6 +97,7 @@ local themes = {
 		check = Color3.fromRGB(32, 38, 48),
 	}
 }
+local themeList = {"Default", "Amethyst", "Cyberpunk", "Aquamarine", "Ruby", "Sapphire"}
 
 local recolorRegistry = {
 	ac = {},
@@ -130,6 +131,16 @@ local function applyTheme(themeName)
 	cl.field = theme.field
 	cl.tog_off = theme.tog_off
 	cl.check = theme.check
+
+	if bgImage then
+		if theme.bg_image then
+			bgImage.Image = theme.bg_image
+			bgImage.ImageTransparency = theme.bg_image_transparency or 0.3
+			bgImage.Visible = true
+		else
+			bgImage.Visible = false
+		end
+	end
 
 	for colorKey, items in pairs(recolorRegistry) do
 		local targetColor = theme[colorKey] or cl[colorKey]
@@ -376,6 +387,8 @@ local wmText
 local wmTime
 local wmFps
 local Playlist
+local bgImage
+local main
 _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	if type(titleText) == "table" then
 		local opts = titleText
@@ -426,6 +439,17 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	registerRecolor(main, "BackgroundColor3", "bg")
 	registerTransparency(main, 0)
 	rnd(main, 12)
+
+	bgImage = Instance.new("ImageLabel")
+	bgImage.Name = "ThemeBGImage"
+	bgImage.Size = UDim2.new(1, 0, 1, 0)
+	bgImage.BackgroundTransparency = 1
+	bgImage.ScaleType = Enum.ScaleType.Crop
+	bgImage.Image = ""
+	bgImage.ImageTransparency = 1
+	bgImage.Visible = false
+	bgImage.ZIndex = 0
+	bgImage.Parent = main
 
 	mainScale = Instance.new("UIScale")
 	mainScale.Scale = 1
@@ -2944,7 +2968,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		nameLabel.Parent = headBtn
 		modData.ui_nameLabel = nameLabel
 		local bindVisible = (not modData.nobind) and (not modData.notoggle)
-		local badgeVisible = (modData.badge ~= nil) or modData.beta
+		local badgeVisible = false
 		local rightOffset = modData.notoggle and 12 or 48
 		local bindFrame = Instance.new("Frame")
 		bindFrame.Size = UDim2.new(0, 46, 0, 16)
@@ -3761,6 +3785,15 @@ function _qkaspq:SetModuleLabel(tabId, moduleName, newLabel)
 	if mod.ui_card then mod.ui_card.Name = newLabel end
 	if triggerBindRefresh then pcall(triggerBindRefresh) end
 end
+function _qkaspq:AddTheme(themeName, themeData)
+	themes[themeName] = themeData
+	if not table.find(themeList, themeName) then
+		table.insert(themeList, themeName)
+	end
+end
+function _qkaspq:SetTheme(themeName)
+	applyTheme(themeName)
+end
 function _qkaspq:SetWatermark(opts)
 	opts = opts or {}
 	if opts.title then
@@ -3938,7 +3971,7 @@ _qkaspq:CreateModule("Settings", {
 			type = "dropdown",
 			label = "UI Theme",
 			value = "Default",
-			list = {"Default", "Amethyst", "Cyberpunk", "Aquamarine", "Ruby", "Sapphire"},
+			list = themeList,
 			callback = function(val)
 				applyTheme(val)
 			end
