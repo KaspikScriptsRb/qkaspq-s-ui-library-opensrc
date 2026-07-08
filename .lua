@@ -3267,7 +3267,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local list = _qkaspq_store.Modules[tabDef.id]
 			if list then
 				for _, mod in ipairs(list) do
-					if mod.bind and mod.bind ~= "None" then
+					if mod.on and mod.bind and mod.bind ~= "None" then
 						table.insert(allModules, mod)
 					end
 				end
