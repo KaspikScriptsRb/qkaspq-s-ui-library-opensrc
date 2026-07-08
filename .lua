@@ -36,55 +36,55 @@ cl.check = Color3.fromRGB(34, 34, 44)
 cl.tab_sel = Color3.fromRGB(28, 28, 36)
 
 local themes = {
-	Amethyst = {
-		ac = Color3.fromRGB(120, 90, 255),
-		ac2 = Color3.fromRGB(150, 120, 255),
-		bg = Color3.fromRGB(10, 10, 15),
-		topbar = Color3.fromRGB(16, 16, 22),
-		card = Color3.fromRGB(20, 20, 28),
-		field = Color3.fromRGB(26, 26, 36),
-		tog_off = Color3.fromRGB(38, 38, 48),
-		check = Color3.fromRGB(34, 34, 44),
+	Amethyst = { -- Carbon
+		ac = Color3.fromRGB(255, 255, 255),
+		ac2 = Color3.fromRGB(160, 160, 160),
+		bg = Color3.fromRGB(14, 14, 14),
+		topbar = Color3.fromRGB(22, 22, 22),
+		card = Color3.fromRGB(22, 22, 22),
+		field = Color3.fromRGB(32, 32, 32),
+		tog_off = Color3.fromRGB(48, 48, 48),
+		check = Color3.fromRGB(40, 40, 40),
 	},
-	Cyberpunk = {
-		ac = Color3.fromRGB(255, 0, 128),
-		ac2 = Color3.fromRGB(255, 200, 0),
-		bg = Color3.fromRGB(5, 5, 8),
-		topbar = Color3.fromRGB(12, 12, 16),
-		card = Color3.fromRGB(18, 18, 24),
-		field = Color3.fromRGB(24, 24, 32),
-		tog_off = Color3.fromRGB(36, 36, 44),
-		check = Color3.fromRGB(30, 30, 38),
+	Cyberpunk = { -- Pure Dark
+		ac = Color3.fromRGB(240, 240, 240),
+		ac2 = Color3.fromRGB(140, 140, 140),
+		bg = Color3.fromRGB(8, 8, 8),
+		topbar = Color3.fromRGB(15, 15, 15),
+		card = Color3.fromRGB(15, 15, 15),
+		field = Color3.fromRGB(26, 26, 26),
+		tog_off = Color3.fromRGB(38, 38, 38),
+		check = Color3.fromRGB(32, 32, 32),
 	},
-	Aquamarine = {
-		ac = Color3.fromRGB(0, 220, 180),
-		ac2 = Color3.fromRGB(0, 250, 220),
-		bg = Color3.fromRGB(8, 12, 12),
-		topbar = Color3.fromRGB(14, 18, 18),
-		card = Color3.fromRGB(18, 24, 24),
-		field = Color3.fromRGB(24, 32, 32),
-		tog_off = Color3.fromRGB(36, 44, 44),
-		check = Color3.fromRGB(30, 38, 38),
+	Aquamarine = { -- Slate
+		ac = Color3.fromRGB(255, 255, 255),
+		ac2 = Color3.fromRGB(150, 160, 170),
+		bg = Color3.fromRGB(18, 20, 22),
+		topbar = Color3.fromRGB(26, 28, 32),
+		card = Color3.fromRGB(26, 28, 32),
+		field = Color3.fromRGB(36, 40, 45),
+		tog_off = Color3.fromRGB(50, 55, 60),
+		check = Color3.fromRGB(44, 48, 52),
 	},
-	Ruby = {
-		ac = Color3.fromRGB(240, 40, 70),
-		ac2 = Color3.fromRGB(255, 80, 100),
-		bg = Color3.fromRGB(12, 8, 8),
-		topbar = Color3.fromRGB(18, 14, 14),
-		card = Color3.fromRGB(24, 18, 18),
-		field = Color3.fromRGB(32, 24, 24),
-		tog_off = Color3.fromRGB(44, 36, 36),
-		check = Color3.fromRGB(38, 30, 30),
+	Ruby = { -- Warm Grey
+		ac = Color3.fromRGB(250, 250, 250),
+		ac2 = Color3.fromRGB(170, 165, 160),
+		bg = Color3.fromRGB(20, 18, 18),
+		topbar = Color3.fromRGB(28, 26, 26),
+		card = Color3.fromRGB(28, 26, 26),
+		field = Color3.fromRGB(38, 36, 36),
+		tog_off = Color3.fromRGB(52, 48, 48),
+		check = Color3.fromRGB(46, 42, 42),
 	},
-	Sapphire = {
-		ac = Color3.fromRGB(30, 144, 255),
-		ac2 = Color3.fromRGB(0, 191, 255),
-		bg = Color3.fromRGB(8, 10, 15),
-		topbar = Color3.fromRGB(12, 15, 22),
+	Sapphire = { -- Midnight
+		ac = Color3.fromRGB(255, 255, 255),
+		ac2 = Color3.fromRGB(140, 150, 170),
+		bg = Color3.fromRGB(10, 12, 18),
+		topbar = Color3.fromRGB(16, 20, 28),
 		card = Color3.fromRGB(16, 20, 28),
-		field = Color3.fromRGB(22, 26, 36),
-		tog_off = Color3.fromRGB(34, 38, 48),
-		check = Color3.fromRGB(30, 34, 44),
+		field = Color3.fromRGB(24, 30, 40),
+		tog_off = Color3.fromRGB(38, 44, 56),
+		check = Color3.fromRGB(32, 38, 48),
 	}
 }
 
@@ -164,10 +164,9 @@ local function rnd(p, r)
 end
 local function stk(p, col, th)
 	local s = Instance.new("UIStroke")
-	s.Color = col or Color3.fromRGB(30, 30, 35)
-	s.Thickness = th or 1
-	s.Transparency = 0.35
+	s.Enabled = false
 	s.Parent = p
+	return s
 end
 local function pad(p, t, b, l, r)
 	local pd = Instance.new("UIPadding")
@@ -359,31 +358,7 @@ local wmText
 local wmTime
 local wmFps
 local Playlist
-local currentTrackIdx = 1
-local gui
-local main
-local mainScale
-local colScroll
-local columnsGroup
-local tooltip
-local ttIcon
-local ttText
-local currentHoveredMod
-local currentTtTween
-local bindsWin
-local bindsScale
-local bindsScroll
-local bindsListLay
-local buildBindsList
-local bindsTopbarCover
-local bindsTopSep
-local notifyContainer
-local notifyListLay
-local updateArrayList
-local updateMusicGui
-local getNotifySettings
-local updateSpeedOptions
-function _qkaspq:Init(titleText)
+local function _qkaspq:Init(titleText)
 	titleText = titleText or "Zenith Client"
 	if game:GetService("CoreGui"):FindFirstChild("ZenithGUI") then
 		game:GetService("CoreGui"):FindFirstChild("ZenithGUI"):Destroy()
@@ -401,42 +376,155 @@ function _qkaspq:Init(titleText)
 		targetParent = success and coreGui or lp:WaitForChild("PlayerGui")
 	end
 	gui.Parent = targetParent
+
 	local wmFrame = Instance.new("Frame")
 	wmFrame.Name = "ZenithWatermark"
 	wmFrame.AnchorPoint = Vector2.new(0.5, 0)
-	wmFrame.Position = UDim2.new(0.5, 0, 0, 20)
+	wmFrame.Position = UDim2.new(0.5, 0, 0, -100)
 	wmFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
 	wmFrame.BorderSizePixel = 0
 	wmFrame.AutomaticSize = Enum.AutomaticSize.XY
+	wmFrame.Visible = false
 	wmFrame.Parent = gui
-	rnd(wmFrame, 19)
-	stk(wmFrame, Color3.fromRGB(30, 30, 35))
-	pad(wmFrame, 10, 10, 20, 20)
-	local wmLay = Instance.new("UIListLayout")
-	wmLay.FillDirection = Enum.FillDirection.Horizontal
-	wmLay.VerticalAlignment = Enum.VerticalAlignment.Center
-	wmLay.HorizontalAlignment = Enum.HorizontalAlignment.Center
-	wmLay.Padding = UDim.new(0, 10)
-	wmLay.Parent = wmFrame
-	local function createWmLabel(text, font, color)
-		local lbl = Instance.new("TextLabel")
-		lbl.BackgroundTransparency = 1
-		lbl.Text = text
-		lbl.TextColor3 = color
-		lbl.TextSize = 14
-		lbl.Font = font
-		lbl.Size = UDim2.new(0, 0, 0, 18)
-		lbl.AutomaticSize = Enum.AutomaticSize.X
-		lbl.Parent = wmFrame
-		return lbl
-	end
-	wmText = createWmLabel(titleText, Enum.Font.MontserratBold, Color3.fromRGB(255, 255, 255))
-	local dot1 = createWmLabel("•", Enum.Font.MontserratBold, ac)
-	wmTime = createWmLabel("00:00:00", Enum.Font.MontserratBold, Color3.fromRGB(255, 255, 255))
-	local dot2 = createWmLabel("•", Enum.Font.MontserratBold, ac)
-	wmFps = createWmLabel("0 FPS", Enum.Font.MontserratBold, Color3.fromRGB(255, 255, 255))
-	local lastUpdate = os.clock()
+
+	main = Instance.new("CanvasGroup")
+	main.Size = UDim2.new(0, 680, 0, 480)
+	main.AnchorPoint = Vector2.new(0.5, 0.5)
+	main.Position = UDim2.new(0.5, 0, 0.5, 0)
+	main.BorderSizePixel = 0
+	main.ClipsDescendants = true
+	main.Parent = gui
+	registerRecolor(main, "BackgroundColor3", "bg")
+	registerTransparency(main, 0)
+	rnd(main, 12)
+
+	mainScale = Instance.new("UIScale")
+	mainScale.Scale = 1
+	mainScale.Parent = main
+
+	local sidebarFrame = Instance.new("Frame")
+	sidebarFrame.Name = "Sidebar"
+	sidebarFrame.Size = UDim2.new(0, 180, 1, 0)
+	sidebarFrame.BorderSizePixel = 0
+	sidebarFrame.Parent = main
+	registerRecolor(sidebarFrame, "BackgroundColor3", "topbar")
+	registerTransparency(sidebarFrame, 0.05)
+
+	local logoIcon = Instance.new("ImageLabel")
+	logoIcon.Size = UDim2.new(0, 24, 0, 24)
+	logoIcon.Position = UDim2.new(0, 14, 0, 14)
+	logoIcon.BackgroundTransparency = 1
+	logoIcon.Image = MOD_ICON
+	logoIcon.ScaleType = Enum.ScaleType.Fit
+	logoIcon.Parent = sidebarFrame
+	registerRecolor(logoIcon, "ImageColor3", "ac")
+
+	local mainTitle = Instance.new("TextLabel")
+	mainTitle.Size = UDim2.new(1, -54, 0, 14)
+	mainTitle.Position = UDim2.new(0, 46, 0, 12)
+	mainTitle.BackgroundTransparency = 1
+	mainTitle.Text = titleText
+	mainTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+	mainTitle.TextSize = 12
+	mainTitle.Font = Enum.Font.MontserratBold
+	mainTitle.TextXAlignment = Enum.TextXAlignment.Left
+	mainTitle.Parent = sidebarFrame
+
+	local mainSubtitle = Instance.new("TextLabel")
+	mainSubtitle.Size = UDim2.new(1, -54, 0, 10)
+	mainSubtitle.Position = UDim2.new(0, 46, 0, 25)
+	mainSubtitle.BackgroundTransparency = 1
+	mainSubtitle.Text = "Premium Executor"
+	mainSubtitle.TextColor3 = Color3.fromRGB(150, 150, 150)
+	mainSubtitle.TextSize = 9
+	mainSubtitle.Font = Enum.Font.MontserratMedium
+	mainSubtitle.TextXAlignment = Enum.TextXAlignment.Left
+	mainSubtitle.Parent = sidebarFrame
+	registerRecolor(mainSubtitle, "TextColor3", "ac2")
+
+	local sidebarSep = Instance.new("Frame")
+	sidebarSep.Size = UDim2.new(1, -28, 0, 1)
+	sidebarSep.Position = UDim2.new(0, 14, 0, 48)
+	sidebarSep.BorderSizePixel = 0
+	sidebarSep.Parent = sidebarFrame
+	registerRecolor(sidebarSep, "BackgroundColor3", "sep")
+
+	local tabScroll = Instance.new("ScrollingFrame")
+	tabScroll.Size = UDim2.new(1, 0, 1, -135)
+	tabScroll.Position = UDim2.new(0, 0, 0, 54)
+	tabScroll.BackgroundTransparency = 1
+	tabScroll.BorderSizePixel = 0
+	tabScroll.ScrollBarThickness = 0
+	tabScroll.Parent = sidebarFrame
+
+	local tabListLay = Instance.new("UIListLayout")
+	tabListLay.SortOrder = Enum.SortOrder.LayoutOrder
+	tabListLay.Padding = UDim.new(0, 4)
+	tabListLay.Parent = tabScroll
+	pad(tabScroll, 0, 0, 12, 12)
+
+	profFrame = Instance.new("Frame")
+	profFrame.Size = UDim2.new(1, 0, 0, 75)
+	profFrame.Position = UDim2.new(0, 0, 1, -75)
+	profFrame.BackgroundTransparency = 1
+	profFrame.Parent = sidebarFrame
+
+	local profSep = Instance.new("Frame")
+	profSep.Size = UDim2.new(1, -28, 0, 1)
+	profSep.Position = UDim2.new(0, 14, 0, 0)
+	profSep.BorderSizePixel = 0
+	profSep.Parent = profFrame
+	registerRecolor(profSep, "BackgroundColor3", "sep")
+
+	profAvatar = Instance.new("ImageLabel")
+	profAvatar.Size = UDim2.new(0, 30, 0, 30)
+	profAvatar.Position = UDim2.new(0, 14, 0, 10)
+	profAvatar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	profAvatar.BorderSizePixel = 0
+	profAvatar.Parent = profFrame
+	rnd(profAvatar, 15)
+	pcall(function()
+		profAvatar.Image = Players:GetUserThumbnailAsync(lp.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48)
+	end)
+
+	profName = Instance.new("TextLabel")
+	profName.Size = UDim2.new(1, -60, 0, 14)
+	profName.Position = UDim2.new(0, 52, 0, 10)
+	profName.BackgroundTransparency = 1
+	profName.Text = (lp.DisplayName ~= "" and lp.DisplayName ~= lp.Name) and lp.DisplayName or lp.Name
+	profName.TextColor3 = Color3.fromRGB(255, 255, 255)
+	profName.TextSize = 11
+	profName.Font = Enum.Font.MontserratBold
+	profName.TextXAlignment = Enum.TextXAlignment.Left
+	profName.TextTruncate = Enum.TextTruncate.AtEnd
+	profName.Parent = profFrame
+
+	profSub = Instance.new("TextLabel")
+	profSub.Size = UDim2.new(1, -60, 0, 11)
+	profSub.Position = UDim2.new(0, 52, 0, 23)
+	profSub.BackgroundTransparency = 1
+	profSub.Text = "Premium User"
+	profSub.TextColor3 = Color3.fromRGB(150, 150, 150)
+	profSub.TextSize = 9
+	profSub.Font = Enum.Font.MontserratMedium
+	profSub.TextXAlignment = Enum.TextXAlignment.Left
+	profSub.Parent = profFrame
+	registerRecolor(profSub, "TextColor3", "ac2")
+
+	local sessionText = Instance.new("TextLabel")
+	sessionText.Size = UDim2.new(1, -28, 0, 12)
+	sessionText.Position = UDim2.new(0, 14, 0, 48)
+	sessionText.BackgroundTransparency = 1
+	sessionText.Text = "Session 00:00 — 60 FPS"
+	sessionText.TextColor3 = Color3.fromRGB(110, 110, 120)
+	sessionText.TextSize = 9
+	sessionText.Font = Enum.Font.MontserratMedium
+	sessionText.TextXAlignment = Enum.TextXAlignment.Left
+	sessionText.Parent = profFrame
+
+	local startTime = os.clock()
 	local frameCount = 0
+	local lastUpdate = os.clock()
 	local fpsVal = 60
 	regConn(game:GetService("RunService").RenderStepped:Connect(function()
 		frameCount = frameCount + 1
@@ -445,208 +533,98 @@ function _qkaspq:Init(titleText)
 			fpsVal = math.floor(frameCount / (now - lastUpdate))
 			frameCount = 0
 			lastUpdate = now
-			wmFps.Text = tostring(fpsVal) .. " FPS"
 		end
-		wmTime.Text = os.date("%H:%M:%S")
+		local duration = os.clock() - startTime
+		local mins = math.floor(duration / 60)
+		local secs = math.floor(duration % 60)
+		sessionText.Text = string.format("Session %02d:%02d — %d FPS", mins, secs, fpsVal)
 	end))
-	main = Instance.new("CanvasGroup")
-	main.Size = UDim2.new(0, 580, 0, 420)
-	main.AnchorPoint = Vector2.new(0.5, 0.5)
-	main.Position = UDim2.new(0.5, -140, 0.5, 0)
-	main.BorderSizePixel = 0
-	main.ClipsDescendants = true
-	main.Parent = gui
-	registerRecolor(main, "BackgroundColor3", "bg")
-	registerTransparency(main, 0)
-	rnd(main, 12)
-	local mainStroke = Instance.new("UIStroke")
-	mainStroke.Thickness = 1.5
-	mainStroke.Transparency = 0.2
-	mainStroke.Parent = main
-	registerRecolor(mainStroke, "Color", "ac")
-	mainScale = Instance.new("UIScale")
-	mainScale.Scale = 1
-	mainScale.Parent = main
-	tooltip = Instance.new("CanvasGroup")
-	tooltip.Name = "ZenithTooltip"
-	tooltip.AnchorPoint = Vector2.new(0.5, 0)
-	tooltip.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-	tooltip.BorderSizePixel = 0
-	tooltip.AutomaticSize = Enum.AutomaticSize.XY
-	tooltip.Visible = false
-	tooltip.Parent = gui
-	rnd(tooltip, 19)
-	stk(tooltip, Color3.fromRGB(30, 30, 35))
-	pad(tooltip, 10, 10, 20, 20)
-	local ttLay = Instance.new("UIListLayout")
-	ttLay.FillDirection = Enum.FillDirection.Horizontal
-	ttLay.VerticalAlignment = Enum.VerticalAlignment.Center
-	ttLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
-	ttLay.Padding = UDim.new(0, 10)
-	ttLay.Parent = tooltip
-	ttIcon = Instance.new("ImageLabel")
-	ttIcon.Size = UDim2.new(0, 16, 0, 16)
-	ttIcon.BackgroundTransparency = 1
-	ttIcon.Image = MOD_ICON
-	ttIcon.ScaleType = Enum.ScaleType.Fit
-	ttIcon.Parent = tooltip
-	ttText = Instance.new("TextLabel")
-	ttText.BackgroundTransparency = 1
-	ttText.TextColor3 = Color3.fromRGB(255, 255, 255)
-	ttText.TextSize = 13
-	ttText.Font = Enum.Font.MontserratBold
-	ttText.Size = UDim2.new(0, 0, 0, 16)
-	ttText.AutomaticSize = Enum.AutomaticSize.X
-	ttText.Parent = tooltip
-	local function updateTooltipPos()
-		tooltip.Position = UDim2.new(
-			main.Position.X.Scale,
-			main.Position.X.Offset,
-			main.Position.Y.Scale,
-			main.Position.Y.Offset + (250 * mainScale.Scale) + 12
-		)
-	end
-	main:GetPropertyChangedSignal("Position"):Connect(updateTooltipPos)
-	tooltip:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateTooltipPos)
-	mainScale:GetPropertyChangedSignal("Scale"):Connect(updateTooltipPos)
-	bindsWin = Instance.new("Frame")
-	bindsWin.Size = UDim2.new(0, 220, 0, 40)
-	bindsWin.AnchorPoint = Vector2.new(0.5, 0.5)
-	bindsWin.Position = UDim2.new(0.85, 0, 0.35, 0)
-	bindsWin.BackgroundColor3 = cl.bg
-	bindsWin.BorderSizePixel = 0
-	bindsWin.ClipsDescendants = true
-	bindsWin.Visible = false
-	bindsWin.Parent = gui
-	rnd(bindsWin, 10)
-	bindsScale = Instance.new("UIScale")
-	bindsScale.Scale = 1
-	bindsScale.Parent = bindsWin
-	local bindsTopbar = Instance.new("Frame")
-	bindsTopbar.Size = UDim2.new(1, 0, 0, 40)
-	bindsTopbar.BackgroundColor3 = cl.topbar
-	bindsTopbar.BorderSizePixel = 0
-	bindsTopbar.Parent = bindsWin
-	local bindsTopbarRound = Instance.new("UICorner")
-	bindsTopbarRound.CornerRadius = UDim.new(0, 12)
-	bindsTopbarRound.Parent = bindsTopbar
-	bindsTopbarCover = Instance.new("Frame")
-	bindsTopbarCover.Size = UDim2.new(1, 0, 0, 12)
-	bindsTopbarCover.Position = UDim2.new(0, 0, 1, -12)
-	bindsTopbarCover.BackgroundColor3 = cl.topbar
-	bindsTopbarCover.BorderSizePixel = 0
-	bindsTopbarCover.Parent = bindsTopbar
-	bindsTopSep = Instance.new("Frame")
-	bindsTopSep.Size = UDim2.new(1, 0, 0, 1)
-	bindsTopSep.Position = UDim2.new(0, 0, 1, -1)
-	bindsTopSep.BackgroundColor3 = cl.sep
-	bindsTopSep.BorderSizePixel = 0
-	bindsTopSep.Parent = bindsTopbar
-	local bindsTitleIcon = Instance.new("ImageLabel")
-	bindsTitleIcon.Size = UDim2.new(0, 14, 0, 14)
-	bindsTitleIcon.Position = UDim2.new(0, 12, 0.5, -7)
-	bindsTitleIcon.BackgroundTransparency = 1
-	bindsTitleIcon.Image = BIND_ICON
-	bindsTitleIcon.ImageColor3 = ac
-	bindsTitleIcon.ScaleType = Enum.ScaleType.Fit
-	bindsTitleIcon.Parent = bindsTopbar
-	local bindsTitle = Instance.new("TextLabel")
-	bindsTitle.Size = UDim2.new(1, -40, 1, 0)
-	bindsTitle.Position = UDim2.new(0, 32, 0, 0)
-	bindsTitle.BackgroundTransparency = 1
-	bindsTitle.Text = "Binds"
-	bindsTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-	bindsTitle.TextSize = 12
-	bindsTitle.Font = Enum.Font.MontserratBold
-	bindsTitle.TextXAlignment = Enum.TextXAlignment.Left
-	bindsTitle.Parent = bindsTopbar
-	local bDragging
-	local bDragStart
-	local bStartPos
-	bindsTopbar.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			bDragging = true
-			bDragStart = input.Position
-			bStartPos = bindsWin.Position
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					bDragging = false
-				end
-			end)
-		end
-	end)
-	regConn(UIS.InputChanged:Connect(function(input)
-		if bDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-			local d = input.Position - bDragStart
-			bindsWin.Position = UDim2.new(bStartPos.X.Scale, bStartPos.X.Offset + d.X, bStartPos.Y.Scale, bStartPos.Y.Offset + d.Y)
-		end
-	end))
-	bindsScroll = Instance.new("ScrollingFrame")
-	bindsScroll.Size = UDim2.new(1, 0, 1, -41)
-	bindsScroll.Position = UDim2.new(0, 0, 0, 41)
-	bindsScroll.BackgroundTransparency = 1
-	bindsScroll.BorderSizePixel = 0
-	bindsScroll.ScrollBarThickness = 3
-	bindsScroll.ScrollBarImageColor3 = ac
-	bindsScroll.ScrollBarImageTransparency = 0.5
-	bindsScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
-	bindsScroll.Parent = bindsWin
-	bindsListLay = Instance.new("UIListLayout")
-	bindsListLay.SortOrder = Enum.SortOrder.LayoutOrder
-	bindsListLay.Padding = UDim.new(0, 6)
-	bindsListLay.Parent = bindsScroll
-	pad(bindsScroll, 8, 8, 8, 8)
-	notifyContainer = Instance.new("Frame")
-	notifyContainer.Name = "ZenithNotifications"
-	notifyContainer.Size = UDim2.new(0, 280, 1, -100)
-	notifyContainer.Position = UDim2.new(1, -20, 1, -80)
-	notifyContainer.AnchorPoint = Vector2.new(1, 1)
-	notifyContainer.BackgroundTransparency = 1
-	notifyContainer.BorderSizePixel = 0
-	notifyContainer.Parent = gui
-	notifyListLay = Instance.new("UIListLayout")
-	notifyListLay.FillDirection = Enum.FillDirection.Vertical
-	notifyListLay.VerticalAlignment = Enum.VerticalAlignment.Bottom
-	notifyListLay.HorizontalAlignment = Enum.HorizontalAlignment.Right
-	notifyListLay.Padding = UDim.new(0, 8)
-	notifyListLay.Parent = notifyContainer
+
+	local contentArea = Instance.new("Frame")
+	contentArea.Name = "ContentArea"
+	contentArea.Size = UDim2.new(1, -180, 1, 0)
+	contentArea.Position = UDim2.new(0, 180, 0, 0)
+	contentArea.BorderSizePixel = 0
+	contentArea.Parent = main
+	registerRecolor(contentArea, "BackgroundColor3", "bg")
+	registerTransparency(contentArea, 0)
+
 	local topbar = Instance.new("Frame")
-	topbar.Size = UDim2.new(1, 0, 0, 40)
+	topbar.Name = "Topbar"
+	topbar.Size = UDim2.new(1, 0, 0, 48)
+	topbar.BackgroundTransparency = 1
 	topbar.BorderSizePixel = 0
-	topbar.Parent = main
-	registerRecolor(topbar, "BackgroundColor3", "topbar")
-	registerTransparency(topbar, 0)
-	local topbarRound = Instance.new("UICorner")
-	topbarRound.CornerRadius = UDim.new(0, 12)
-	topbarRound.Parent = topbar
-	local topbarCover = Instance.new("Frame")
-	topbarCover.Size = UDim2.new(1, 0, 0, 12)
-	topbarCover.Position = UDim2.new(0, 0, 1, -12)
-	topbarCover.BorderSizePixel = 0
-	topbarCover.Parent = topbar
-	registerRecolor(topbarCover, "BackgroundColor3", "topbar")
-	registerTransparency(topbarCover, 0)
-	local topSep = Instance.new("Frame")
-	topSep.Size = UDim2.new(1, 0, 0, 1)
-	topSep.Position = UDim2.new(0, 0, 1, -1)
-	topSep.BorderSizePixel = 0
-	topSep.Parent = topbar
-	registerRecolor(topSep, "BackgroundColor3", "sep")
-	local topTitle = Instance.new("TextLabel")
-	topTitle.Size = UDim2.new(0, 200, 0, 20)
-	topTitle.AnchorPoint = Vector2.new(0.5, 0.5)
-	topTitle.Position = UDim2.new(0.5, 0, 0.5, 0)
-	topTitle.BackgroundTransparency = 1
-	topTitle.Text = titleText
-	topTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-	topTitle.TextSize = 13
-	topTitle.Font = Enum.Font.MontserratBold
-	topTitle.TextXAlignment = Enum.TextXAlignment.Center
-	topTitle.TextTruncate = Enum.TextTruncate.AtEnd
-	topTitle.Parent = topbar
-	local dragging
-	local dragStart
-	local startPos
+	topbar.Parent = contentArea
+
+	local activeTabTitle = Instance.new("TextLabel")
+	activeTabTitle.Size = UDim2.new(0, 200, 1, 0)
+	activeTabTitle.Position = UDim2.new(0, 16, 0, 0)
+	activeTabTitle.BackgroundTransparency = 1
+	activeTabTitle.Text = "Combat"
+	activeTabTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+	activeTabTitle.TextSize = 14
+	activeTabTitle.Font = Enum.Font.MontserratBold
+	activeTabTitle.TextXAlignment = Enum.TextXAlignment.Left
+	activeTabTitle.Parent = topbar
+
+	local searchFrame = Instance.new("Frame")
+	searchFrame.Size = UDim2.new(0, 180, 0, 24)
+	searchFrame.Position = UDim2.new(1, -240, 0.5, -12)
+	searchFrame.BorderSizePixel = 0
+	searchFrame.Parent = topbar
+	rnd(searchFrame, 5)
+	registerRecolor(searchFrame, "BackgroundColor3", "field")
+
+	local searchIcon = Instance.new("ImageLabel")
+	searchIcon.Size = UDim2.new(0, 12, 0, 12)
+	searchIcon.Position = UDim2.new(0, 6, 0.5, -6)
+	searchIcon.BackgroundTransparency = 1
+	searchIcon.Image = "rbxassetid://112780490255100"
+	searchIcon.ImageColor3 = Color3.fromRGB(150, 150, 150)
+	searchIcon.ScaleType = Enum.ScaleType.Fit
+	searchIcon.Parent = searchFrame
+
+	local searchBox = Instance.new("TextBox")
+	searchBox.Size = UDim2.new(1, -26, 1, 0)
+	searchBox.Position = UDim2.new(0, 22, 0, 0)
+	searchBox.BackgroundTransparency = 1
+	searchBox.Text = ""
+	searchBox.PlaceholderText = "Search..."
+	searchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+	searchBox.PlaceholderColor3 = Color3.fromRGB(110, 110, 120)
+	searchBox.TextSize = 11
+	searchBox.Font = Enum.Font.MontserratMedium
+	searchBox.TextXAlignment = Enum.TextXAlignment.Left
+	searchBox.Parent = searchFrame
+
+	local closeBtn = Instance.new("TextButton")
+	closeBtn.Size = UDim2.new(0, 24, 0, 24)
+	closeBtn.Position = UDim2.new(1, -40, 0.5, -12)
+	closeBtn.Text = "X"
+	closeBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
+	closeBtn.TextSize = 10
+	closeBtn.Font = Enum.Font.MontserratBold
+	closeBtn.Parent = topbar
+	rnd(closeBtn, 5)
+	registerRecolor(closeBtn, "BackgroundColor3", "field")
+	closeBtn.MouseButton1Click:Connect(function()
+		_qkaspq_store.Open = false
+		tw(mainScale, {Scale = 0}, 0.25)
+		task.delay(0.25, function()
+			if not _qkaspq_store.Open then
+				main.Visible = false
+			end
+		end)
+	end)
+
+	local topbarSep = Instance.new("Frame")
+	topbarSep.Size = UDim2.new(1, -32, 0, 1)
+	topbarSep.Position = UDim2.new(0, 16, 0, 47)
+	topbarSep.BorderSizePixel = 0
+	topbarSep.Parent = topbar
+	registerRecolor(topbarSep, "BackgroundColor3", "sep")
+
+	local dragging, dragStart, startPos
 	topbar.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			dragging = true
@@ -665,67 +643,188 @@ function _qkaspq:Init(titleText)
 			main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
 		end
 	end))
-	profFrame = Instance.new("Frame")
-	profFrame.Size = UDim2.new(0, 140, 0, 32)
-	profFrame.Position = UDim2.new(1, -150, 0.5, -16)
-	profFrame.BorderSizePixel = 0
-	profFrame.Visible = false
-	profFrame.Parent = topbar
-	registerRecolor(profFrame, "BackgroundColor3", "card")
-	registerTransparency(profFrame, 0.1)
-	rnd(profFrame, 16)
-	local profStroke = stk(profFrame, Color3.fromRGB(35, 35, 42))
-	registerRecolor(profStroke, "Color", "sep")
-	pad(profFrame, 0, 0, 8, 8)
-	profName = Instance.new("TextLabel")
-	profName.Size = UDim2.new(1, -34, 0, 14)
-	profName.Position = UDim2.new(0, 0, 0.5, -13)
-	profName.BackgroundTransparency = 1
-	profName.Text = (lp.DisplayName ~= "" and lp.DisplayName ~= lp.Name) and lp.DisplayName or lp.Name
-	profName.TextColor3 = Color3.fromRGB(255, 255, 255)
-	profName.TextSize = 11
-	profName.Font = Enum.Font.MontserratBold
-	profName.TextXAlignment = Enum.TextXAlignment.Right
-	profName.TextTruncate = Enum.TextTruncate.AtEnd
-	profName.Parent = profFrame
-	profSub = Instance.new("TextLabel")
-	profSub.Size = UDim2.new(1, -34, 0, 11)
-	profSub.Position = UDim2.new(0, 0, 0.5, 1)
-	profSub.BackgroundTransparency = 1
-	profSub.Text = "Premium User"
-	profSub.TextColor3 = ac2
-	profSub.TextSize = 9
-	profSub.Font = Enum.Font.MontserratMedium
-	profSub.TextXAlignment = Enum.TextXAlignment.Right
-	profSub.Parent = profFrame
-	profAvatar = Instance.new("ImageLabel")
-	profAvatar.Size = UDim2.new(0, 24, 0, 24)
-	profAvatar.Position = UDim2.new(1, -24, 0.5, -12)
-	profAvatar.BackgroundColor3 = ac
-	profAvatar.BorderSizePixel = 0
-	profAvatar.Parent = profFrame
-	rnd(profAvatar, 12)
-	stk(profAvatar, ac, 1.5)
-	pcall(function()
-		profAvatar.Image = Players:GetUserThumbnailAsync(lp.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48)
-	end)
+
 	columnsGroup = Instance.new("CanvasGroup")
-	columnsGroup.Size = UDim2.new(1, 0, 1, -91)
-	columnsGroup.Position = UDim2.new(0, 0, 0, 41)
+	columnsGroup.Size = UDim2.new(1, 0, 1, -54)
+	columnsGroup.Position = UDim2.new(0, 0, 0, 50)
 	columnsGroup.BackgroundTransparency = 1
 	columnsGroup.BorderSizePixel = 0
-	columnsGroup.Parent = main
+	columnsGroup.Parent = contentArea
+
 	colScroll = Instance.new("ScrollingFrame")
 	colScroll.Size = UDim2.new(1, 0, 1, 0)
 	colScroll.BackgroundTransparency = 1
 	colScroll.BorderSizePixel = 0
 	colScroll.ScrollBarThickness = 0
-	colScroll.ScrollBarImageColor3 = ac
-	colScroll.ScrollBarImageTransparency = 0.5
 	colScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
 	colScroll.Parent = columnsGroup
-	local settingsTab
-	local settingsIdx
+
+	searchBox:GetPropertyChangedSignal("Text"):Connect(function()
+		local activeTabIdx = _qkaspq_store.ActiveTab or 1
+		pcall(function()
+			loadTab(activeTabIdx, searchBox.Text)
+		end)
+	end)
+
+	tooltip = Instance.new("CanvasGroup")
+	tooltip.Name = "ZenithTooltip"
+	tooltip.AnchorPoint = Vector2.new(0.5, 0)
+	tooltip.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+	tooltip.BorderSizePixel = 0
+	tooltip.AutomaticSize = Enum.AutomaticSize.XY
+	tooltip.Visible = false
+	tooltip.Parent = gui
+	rnd(tooltip, 6)
+	pad(tooltip, 8, 8, 12, 12)
+
+	local ttLay = Instance.new("UIListLayout")
+	ttLay.FillDirection = Enum.FillDirection.Horizontal
+	ttLay.VerticalAlignment = Enum.VerticalAlignment.Center
+	ttLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
+	ttLay.Padding = UDim.new(0, 8)
+	ttLay.Parent = tooltip
+
+	ttIcon = Instance.new("ImageLabel")
+	ttIcon.Size = UDim2.new(0, 14, 0, 14)
+	ttIcon.BackgroundTransparency = 1
+	ttIcon.Image = MOD_ICON
+	ttIcon.ScaleType = Enum.ScaleType.Fit
+	ttIcon.Parent = tooltip
+
+	ttText = Instance.new("TextLabel")
+	ttText.BackgroundTransparency = 1
+	ttText.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ttText.TextSize = 11
+	ttText.Font = Enum.Font.MontserratMedium
+	ttText.Size = UDim2.new(0, 0, 0, 14)
+	ttText.AutomaticSize = Enum.AutomaticSize.X
+	ttText.Parent = tooltip
+
+	local function updateTooltipPos()
+		tooltip.Position = UDim2.new(
+			main.Position.X.Scale,
+			main.Position.X.Offset,
+			main.Position.Y.Scale,
+			main.Position.Y.Offset + (250 * mainScale.Scale) + 12
+		)
+	end
+	main:GetPropertyChangedSignal("Position"):Connect(updateTooltipPos)
+	tooltip:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateTooltipPos)
+	mainScale:GetPropertyChangedSignal("Scale"):Connect(updateTooltipPos)
+
+	bindsWin = Instance.new("Frame")
+	bindsWin.Size = UDim2.new(0, 220, 0, 40)
+	bindsWin.AnchorPoint = Vector2.new(0.5, 0.5)
+	bindsWin.Position = UDim2.new(0.85, 0, 0.35, 0)
+	bindsWin.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+	bindsWin.BorderSizePixel = 0
+	bindsWin.ClipsDescendants = true
+	bindsWin.Visible = false
+	bindsWin.Parent = gui
+	rnd(bindsWin, 10)
+
+	bindsScale = Instance.new("UIScale")
+	bindsScale.Scale = 1
+	bindsScale.Parent = bindsWin
+
+	local bindsTopbar = Instance.new("Frame")
+	bindsTopbar.Size = UDim2.new(1, 0, 0, 40)
+	bindsTopbar.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+	bindsTopbar.BorderSizePixel = 0
+	bindsTopbar.Parent = bindsWin
+
+	local bindsTopbarRound = Instance.new("UICorner")
+	bindsTopbarRound.CornerRadius = UDim.new(0, 10)
+	bindsTopbarRound.Parent = bindsTopbar
+
+	bindsTopbarCover = Instance.new("Frame")
+	bindsTopbarCover.Size = UDim2.new(1, 0, 0, 12)
+	bindsTopbarCover.Position = UDim2.new(0, 0, 1, -12)
+	bindsTopbarCover.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+	bindsTopbarCover.BorderSizePixel = 0
+	bindsTopbarCover.Parent = bindsTopbar
+
+	bindsTopSep = Instance.new("Frame")
+	bindsTopSep.Size = UDim2.new(1, 0, 0, 1)
+	bindsTopSep.Position = UDim2.new(0, 0, 1, -1)
+	bindsTopSep.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+	bindsTopSep.BorderSizePixel = 0
+	bindsTopSep.Parent = bindsTopbar
+
+	local bindsTitleIcon = Instance.new("ImageLabel")
+	bindsTitleIcon.Size = UDim2.new(0, 14, 0, 14)
+	bindsTitleIcon.Position = UDim2.new(0, 12, 0.5, -7)
+	bindsTitleIcon.BackgroundTransparency = 1
+	bindsTitleIcon.Image = BIND_ICON
+	bindsTitleIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+	bindsTitleIcon.ScaleType = Enum.ScaleType.Fit
+	bindsTitleIcon.Parent = bindsTopbar
+
+	local bindsTitle = Instance.new("TextLabel")
+	bindsTitle.Size = UDim2.new(1, -40, 1, 0)
+	bindsTitle.Position = UDim2.new(0, 32, 0, 0)
+	bindsTitle.BackgroundTransparency = 1
+	bindsTitle.Text = "Binds"
+	bindsTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+	bindsTitle.TextSize = 12
+	bindsTitle.Font = Enum.Font.MontserratBold
+	bindsTitle.TextXAlignment = Enum.TextXAlignment.Left
+	bindsTitle.Parent = bindsTopbar
+
+	local bDragging, bDragStart, bStartPos
+	bindsTopbar.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			bDragging = true
+			bDragStart = input.Position
+			bStartPos = bindsWin.Position
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					bDragging = false
+				end
+			end)
+		end
+	end)
+	regConn(UIS.InputChanged:Connect(function(input)
+		if bDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local d = input.Position - bDragStart
+			bindsWin.Position = UDim2.new(bStartPos.X.Scale, bStartPos.X.Offset + d.X, bStartPos.Y.Scale, bStartPos.Y.Offset + d.Y)
+		end
+	end))
+
+	bindsScroll = Instance.new("ScrollingFrame")
+	bindsScroll.Size = UDim2.new(1, 0, 1, -41)
+	bindsScroll.Position = UDim2.new(0, 0, 0, 41)
+	bindsScroll.BackgroundTransparency = 1
+	bindsScroll.BorderSizePixel = 0
+	bindsScroll.ScrollBarThickness = 3
+	bindsScroll.ScrollBarImageColor3 = Color3.fromRGB(150, 150, 150)
+	bindsScroll.ScrollBarImageTransparency = 0.5
+	bindsScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+	bindsScroll.Parent = bindsWin
+
+	bindsListLay = Instance.new("UIListLayout")
+	bindsListLay.SortOrder = Enum.SortOrder.LayoutOrder
+	bindsListLay.Padding = UDim.new(0, 6)
+	bindsListLay.Parent = bindsScroll
+	pad(bindsScroll, 8, 8, 8, 8)
+
+	notifyContainer = Instance.new("Frame")
+	notifyContainer.Name = "ZenithNotifications"
+	notifyContainer.Size = UDim2.new(0, 280, 1, -100)
+	notifyContainer.Position = UDim2.new(1, -20, 1, -80)
+	notifyContainer.AnchorPoint = Vector2.new(1, 1)
+	notifyContainer.BackgroundTransparency = 1
+	notifyContainer.BorderSizePixel = 0
+	notifyContainer.Parent = gui
+
+	notifyListLay = Instance.new("UIListLayout")
+	notifyListLay.FillDirection = Enum.FillDirection.Vertical
+	notifyListLay.VerticalAlignment = Enum.VerticalAlignment.Bottom
+	notifyListLay.HorizontalAlignment = Enum.HorizontalAlignment.Right
+	notifyListLay.Padding = UDim.new(0, 8)
+	notifyListLay.Parent = notifyContainer
+
+	local settingsTab, settingsIdx
 	for idx, tab in ipairs(self.tabDefs) do
 		if tab.id == "Settings" then
 			settingsTab = tab
@@ -737,57 +836,7 @@ function _qkaspq:Init(titleText)
 		table.remove(self.tabDefs, settingsIdx)
 		table.insert(self.tabDefs, settingsTab)
 	end
-	local tabBar = Instance.new("Frame")
-	tabBar.Name = "ZenithTabBar"
-	tabBar.Size = UDim2.new(1, 0, 0, 50)
-	tabBar.Position = UDim2.new(0, 0, 1, -50)
-	tabBar.BorderSizePixel = 0
-	tabBar.Parent = main
-	registerRecolor(tabBar, "BackgroundColor3", "topbar")
-	registerTransparency(tabBar, 0)
-	rnd(tabBar, 12)
-	local tabCover = Instance.new("Frame")
-	tabCover.Size = UDim2.new(1, 0, 0, 12)
-	tabCover.Position = UDim2.new(0, 0, 0, 0)
-	tabCover.BorderSizePixel = 0
-	tabCover.Parent = tabBar
-	registerRecolor(tabCover, "BackgroundColor3", "topbar")
-	registerTransparency(tabCover, 0)
-	local bottomSep = Instance.new("Frame")
-	bottomSep.Size = UDim2.new(1, 0, 0, 1)
-	bottomSep.Position = UDim2.new(0, 0, 0, 0)
-	bottomSep.BorderSizePixel = 0
-	bottomSep.Parent = tabBar
-	registerRecolor(bottomSep, "BackgroundColor3", "sep")
-	local tabFrame = Instance.new("ScrollingFrame")
-	tabFrame.Size = UDim2.new(1, -8, 1, 0)
-	tabFrame.Position = UDim2.new(0, 4, 0, 0)
-	tabFrame.BackgroundTransparency = 1
-	tabFrame.BorderSizePixel = 0
-	tabFrame.ScrollBarThickness = 0
-	tabFrame.ScrollingDirection = Enum.ScrollingDirection.X
-	tabFrame.CanvasSize = UDim2.new(0, 0, 1, 0)
-	tabFrame.AutomaticCanvasSize = Enum.AutomaticSize.X
-	tabFrame.Parent = tabBar
-	local tabLay = Instance.new("UIListLayout")
-	tabLay.FillDirection = Enum.FillDirection.Horizontal
-	tabLay.HorizontalAlignment = Enum.HorizontalAlignment.Center
-	tabLay.VerticalAlignment = Enum.VerticalAlignment.Center
-	tabLay.Padding = UDim.new(0, 8)
-	tabLay.Parent = tabFrame
-	
-	local tabOverlay = Instance.new("Frame")
-	tabOverlay.Size = tabFrame.Size
-	tabOverlay.Position = tabFrame.Position
-	tabOverlay.BackgroundTransparency = 1
-	tabOverlay.Parent = tabBar
-	
-	local tabIndicator = Instance.new("Frame")
-	tabIndicator.Name = "TabIndicator"
-	tabIndicator.Size = UDim2.new(0, 0, 0, 2)
-	tabIndicator.BorderSizePixel = 0
-	tabIndicator.Parent = tabOverlay
-	registerRecolor(tabIndicator, "BackgroundColor3", "ac")
+
 	local function showTooltip(descText, modActive)
 		ttIcon.ImageColor3 = modActive and ac or cl.dim
 		ttText.Text = descText or "Описание отсутствует."
@@ -796,20 +845,12 @@ function _qkaspq:Init(titleText)
 		end
 		tooltip.Visible = true
 		tooltip.GroupTransparency = 1
-		local stroke = tooltip:FindFirstChildOfClass("UIStroke")
-		if stroke then
-			stroke.Transparency = 1
-		end
 		currentTtTween = TS:Create(tooltip, TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 			GroupTransparency = 0
 		})
 		currentTtTween:Play()
-		if stroke then
-			TS:Create(stroke, TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-				Transparency = 0.35
-			}):Play()
-		end
 	end
+
 	local function hideTooltip()
 		if currentTtTween then
 			currentTtTween:Cancel()
@@ -818,40 +859,40 @@ function _qkaspq:Init(titleText)
 			GroupTransparency = 1
 		})
 		currentTtTween:Play()
-		local stroke = tooltip:FindFirstChildOfClass("UIStroke")
-		if stroke then
-			TS:Create(stroke, TweenInfo.new(0.15, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-				Transparency = 1
-			}):Play()
-		end
 		task.delay(0.15, function()
 			if tooltip.GroupTransparency == 1 then
 				tooltip.Visible = false
 			end
 		end)
 	end
+
+	self.tabBtns = {}
 	for i, tab in ipairs(self.tabDefs) do
 		local btn = Instance.new("TextButton")
-		btn.Size = UDim2.new(0, 85, 0, 34)
-		btn.BackgroundColor3 = Color3.fromRGB(8, 8, 12)
-		btn.BackgroundTransparency = 0
+		btn.Size = UDim2.new(1, 0, 0, 34)
+		btn.BackgroundTransparency = 1
 		btn.Text = ""
 		btn.LayoutOrder = i
-		btn.Parent = tabFrame
+		btn.Parent = tabScroll
 		rnd(btn, 6)
+
 		local btnSc = Instance.new("UIScale")
 		btnSc.Scale = 1
 		btnSc.Parent = btn
+
 		local contentFrame = Instance.new("Frame")
 		contentFrame.Size = UDim2.new(1, 0, 1, 0)
 		contentFrame.BackgroundTransparency = 1
 		contentFrame.Parent = btn
+
 		local btnLay = Instance.new("UIListLayout")
-		btnLay.FillDirection = Enum.FillDirection.Vertical
+		btnLay.FillDirection = Enum.FillDirection.Horizontal
 		btnLay.VerticalAlignment = Enum.VerticalAlignment.Center
-		btnLay.HorizontalAlignment = Enum.HorizontalAlignment.Center
-		btnLay.Padding = UDim.new(0, 1)
+		btnLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
+		btnLay.Padding = UDim.new(0, 10)
 		btnLay.Parent = contentFrame
+		pad(contentFrame, 0, 0, 8, 8)
+
 		local icon = Instance.new("ImageLabel")
 		icon.Size = UDim2.new(0, 16, 0, 16)
 		icon.BackgroundTransparency = 1
@@ -859,32 +900,36 @@ function _qkaspq:Init(titleText)
 		icon.ImageColor3 = cl.dim
 		icon.ScaleType = Enum.ScaleType.Fit
 		icon.Parent = contentFrame
+
 		local lbl = Instance.new("TextLabel")
 		lbl.BackgroundTransparency = 1
 		lbl.Text = self.tabNamesRu[tab.id] or tab.id
 		lbl.TextColor3 = cl.dim
-		lbl.TextSize = 9
+		lbl.TextSize = 11
 		lbl.Font = Enum.Font.MontserratBold
-		lbl.Size = UDim2.new(1, -4, 0, 10)
+		lbl.Size = UDim2.new(1, -26, 0, 14)
 		lbl.TextTruncate = Enum.TextTruncate.AtEnd
-		lbl.TextXAlignment = Enum.TextXAlignment.Center
+		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.Parent = contentFrame
+
 		self.tabBtns[i] = {btn = btn, icon = icon, lbl = lbl, sc = btnSc}
+
 		btn.MouseEnter:Connect(function()
 			if _qkaspq_store.ActiveTab ~= i then
-				tw(btn, {BackgroundColor3 = Color3.fromRGB(24, 22, 36), BackgroundTransparency = 0.5}, 0.14)
-				tw(icon, {ImageColor3 = Color3.fromRGB(195, 195, 215)}, 0.14)
-				tw(lbl, {TextColor3 = Color3.fromRGB(195, 195, 215)}, 0.14)
+				tw(btn, {BackgroundTransparency = 0.95, BackgroundColor3 = Color3.fromRGB(255, 255, 255)}, 0.12)
+				tw(icon, {ImageColor3 = Color3.fromRGB(240, 240, 240)}, 0.12)
+				tw(lbl, {TextColor3 = Color3.fromRGB(240, 240, 240)}, 0.12)
 			end
 		end)
 		btn.MouseLeave:Connect(function()
 			if _qkaspq_store.ActiveTab ~= i then
-				tw(btn, {BackgroundColor3 = Color3.fromRGB(8, 8, 12), BackgroundTransparency = 0}, 0.14)
-				tw(icon, {ImageColor3 = cl.dim}, 0.14)
-				tw(lbl, {TextColor3 = cl.dim}, 0.14)
+				tw(btn, {BackgroundTransparency = 1}, 0.12)
+				tw(icon, {ImageColor3 = cl.dim}, 0.12)
+				tw(lbl, {TextColor3 = cl.dim}, 0.12)
 			end
 		end)
 	end
+
 	local function recreateColumns()
 		for k, _ in pairs(self.activeCards) do
 			if string.match(k, "_main$") then
@@ -899,8 +944,8 @@ function _qkaspq:Init(titleText)
 		self.columns = {}
 		for i = 1, 2 do
 			local col = Instance.new("Frame")
-			col.Size = UDim2.new(0, 260, 1, 0)
-			col.Position = UDim2.new(0, 10 + (i - 1) * 270, 0, 0)
+			col.Size = UDim2.new(0, 230, 1, 0)
+			col.Position = UDim2.new(0, 16 + (i - 1) * 242, 0, 0)
 			col.BackgroundTransparency = 1
 			col.Parent = colScroll
 			local lay = Instance.new("UIListLayout")
@@ -911,6 +956,7 @@ function _qkaspq:Init(titleText)
 			self.columns[i] = col
 		end
 	end
+
 	local function triggerBindRefresh()
 		if buildBindsList then
 			pcall(buildBindsList)
@@ -3539,23 +3585,17 @@ function _qkaspq:SetModuleLabel(tabId, moduleName, newLabel)
 	if triggerBindRefresh then pcall(triggerBindRefresh) end
 end
 function _qkaspq:SetWatermark(opts)
+	opts = opts or {}
 	if opts.title then
 		_qkaspq_store.WatermarkTitle = opts.title
-		if wmText then wmText.Text = opts.title end
+		if mainSubtitle then mainSubtitle.Text = opts.title end
 	end
 	if opts.visible ~= nil then
 		_qkaspq_store.WatermarkVisible = opts.visible
-		local wm = gui and gui:FindFirstChild("ZenithWM")
-		if wm then wm.Visible = opts.visible end
-	end
-	if opts.texts then
-		_qkaspq_store.WatermarkTexts = opts.texts
 	end
 end
 function _qkaspq:SetWatermarkVisible(v)
 	_qkaspq_store.WatermarkVisible = v
-	local wm = gui and gui:FindFirstChild("ZenithWM")
-	if wm then wm.Visible = v end
 end
 function _qkaspq:SetProfile(opts)
 	opts = opts or {}
@@ -3573,10 +3613,8 @@ function _qkaspq:SetProfile(opts)
 	if opts.subtitle and opts.subtitle ~= "" then
 		profSub.Text = opts.subtitle
 		profSub.Visible = true
-		profName.Position = UDim2.new(0, 0, 0.5, -13)
 	else
 		profSub.Visible = false
-		profName.Position = UDim2.new(0, 0, 0.5, -7)
 	end
 	if opts.avatar then
 		profAvatar.Image = opts.avatar
