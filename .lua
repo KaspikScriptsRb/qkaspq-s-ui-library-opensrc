@@ -146,7 +146,11 @@ local function applyTransparency(value)
 	currentTransparencyValue = math.clamp(value, 0, 0.8)
 	for _, item in ipairs(transparencyRegistry) do
 		pcall(function()
-			item.obj.BackgroundTransparency = math.clamp(item.baseAlpha + (1 - item.baseAlpha) * currentTransparencyValue, 0, 1)
+			local tVal = currentTransparencyValue
+			if item.obj ~= main and item.obj.Name ~= "Sidebar" and item.obj.Name ~= "ZenithWatermark" then
+				tVal = currentTransparencyValue * 0.4
+			end
+			item.obj.BackgroundTransparency = math.clamp(item.baseAlpha + (1 - item.baseAlpha) * tVal, 0, 1)
 		end)
 	end
 end
@@ -1703,6 +1707,16 @@ _qkaspq.Init = function(self, titleText)
 		btn.BackgroundTransparency = 1
 		btn.Text = ""
 		btn.Parent = frame
+		btn.MouseEnter:Connect(function()
+			if not data.value then
+				tw(box, {BackgroundColor3 = Color3.fromRGB(52, 52, 60)}, 0.15)
+			end
+		end)
+		btn.MouseLeave:Connect(function()
+			if not data.value then
+				tw(box, {BackgroundColor3 = cl.check}, 0.15)
+			end
+		end)
 		btn.MouseButton1Click:Connect(function()
 			data.value = not data.value
 			tw(box, {BackgroundColor3 = data.value and ac or cl.check}, 0.15)
@@ -1773,7 +1787,7 @@ _qkaspq.Init = function(self, titleText)
 		arrow.Size = UDim2.new(0, 14, 1, 0)
 		arrow.Position = UDim2.new(1, -18, 0, 0)
 		arrow.BackgroundTransparency = 1
-		arrow.Text = "v"
+		arrow.Text = "▾"
 		arrow.TextColor3 = Color3.fromRGB(160, 160, 170)
 		arrow.TextSize = 10
 		arrow.Font = Enum.Font.MontserratBold
@@ -1871,48 +1885,59 @@ _qkaspq.Init = function(self, titleText)
 						end
 						data.expanded = false
 						tw(arrow, {Rotation = 0}, 0.15)
-						tw(optList, {Size = UDim2.new(1, 0, 0, 0)}, 0.18)
-						task.delay(0.18, function()
-							optList.Visible = false
-						end)
-						tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.18)
-						tw(frame, {Size = UDim2.new(1, 0, 0, 40)}, 0.18)
-						task.spawn(function()
-							local steps = 12
-							for step = 1, steps do
-								task.wait(0.18 / steps)
-								updateHeight(true)
+						tw(optList, {Size = UDim2.new(1, 0, 0, 0)}, 0.3, Enum.EasingStyle.Quint)
+						task.delay(0.3, function()
+							if not data.expanded then
+								optList.Visible = false
 							end
+						end)
+						tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.3, Enum.EasingStyle.Quint)
+						tw(frame, {Size = UDim2.new(1, 0, 0, 40)}, 0.3, Enum.EasingStyle.Quint)
+						task.spawn(function()
+							local startTime = os.clock()
+							local conn
+							conn = regConn(game:GetService("RunService").RenderStepped:Connect(function()
+								if os.clock() - startTime > 0.3 then
+									conn:Disconnect()
+								end
+								updateHeight(true)
+							end))
 						end)
 					end
 				end)
 			end
 			fieldBtn.MouseButton1Click:Connect(function()
 				data.expanded = not data.expanded
+				local dur = 0.3
 				if data.expanded then
 					optList.Visible = true
 					tw(arrow, {Rotation = 180}, 0.15)
 					local _0xfullH = #data.list * 24 + 8
 					local listH = math.min(_0xfullH, 150)
 					optList.CanvasSize = UDim2.new(0, 0, 0, _0xfullH)
-					tw(optList, {Size = UDim2.new(1, 0, 0, listH)}, 0.18)
-					tw(field, {Size = UDim2.new(1, 0, 0, 24 + listH)}, 0.18)
-					tw(frame, {Size = UDim2.new(1, 0, 0, 40 + listH)}, 0.18)
+					tw(optList, {Size = UDim2.new(1, 0, 0, listH)}, dur, Enum.EasingStyle.Quint)
+					tw(field, {Size = UDim2.new(1, 0, 0, 24 + listH)}, dur, Enum.EasingStyle.Quint)
+					tw(frame, {Size = UDim2.new(1, 0, 0, 40 + listH)}, dur, Enum.EasingStyle.Quint)
 				else
 					tw(arrow, {Rotation = 0}, 0.15)
-					tw(optList, {Size = UDim2.new(1, 0, 0, 0)}, 0.18)
-					task.delay(0.18, function()
-						optList.Visible = false
+					tw(optList, {Size = UDim2.new(1, 0, 0, 0)}, dur, Enum.EasingStyle.Quint)
+					task.delay(dur, function()
+						if not data.expanded then
+							optList.Visible = false
+						end
 					end)
-					tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.18)
-					tw(frame, {Size = UDim2.new(1, 0, 0, 40)}, 0.18)
+					tw(field, {Size = UDim2.new(1, 0, 0, 24)}, dur, Enum.EasingStyle.Quint)
+					tw(frame, {Size = UDim2.new(1, 0, 0, 40)}, dur, Enum.EasingStyle.Quint)
 				end
 				task.spawn(function()
-					local steps = 12
-					for step = 1, steps do
-						task.wait(0.18 / steps)
+					local startTime = os.clock()
+					local conn
+					conn = regConn(game:GetService("RunService").RenderStepped:Connect(function()
+						if os.clock() - startTime > dur then
+							conn:Disconnect()
+						end
 						updateHeight(true)
-					end
+					end))
 				end)
 			end)
 		end
@@ -2274,22 +2299,33 @@ _qkaspq.Init = function(self, titleText)
 		btn.Parent = frame
 		local function togglePicker()
 			data.expanded = not data.expanded
+			local dur = 0.3
 			if data.expanded then
 				pickerPanel.Visible = true
 				local panelH = 80 + 10 + 22 + 24
-				tw(pickerPanel, {Size = UDim2.new(1, 0, 0, panelH)}, 0.18)
-				tw(frame, {Size = UDim2.new(1, 0, 0, 22 + panelH + 6)}, 0.18)
+				tw(pickerPanel, {Size = UDim2.new(1, 0, 0, panelH)}, dur, Enum.EasingStyle.Quint)
+				tw(frame, {Size = UDim2.new(1, 0, 0, 22 + panelH + 6)}, dur, Enum.EasingStyle.Quint)
 				data.height = 22 + panelH + 6
 			else
-				tw(pickerPanel, {Size = UDim2.new(1, 0, 0, 0)}, 0.18)
-				task.delay(0.18, function()
-					pickerPanel.Visible = false
+				tw(pickerPanel, {Size = UDim2.new(1, 0, 0, 0)}, dur, Enum.EasingStyle.Quint)
+				task.delay(dur, function()
+					if not data.expanded then
+						pickerPanel.Visible = false
+					end
 				end)
-				tw(frame, {Size = UDim2.new(1, 0, 0, 22)}, 0.18)
+				tw(frame, {Size = UDim2.new(1, 0, 0, 22)}, dur, Enum.EasingStyle.Quint)
 				data.height = 22
 			end
-			task.delay(0.01, updateHeight)
-			task.delay(0.19, updateHeight)
+			task.spawn(function()
+				local startTime = os.clock()
+				local conn
+				conn = regConn(game:GetService("RunService").RenderStepped:Connect(function()
+					if os.clock() - startTime > dur then
+						conn:Disconnect()
+					end
+					updateHeight(true)
+				end))
+			end)
 		end
 		btn.MouseButton1Click:Connect(togglePicker)
 		accBtn.MouseButton1Click:Connect(togglePicker)
@@ -2502,10 +2538,10 @@ _qkaspq.Init = function(self, titleText)
 		data.ui_btn = btn
 		data.originalLabel = data.originalLabel or data.label
 		btn.MouseEnter:Connect(function()
-			tw(btn, {BackgroundColor3 = ac}, 0.15)
+			tw(btn, {BackgroundColor3 = ac, TextColor3 = Color3.fromRGB(20, 20, 20)}, 0.15)
 		end)
 		btn.MouseLeave:Connect(function()
-			tw(btn, {BackgroundColor3 = cl.field}, 0.15)
+			tw(btn, {BackgroundColor3 = cl.field, TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.15)
 		end)
 		btn.MouseButton1Down:Connect(function()
 			tw(btn, {Size = UDim2.new(0.98, 0, 0.9, 0), Position = UDim2.new(0.01, 0, 0.05, 0)}, 0.08)
@@ -2687,9 +2723,10 @@ _qkaspq.Init = function(self, titleText)
 		local bindF = Instance.new("Frame")
 		bindF.Size = UDim2.new(0, 80, 0, 20)
 		bindF.Position = UDim2.new(1, -80, 0.5, -10)
-		bindF.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
+		bindF.BackgroundColor3 = cl.field
 		bindF.BorderSizePixel = 0
 		bindF.Parent = frame
+		registerRecolor(bindF, "BackgroundColor3", "field")
 		rnd(bindF, 5)
 		stk(bindF, Color3.fromRGB(36, 36, 44))
 		data.ui_bindFrame = bindF
@@ -2723,8 +2760,9 @@ _qkaspq.Init = function(self, titleText)
 			if bindingNow then return end
 			bindingNow = true
 			bLbl.Text = "..."
-			bLbl.TextColor3 = ac
-			tw(bindF, {BackgroundColor3 = Color3.fromRGB(30, 26, 50)}, 0.12)
+			bLbl.TextColor3 = Color3.fromRGB(20, 20, 20)
+			bIco.ImageColor3 = Color3.fromRGB(20, 20, 20)
+			tw(bindF, {BackgroundColor3 = ac}, 0.12)
 			local conn
 			conn = regConn(UIS.InputBegan:Connect(function(input, gpe)
 				if gpe then return end
@@ -2733,7 +2771,8 @@ _qkaspq.Init = function(self, titleText)
 					data.key = key
 					bLbl.Text = key
 					bLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
-					tw(bindF, {BackgroundColor3 = Color3.fromRGB(24, 24, 30)}, 0.15)
+					bIco.ImageColor3 = cl.dim
+					tw(bindF, {BackgroundColor3 = cl.field}, 0.15)
 					bindingNow = false
 					conn:Disconnect()
 					if data.callback then pcall(data.callback, key) end
@@ -2749,7 +2788,9 @@ _qkaspq.Init = function(self, titleText)
 			end
 		end))
 		data.refresh = function()
-			bindF.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
+			bindF.BackgroundColor3 = cl.field
+			bIco.ImageColor3 = cl.dim
+			bLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
 		end
 	end
 	local function buildCard(modData, colIdx, order)
@@ -2981,9 +3022,9 @@ _qkaspq.Init = function(self, titleText)
 		local function updateCardHeight(instant)
 			local expanded = modData.expanded
 			local targetH = 32
-			local contentH = (modData.opts and #modData.opts > 0) and optsLay.AbsoluteContentSize.Y or 0
+			local contentH = (modData.opts and #modData.opts > 0) and (optsLay.AbsoluteContentSize.Y + 16) or 0
 			if expanded then
-				targetH = 32 + contentH + 8
+				targetH = 32 + contentH
 				optsContainer.Visible = true
 				if instant then
 					card.Size = UDim2.new(1, 0, 0, targetH)
