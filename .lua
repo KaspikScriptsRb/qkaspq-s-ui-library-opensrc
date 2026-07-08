@@ -1842,19 +1842,17 @@ _qkaspq.Init = function(self, titleText)
 				rnd(optBtn, 4)
 				pad(optBtn, 0, 0, 8, 0)
 				optBtn.MouseEnter:Connect(function()
-					if not (isMulti and activeSelections[opt] or opt == data.value) then
-						tw(optBtn, {TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.1)
-					end
+					tw(optBtn, {BackgroundTransparency = 0.95, BackgroundColor3 = ac, TextColor3 = ac}, 0.1)
 				end)
 				optBtn.MouseLeave:Connect(function()
 					local currentSel = isMulti and activeSelections[opt] or (opt == data.value)
-					tw(optBtn, {TextColor3 = currentSel and ac2 or Color3.fromRGB(200, 200, 205)}, 0.1)
+					tw(optBtn, {BackgroundTransparency = 1, TextColor3 = currentSel and ac or Color3.fromRGB(200, 200, 205)}, 0.1)
 				end)
 				optBtn.MouseButton1Click:Connect(function()
 					if isMulti then
 						activeSelections[opt] = not activeSelections[opt]
 						local currentSel = activeSelections[opt]
-						tw(optBtn, {TextColor3 = currentSel and ac2 or Color3.fromRGB(200, 200, 205)}, 0.12)
+						tw(optBtn, {TextColor3 = currentSel and ac or Color3.fromRGB(200, 200, 205)}, 0.12)
 						updateDisplayValue()
 						if data.callback then
 							pcall(data.callback, data.value)
@@ -1864,7 +1862,7 @@ _qkaspq.Init = function(self, titleText)
 						for _, ch in pairs(optList:GetChildren()) do
 							if ch:IsA("TextButton") then
 								local match = ch.Text == opt
-								tw(ch, {TextColor3 = match and ac2 or Color3.fromRGB(200, 200, 205)}, 0.12)
+								tw(ch, {TextColor3 = match and ac or Color3.fromRGB(200, 200, 205)}, 0.12)
 							end
 						end
 						updateDisplayValue()
@@ -1879,7 +1877,13 @@ _qkaspq.Init = function(self, titleText)
 						end)
 						tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.18)
 						tw(frame, {Size = UDim2.new(1, 0, 0, 40)}, 0.18)
-						task.delay(0.18, updateHeight)
+						task.spawn(function()
+							local steps = 12
+							for step = 1, steps do
+								task.wait(0.18 / steps)
+								updateHeight(true)
+							end
+						end)
 					end
 				end)
 			end
@@ -1903,8 +1907,13 @@ _qkaspq.Init = function(self, titleText)
 					tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.18)
 					tw(frame, {Size = UDim2.new(1, 0, 0, 40)}, 0.18)
 				end
-				task.delay(0.01, updateHeight)
-				task.delay(0.19, updateHeight)
+				task.spawn(function()
+					local steps = 12
+					for step = 1, steps do
+						task.wait(0.18 / steps)
+						updateHeight(true)
+					end
+				end)
 			end)
 		end
 		data.refresh = function()
@@ -2828,11 +2837,11 @@ _qkaspq.Init = function(self, titleText)
 		end
 		if badgeVisible then
 			local badgeText = "BETA"
-			local badgeCol = ac
+			local badgeCol = Color3.fromRGB(36, 36, 44)
 			local badgeGrad = nil
 			if type(modData.badge) == "table" then
 				badgeText = modData.badge.text or "BETA"
-				badgeCol = modData.badge.color or ac
+				badgeCol = modData.badge.color or Color3.fromRGB(36, 36, 44)
 				badgeGrad = modData.badge.gradient
 			elseif type(modData.badge) == "string" then
 				badgeText = modData.badge
@@ -2844,7 +2853,7 @@ _qkaspq.Init = function(self, titleText)
 			badgeFrame.BorderSizePixel = 0
 			badgeFrame.Parent = headBtn
 			rnd(badgeFrame, 5)
-			stk(badgeFrame, Color3.fromRGB(36, 36, 44), 1)
+			stk(badgeFrame, Color3.fromRGB(48, 48, 56))
 			if badgeGrad and type(badgeGrad) == "table" then
 				local grad = Instance.new("UIGradient")
 				local keypoints = {}
@@ -2859,7 +2868,7 @@ _qkaspq.Init = function(self, titleText)
 			badgeLbl.Position = UDim2.new(0, 0, 0, 0)
 			badgeLbl.BackgroundTransparency = 1
 			badgeLbl.Text = badgeText
-			badgeLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+			badgeLbl.TextColor3 = (badgeCol.R + badgeCol.G + badgeCol.B > 1.8) and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 			badgeLbl.TextSize = 9
 			badgeLbl.Font = Enum.Font.MontserratBold
 			badgeLbl.TextXAlignment = Enum.TextXAlignment.Center
@@ -2903,24 +2912,24 @@ _qkaspq.Init = function(self, titleText)
 		local togBg, togDot, togBtn
 		if not modData.notoggle then
 			togBg = Instance.new("Frame")
-			togBg.Size = UDim2.new(0, 30, 0, 14)
-			togBg.Position = UDim2.new(1, -38, 0.5, -7)
+			togBg.Size = UDim2.new(0, 34, 0, 18)
+			togBg.Position = UDim2.new(1, -42, 0.5, -9)
 			togBg.BackgroundColor3 = modData.on and ac or cl.tog_off
 			togBg.BorderSizePixel = 0
 			togBg.Parent = headBtn
-			rnd(togBg, 8)
+			rnd(togBg, 9)
 			modData.ui_togBg = togBg
 			togDot = Instance.new("Frame")
-			togDot.Size = UDim2.new(0, 10, 0, 10)
-			togDot.Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)
+			togDot.Size = UDim2.new(0, 14, 0, 14)
+			togDot.Position = modData.on and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
 			togDot.BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 			togDot.BorderSizePixel = 0
 			togDot.Parent = togBg
-			rnd(togDot, 6)
+			rnd(togDot, 7)
 			modData.ui_togDot = togDot
 			togBtn = Instance.new("TextButton")
-			togBtn.Size = UDim2.new(0, 36, 0, 24)
-			togBtn.Position = UDim2.new(1, -40, 0.5, -12)
+			togBtn.Size = UDim2.new(0, 40, 0, 24)
+			togBtn.Position = UDim2.new(1, -44, 0.5, -12)
 			togBtn.BackgroundTransparency = 1
 			togBtn.Text = ""
 			togBtn.ZIndex = 4
@@ -2929,7 +2938,7 @@ _qkaspq.Init = function(self, titleText)
 				modData.on = not modData.on
 				tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
 				tw(togDot, {
-					Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5),
+					Position = modData.on and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7),
 					BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 				}, 0.18)
 				tw(modIcon, {ImageColor3 = modData.on and ac or cl.dim}, 0.18)
@@ -2947,7 +2956,7 @@ _qkaspq.Init = function(self, titleText)
 				end
 			end)
 		end
-		local optsContainer = Instance.new("Frame")
+		local optsContainer = Instance.new("CanvasGroup")
 		optsContainer.BackgroundTransparency = 1
 		optsContainer.Position = UDim2.new(0, 0, 0, 32)
 		optsContainer.Visible = false
@@ -2971,20 +2980,45 @@ _qkaspq.Init = function(self, titleText)
 		end
 		local function updateCardHeight(instant)
 			local expanded = modData.expanded
-			optsContainer.Visible = expanded
-			if sep then
-				sep.Visible = expanded
-			end
 			local targetH = 32
-			if expanded and modData.opts and #modData.opts > 0 then
-				local contentH = optsLay.AbsoluteContentSize.Y
-				optsContainer.Size = UDim2.new(1, 0, 0, contentH)
+			local contentH = (modData.opts and #modData.opts > 0) and optsLay.AbsoluteContentSize.Y or 0
+			if expanded then
 				targetH = 32 + contentH + 8
-			end
-			if instant then
-				card.Size = UDim2.new(1, 0, 0, targetH)
+				optsContainer.Visible = true
+				if instant then
+					card.Size = UDim2.new(1, 0, 0, targetH)
+					optsContainer.Size = UDim2.new(1, 0, 0, contentH)
+					optsContainer.GroupTransparency = 0
+					if sep then sep.Visible = true sep.BackgroundTransparency = 0.9 end
+				else
+					if sep then
+						sep.Visible = true
+						sep.BackgroundTransparency = 1
+						tw(sep, {BackgroundTransparency = 0.9}, 0.22)
+					end
+					tw(card, {Size = UDim2.new(1, 0, 0, targetH)}, 0.22)
+					tw(optsContainer, {Size = UDim2.new(1, 0, 0, contentH), GroupTransparency = 0}, 0.22)
+				end
 			else
-				tw(card, {Size = UDim2.new(1, 0, 0, targetH)}, 0.22)
+				if instant then
+					card.Size = UDim2.new(1, 0, 0, 32)
+					optsContainer.Size = UDim2.new(1, 0, 0, 0)
+					optsContainer.GroupTransparency = 1
+					optsContainer.Visible = false
+					if sep then sep.Visible = false end
+				else
+					if sep then
+						tw(sep, {BackgroundTransparency = 1}, 0.15)
+					end
+					tw(card, {Size = UDim2.new(1, 0, 0, 32)}, 0.22)
+					tw(optsContainer, {Size = UDim2.new(1, 0, 0, 0), GroupTransparency = 1}, 0.22)
+					task.delay(0.22, function()
+						if not modData.expanded then
+							optsContainer.Visible = false
+							if sep then sep.Visible = false end
+						end
+					end)
+				end
 			end
 			task.delay(instant and 0 or 0.23, function()
 				local maxH = 0
@@ -3035,7 +3069,10 @@ _qkaspq.Init = function(self, titleText)
 			modIcon.ImageColor3 = (modData.on or modData.notoggle) and ac or cl.dim
 			if togBg and togDot then
 				tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
-				tw(togDot, {Position = modData.on and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6)}, 0.18)
+				tw(togDot, {
+					Position = modData.on and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7),
+					BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
+				}, 0.18)
 			end
 			if currentHoveredMod == modData then
 				ttIcon.ImageColor3 = (modData.on or modData.notoggle) and ac or cl.dim
