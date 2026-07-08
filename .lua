@@ -18,22 +18,22 @@ local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
 local TS = game:GetService("TweenService")
 local lp = Players.LocalPlayer
-local ac = Color3.fromRGB(120, 90, 255)
-local ac2 = Color3.fromRGB(150, 120, 255)
+local ac = Color3.fromRGB(255, 255, 255)
+local ac2 = Color3.fromRGB(160, 160, 160)
 local MOD_ICON = "rbxassetid://16000149927"
 local BIND_ICON = "rbxassetid://11738672671"
 local cl = {}
-cl.bg = Color3.fromRGB(10, 10, 15)
-cl.topbar = Color3.fromRGB(16, 16, 22)
-cl.card = Color3.fromRGB(20, 20, 28)
-cl.field = Color3.fromRGB(26, 26, 36)
-cl.text = Color3.fromRGB(195, 195, 202)
-cl.dim = Color3.fromRGB(130, 130, 140)
-cl.dark = Color3.fromRGB(70, 70, 80)
-cl.sep = Color3.fromRGB(26, 26, 32)
-cl.tog_off = Color3.fromRGB(38, 38, 48)
-cl.check = Color3.fromRGB(34, 34, 44)
-cl.tab_sel = Color3.fromRGB(28, 28, 36)
+cl.bg = Color3.fromRGB(14, 14, 14)
+cl.topbar = Color3.fromRGB(22, 22, 22)
+cl.card = Color3.fromRGB(22, 22, 22)
+cl.field = Color3.fromRGB(32, 32, 32)
+cl.text = Color3.fromRGB(230, 230, 235)
+cl.dim = Color3.fromRGB(140, 140, 150)
+cl.dark = Color3.fromRGB(80, 80, 90)
+cl.sep = Color3.fromRGB(40, 40, 45)
+cl.tog_off = Color3.fromRGB(48, 48, 48)
+cl.check = Color3.fromRGB(40, 40, 40)
+cl.tab_sel = Color3.fromRGB(30, 30, 35)
 
 local themes = {
 	Amethyst = { -- Carbon
@@ -446,8 +446,10 @@ _qkaspq.Init = function(self, titleText)
 	sidebarSep.Size = UDim2.new(1, -28, 0, 1)
 	sidebarSep.Position = UDim2.new(0, 14, 0, 48)
 	sidebarSep.BorderSizePixel = 0
+	sidebarSep.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	sidebarSep.BackgroundTransparency = 0.9
 	sidebarSep.Parent = sidebarFrame
-	registerRecolor(sidebarSep, "BackgroundColor3", "sep")
+	rnd(sidebarSep, 1)
 
 	local tabScroll = Instance.new("ScrollingFrame")
 	tabScroll.Size = UDim2.new(1, 0, 1, -135)
@@ -473,8 +475,10 @@ _qkaspq.Init = function(self, titleText)
 	profSep.Size = UDim2.new(1, -28, 0, 1)
 	profSep.Position = UDim2.new(0, 14, 0, 0)
 	profSep.BorderSizePixel = 0
+	profSep.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	profSep.BackgroundTransparency = 0.9
 	profSep.Parent = profFrame
-	registerRecolor(profSep, "BackgroundColor3", "sep")
+	rnd(profSep, 1)
 
 	profAvatar = Instance.new("ImageLabel")
 	profAvatar.Size = UDim2.new(0, 30, 0, 30)
@@ -621,8 +625,10 @@ _qkaspq.Init = function(self, titleText)
 	topbarSep.Size = UDim2.new(1, -32, 0, 1)
 	topbarSep.Position = UDim2.new(0, 16, 0, 47)
 	topbarSep.BorderSizePixel = 0
+	topbarSep.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	topbarSep.BackgroundTransparency = 0.9
 	topbarSep.Parent = topbar
-	registerRecolor(topbarSep, "BackgroundColor3", "sep")
+	rnd(topbarSep, 1)
 
 	local dragging, dragStart, startPos
 	topbar.InputBegan:Connect(function(input)
@@ -867,9 +873,10 @@ _qkaspq.Init = function(self, titleText)
 	end
 
 	self.tabBtns = {}
+	self.tabBtns = {}
 	for i, tab in ipairs(self.tabDefs) do
 		local btn = Instance.new("TextButton")
-		btn.Size = UDim2.new(1, 0, 0, 34)
+		btn.Size = UDim2.new(1, 0, 0, 36)
 		btn.BackgroundTransparency = 1
 		btn.Text = ""
 		btn.LayoutOrder = i
@@ -891,7 +898,7 @@ _qkaspq.Init = function(self, titleText)
 		btnLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
 		btnLay.Padding = UDim.new(0, 10)
 		btnLay.Parent = contentFrame
-		pad(contentFrame, 0, 0, 8, 8)
+		pad(contentFrame, 0, 0, 10, 10)
 
 		local icon = Instance.new("ImageLabel")
 		icon.Size = UDim2.new(0, 16, 0, 16)
@@ -905,7 +912,7 @@ _qkaspq.Init = function(self, titleText)
 		lbl.BackgroundTransparency = 1
 		lbl.Text = self.tabNamesRu[tab.id] or tab.id
 		lbl.TextColor3 = cl.dim
-		lbl.TextSize = 11
+		lbl.TextSize = 12
 		lbl.Font = Enum.Font.MontserratBold
 		lbl.Size = UDim2.new(1, -26, 0, 14)
 		lbl.TextTruncate = Enum.TextTruncate.AtEnd
@@ -916,9 +923,9 @@ _qkaspq.Init = function(self, titleText)
 
 		btn.MouseEnter:Connect(function()
 			if _qkaspq_store.ActiveTab ~= i then
-				tw(btn, {BackgroundTransparency = 0.95, BackgroundColor3 = Color3.fromRGB(255, 255, 255)}, 0.12)
-				tw(icon, {ImageColor3 = Color3.fromRGB(240, 240, 240)}, 0.12)
-				tw(lbl, {TextColor3 = Color3.fromRGB(240, 240, 240)}, 0.12)
+				tw(btn, {BackgroundTransparency = 0.95, BackgroundColor3 = ac}, 0.12)
+				tw(icon, {ImageColor3 = ac}, 0.12)
+				tw(lbl, {TextColor3 = ac}, 0.12)
 			end
 		end)
 		btn.MouseLeave:Connect(function()
@@ -944,8 +951,8 @@ _qkaspq.Init = function(self, titleText)
 		self.columns = {}
 		for i = 1, 2 do
 			local col = Instance.new("Frame")
-			col.Size = UDim2.new(0, 230, 1, 0)
-			col.Position = UDim2.new(0, 16 + (i - 1) * 242, 0, 0)
+			col.Size = UDim2.new(0.5, -12, 1, 0)
+			col.Position = UDim2.new(i == 1 and 0 or 0.5, i == 1 and 8 or 4, 0, 0)
 			col.BackgroundTransparency = 1
 			col.Parent = colScroll
 			local lay = Instance.new("UIListLayout")
@@ -1686,7 +1693,7 @@ _qkaspq.Init = function(self, titleText)
 		checkIcon.Size = UDim2.new(0, 10, 0, 10)
 		checkIcon.BackgroundTransparency = 1
 		checkIcon.Image = "rbxassetid://14189590169"
-		checkIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+		checkIcon.ImageColor3 = Color3.fromRGB(20, 20, 20)
 		checkIcon.ImageTransparency = data.value and 0 or 1
 		checkIcon.ScaleType = Enum.ScaleType.Fit
 		checkIcon.Parent = box
@@ -2536,7 +2543,7 @@ _qkaspq.Init = function(self, titleText)
 		local togDot = Instance.new("Frame")
 		togDot.Size = UDim2.new(0, 16, 0, 16)
 		togDot.Position = data.value and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)
-		togDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		togDot.BackgroundColor3 = data.value and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 		togDot.BorderSizePixel = 0
 		togDot.Parent = togBg
 		rnd(togDot, 8)
@@ -2549,11 +2556,15 @@ _qkaspq.Init = function(self, titleText)
 		btn.MouseButton1Click:Connect(function()
 			data.value = not data.value
 			tw(togBg, {BackgroundColor3 = data.value and ac or cl.tog_off}, 0.18)
-			tw(togDot, {Position = data.value and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}, 0.18)
+			tw(togDot, {
+				Position = data.value and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8),
+				BackgroundColor3 = data.value and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
+			}, 0.18)
 			if data.callback then pcall(data.callback, data.value) end
 		end)
 		data.refresh = function()
 			togBg.BackgroundColor3 = data.value and ac or cl.tog_off
+			togDot.BackgroundColor3 = data.value and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 			togDot.Position = data.value and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)
 		end
 	end
@@ -2780,12 +2791,12 @@ _qkaspq.Init = function(self, titleText)
 		local rightOffset = modData.notoggle and 12 or 48
 		local bindFrame = Instance.new("Frame")
 		bindFrame.Size = UDim2.new(0, 46, 0, 16)
-		bindFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
 		bindFrame.BorderSizePixel = 0
 		bindFrame.Visible = bindVisible
 		bindFrame.Parent = headBtn
+		registerRecolor(bindFrame, "BackgroundColor3", "field")
 		rnd(bindFrame, 5)
-		stk(bindFrame, Color3.fromRGB(36, 36, 44), 1)
+		stk(bindFrame, Color3.fromRGB(36, 36, 44))
 		local bindIcon = Instance.new("ImageLabel")
 		bindIcon.Size = UDim2.new(0, 8, 0, 8)
 		bindIcon.Position = UDim2.new(0, 5, 0.5, -4)
@@ -2902,7 +2913,7 @@ _qkaspq.Init = function(self, titleText)
 			togDot = Instance.new("Frame")
 			togDot.Size = UDim2.new(0, 10, 0, 10)
 			togDot.Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)
-			togDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			togDot.BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 			togDot.BorderSizePixel = 0
 			togDot.Parent = togBg
 			rnd(togDot, 6)
@@ -2917,7 +2928,10 @@ _qkaspq.Init = function(self, titleText)
 			togBtn.MouseButton1Click:Connect(function()
 				modData.on = not modData.on
 				tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
-				tw(togDot, {Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5)}, 0.18)
+				tw(togDot, {
+					Position = modData.on and UDim2.new(1, -12, 0.5, -5) or UDim2.new(0, 2, 0.5, -5),
+					BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
+				}, 0.18)
 				tw(modIcon, {ImageColor3 = modData.on and ac or cl.dim}, 0.18)
 				if modData.callback then
 					pcall(modData.callback, modData.on)
@@ -2948,10 +2962,12 @@ _qkaspq.Init = function(self, titleText)
 			sep = Instance.new("Frame")
 			sep.Size = UDim2.new(1, -16, 0, 1)
 			sep.Position = UDim2.new(0, 8, 0, 31)
-			sep.BackgroundColor3 = cl.sep
+			sep.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			sep.BackgroundTransparency = 0.9
 			sep.BorderSizePixel = 0
 			sep.Visible = false
 			sep.Parent = card
+			rnd(sep, 1)
 		end
 		local function updateCardHeight(instant)
 			local expanded = modData.expanded
@@ -3235,7 +3251,7 @@ _qkaspq.Init = function(self, titleText)
 		tw(bindsWin, {Size = UDim2.new(0, 220, 0, math.clamp(targetH, 40, 500))}, 0.25)
 		bindsScroll.CanvasSize = UDim2.new(0, 0, 0, listH)
 	end
-	local function loadTab(idx)
+	local function loadTab(idx, searchFilter)
 		recreateColumns()
 		local tabDef = self.tabDefs[idx]
 		if not tabDef then
@@ -3255,58 +3271,60 @@ _qkaspq.Init = function(self, titleText)
 		if not mods then
 			return
 		end
+		local visibleCount = 0
 		for i, mod in ipairs(mods) do
-			local colIdx = ((i - 1) % 2) + 1
-			buildCard(mod, colIdx, i)
+			local matchesSearch = true
+			if searchFilter and searchFilter ~= "" then
+				matchesSearch = string.find(string.lower(mod.name), string.lower(searchFilter)) ~= nil
+			end
+			if matchesSearch then
+				visibleCount = visibleCount + 1
+				local colIdx = ((visibleCount - 1) % 2) + 1
+				buildCard(mod, colIdx, visibleCount)
+			end
 		end
 		if tabDef.id == "Movement" and updateSpeedOptions then
 			pcall(updateSpeedOptions)
 		end
 	end
+
 	local function setTab(idx)
 		_qkaspq_store.ActiveTab = idx
+		activeTabTitle.Text = self.tabDefs[idx] and self.tabDefs[idx].id or ""
 		tw(columnsGroup, {GroupTransparency = 1}, 0.15)
 		for i, data in ipairs(self.tabBtns) do
 			if i == idx then
-				tw(data.btn, {BackgroundColor3 = Color3.fromRGB(30, 26, 56), BackgroundTransparency = 0.2}, 0.22)
+				tw(data.btn, {BackgroundColor3 = ac, BackgroundTransparency = 0.9}, 0.22)
 				tw(data.icon, {ImageColor3 = ac}, 0.22)
-				tw(data.lbl, {TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.22)
-				if data.sc then tw(data.sc, {Scale = 1.05}, 0.22) end
+				tw(data.lbl, {TextColor3 = ac}, 0.22)
+				if data.sc then tw(data.sc, {Scale = 1.02}, 0.22) end
 			else
-				tw(data.btn, {BackgroundColor3 = Color3.fromRGB(8, 8, 12), BackgroundTransparency = 0.5}, 0.22)
+				tw(data.btn, {BackgroundTransparency = 1}, 0.22)
 				tw(data.icon, {ImageColor3 = cl.dim}, 0.22)
 				tw(data.lbl, {TextColor3 = cl.dim}, 0.22)
 				if data.sc then tw(data.sc, {Scale = 1}, 0.22) end
 			end
 		end
-		local activeBtn = self.tabBtns[idx]
-		if activeBtn and activeBtn.btn then
-			task.spawn(function()
-				game:GetService("RunService").RenderStepped:Wait()
-				local relX = activeBtn.btn.AbsolutePosition.X - tabBar.AbsolutePosition.X
-				tw(tabIndicator, {
-					Size = UDim2.new(0, activeBtn.btn.AbsoluteSize.X - 24, 0, 3),
-					Position = UDim2.new(0, relX + 12, 1, -4)
-				}, 0.22)
-			end)
-		end
 		task.delay(0.15, function()
 			if _qkaspq_store.ActiveTab == idx then
-				loadTab(idx)
+				loadTab(idx, searchBox.Text)
 				tw(columnsGroup, {GroupTransparency = 0}, 0.22)
 			end
 		end)
 	end
+
 	for i, data in ipairs(self.tabBtns) do
 		data.btn.MouseButton1Click:Connect(function()
 			setTab(i)
 		end)
 	end
+
 	_qkaspq_store.ActiveTab = 1
 	task.spawn(function()
 		task.wait(0.05)
 		setTab(1)
 	end)
+
 	buildBindsList()
 	regConn(UIS.InputBegan:Connect(function(input, gpe)
 		if gpe then
@@ -3351,8 +3369,9 @@ _qkaspq.Init = function(self, titleText)
 			end
 		end
 	end))
-	main.Size = UDim2.new(0, 580, 0, 420)
-	main.Position = UDim2.new(0.5, -140, 0.5, 0)
+
+	main.Size = UDim2.new(0, 680, 0, 480)
+	main.Position = UDim2.new(0.5, 0, 0.5, 0)
 	main.GroupTransparency = 1
 	columnsGroup.GroupTransparency = 0
 	bindsWin.Size = UDim2.new(0, 220, 0, 40)
