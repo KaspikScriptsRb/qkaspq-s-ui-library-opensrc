@@ -657,6 +657,13 @@ _qkaspq.Init = function(self, titleText)
 	closeBtn.Parent = topbar
 	rnd(closeBtn, 5)
 	registerRecolor(closeBtn, "BackgroundColor3", "field")
+
+	closeBtn.MouseEnter:Connect(function()
+		tw(closeBtn, {BackgroundColor3 = Color3.fromRGB(240, 80, 80), TextColor3 = Color3.fromRGB(255, 255, 255)}, 0.12)
+	end)
+	closeBtn.MouseLeave:Connect(function()
+		tw(closeBtn, {BackgroundColor3 = cl.field, TextColor3 = Color3.fromRGB(200, 200, 200)}, 0.12)
+	end)
 	closeBtn.MouseButton1Click:Connect(function()
 		_qkaspq_store.Open = false
 		tw(mainScale, {Scale = 0.88}, 0.25)
@@ -1489,8 +1496,20 @@ _qkaspq.Init = function(self, titleText)
 		end
 		if not arraylistMod.on then
 			if arrayListContainer then
-				arrayListContainer:Destroy()
+				local containerToDestroy = arrayListContainer
 				arrayListContainer = nil
+				task.spawn(function()
+					for _, item in pairs(activeArrayListFrames) do
+						pcall(function()
+							tw(item.frame, {GroupTransparency = 1}, 0.2)
+							if item.scale then
+								tw(item.scale, {Scale = 0.8}, 0.2)
+							end
+						end)
+					end
+					task.wait(0.2)
+					containerToDestroy:Destroy()
+				end)
 			end
 			activeArrayListFrames = {}
 			return
@@ -1547,9 +1566,9 @@ _qkaspq.Init = function(self, titleText)
 					local scale = frame:FindFirstChild("UIScale")
 					tw(frame, {GroupTransparency = 1}, 0.2)
 					if scale then
-						tw(scale, {Scale = 0.8}, 0.2)
+						tw(scale, {Scale = 0.6}, 0.2)
 					end
-					tw(frame, {Size = UDim2.new(0, frame.Size.X.Offset, 0, 0)}, 0.2)
+					tw(frame, {Size = UDim2.new(0, 0, 0, 0)}, 0.2)
 					task.wait(0.2)
 					frame:Destroy()
 				end)
@@ -2621,7 +2640,7 @@ _qkaspq.Init = function(self, titleText)
 			end
 		end)
 		data.refresh = function()
-			btn.BackgroundColor3 = cl.field
+			btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		end
 	end
 	local function makeToggle(parent, data, updateHeight)
