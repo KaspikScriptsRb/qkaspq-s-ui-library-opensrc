@@ -36,6 +36,16 @@ cl.check = Color3.fromRGB(40, 40, 40)
 cl.tab_sel = Color3.fromRGB(30, 30, 35)
 
 local themes = {
+	Default = {
+		ac = Color3.fromRGB(160, 110, 255),
+		ac2 = Color3.fromRGB(200, 180, 255),
+		bg = Color3.fromRGB(14, 14, 16),
+		topbar = Color3.fromRGB(20, 20, 24),
+		card = Color3.fromRGB(20, 20, 24),
+		field = Color3.fromRGB(30, 30, 38),
+		tog_off = Color3.fromRGB(48, 48, 54),
+		check = Color3.fromRGB(40, 40, 46),
+	},
 	Amethyst = {
 		ac = Color3.fromRGB(160, 110, 255),
 		ac2 = Color3.fromRGB(200, 180, 255),
@@ -509,6 +519,7 @@ _qkaspq.Init = function(self, titleText)
 	profFrame.Position = UDim2.new(0, 12, 1, -77)
 	profFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 30)
 	profFrame.BorderSizePixel = 0
+	profFrame.Visible = false
 	profFrame.Parent = sidebarFrame
 	registerRecolor(profFrame, "BackgroundColor3", "field")
 	registerTransparency(profFrame, 0.1)
@@ -758,7 +769,7 @@ _qkaspq.Init = function(self, titleText)
 	tooltip:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateTooltipPos)
 	mainScale:GetPropertyChangedSignal("Scale"):Connect(updateTooltipPos)
 
-	bindsWin = Instance.new("Frame")
+	bindsWin = Instance.new("CanvasGroup")
 	bindsWin.Size = UDim2.new(0, 220, 0, 40)
 	bindsWin.AnchorPoint = Vector2.new(0.5, 0.5)
 	bindsWin.Position = UDim2.new(0.85, 0, 0.35, 0)
@@ -767,29 +778,20 @@ _qkaspq.Init = function(self, titleText)
 	bindsWin.ClipsDescendants = true
 	bindsWin.Visible = false
 	bindsWin.Parent = gui
-	rnd(bindsWin, 8)
+	rnd(bindsWin, 12)
 	stk(bindsWin, Color3.fromRGB(36, 36, 42))
+	registerRecolor(bindsWin, "BackgroundColor3", "bg")
 
 	bindsScale = Instance.new("UIScale")
 	bindsScale.Scale = 1
 	bindsScale.Parent = bindsWin
 
 	local bindsTopbar = Instance.new("Frame")
-	bindsTopbar.Size = UDim2.new(1, 0, 0, 40)
+	bindsTopbar.Size = UDim2.new(1, 0, 0, 36)
 	bindsTopbar.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
 	bindsTopbar.BorderSizePixel = 0
 	bindsTopbar.Parent = bindsWin
-
-	local bindsTopbarRound = Instance.new("UICorner")
-	bindsTopbarRound.CornerRadius = UDim.new(0, 8)
-	bindsTopbarRound.Parent = bindsTopbar
-
-	bindsTopbarCover = Instance.new("Frame")
-	bindsTopbarCover.Size = UDim2.new(1, 0, 0, 12)
-	bindsTopbarCover.Position = UDim2.new(0, 0, 1, -12)
-	bindsTopbarCover.BackgroundColor3 = Color3.fromRGB(28, 28, 35)
-	bindsTopbarCover.BorderSizePixel = 0
-	bindsTopbarCover.Parent = bindsTopbar
+	registerRecolor(bindsTopbar, "BackgroundColor3", "topbar")
 
 	bindsTopSep = Instance.new("Frame")
 	bindsTopSep.Size = UDim2.new(1, 0, 0, 1)
@@ -839,8 +841,8 @@ _qkaspq.Init = function(self, titleText)
 	end))
 
 	bindsScroll = Instance.new("ScrollingFrame")
-	bindsScroll.Size = UDim2.new(1, 0, 1, -41)
-	bindsScroll.Position = UDim2.new(0, 0, 0, 41)
+	bindsScroll.Size = UDim2.new(1, 0, 1, -37)
+	bindsScroll.Position = UDim2.new(0, 0, 0, 37)
 	bindsScroll.BackgroundTransparency = 1
 	bindsScroll.BorderSizePixel = 0
 	bindsScroll.ScrollBarThickness = 3
@@ -1151,33 +1153,27 @@ _qkaspq.Init = function(self, titleText)
 			notifLay.Padding = UDim.new(0, 8)
 			notifLay.Parent = notif
 
-			local accentBar = Instance.new("Frame")
-			accentBar.Size = UDim2.new(0, 3, 1, 0)
-			accentBar.BorderSizePixel = 0
-			local lowerText = string.lower(text)
-			if lowerText:find("enabled") or lowerText:find("включен") or lowerText:find("успешно") or lowerText:find("пройден") then
-				accentBar.BackgroundColor3 = Color3.fromRGB(80, 220, 100)
-			elseif lowerText:find("disabled") or lowerText:find("выключен") or lowerText:find("ошибка") then
-				accentBar.BackgroundColor3 = Color3.fromRGB(240, 80, 80)
-			else
-				accentBar.BackgroundColor3 = ac
-			end
-			accentBar.Parent = notif
-			rnd(accentBar, 2)
-
 			local notifIcon = Instance.new("ImageLabel")
 			notifIcon.Size = UDim2.new(0, 14, 0, 14)
 			notifIcon.BackgroundTransparency = 1
 			notifIcon.Image = icon or MOD_ICON
-			notifIcon.ImageColor3 = ac
+			local lowerText = string.lower(text)
+			if lowerText:find("enabled") or lowerText:find("включен") or lowerText:find("успешно") or lowerText:find("пройден") then
+				notifIcon.ImageColor3 = Color3.fromRGB(80, 220, 100)
+			elseif lowerText:find("disabled") or lowerText:find("выключен") or lowerText:find("ошибка") then
+				notifIcon.ImageColor3 = Color3.fromRGB(240, 80, 80)
+			else
+				notifIcon.ImageColor3 = ac
+			end
 			notifIcon.ScaleType = Enum.ScaleType.Fit
 			notifIcon.Parent = notif
+
 			local notifText = Instance.new("TextLabel")
 			notifText.BackgroundTransparency = 1
 			notifText.TextColor3 = Color3.fromRGB(255, 255, 255)
 			notifText.TextSize = 11
 			notifText.Font = Enum.Font.MontserratBold
-			notifText.Size = UDim2.new(1, -35, 1, 0)
+			notifText.Size = UDim2.new(1, -22, 1, 0)
 			notifText.TextXAlignment = Enum.TextXAlignment.Left
 			notifText.RichText = true
 			notifText.Text = text
@@ -1249,7 +1245,7 @@ _qkaspq.Init = function(self, titleText)
 			musicGuiInstance.Name = "ZenithMusicGUI"
 			musicGuiInstance.AnchorPoint = Vector2.new(0.5, 0)
 			musicGuiInstance.Position = UDim2.new(0.5, 0, 0, 70)
-			musicGuiInstance.Size = UDim2.new(0, 310, 0, 78)
+			musicGuiInstance.Size = UDim2.new(0, 310, 0, 52)
 			musicGuiInstance.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 			musicGuiInstance.BorderSizePixel = 0
 			musicGuiInstance.GroupTransparency = 1
@@ -1264,29 +1260,17 @@ _qkaspq.Init = function(self, titleText)
 			mainScale.Parent = musicGuiInstance
 
 			local mainLay = Instance.new("UIListLayout")
-			mainLay.FillDirection = Enum.FillDirection.Vertical
+			mainLay.FillDirection = Enum.FillDirection.Horizontal
 			mainLay.VerticalAlignment = Enum.VerticalAlignment.Center
-			mainLay.HorizontalAlignment = Enum.HorizontalAlignment.Center
-			mainLay.Padding = UDim.new(0, 6)
+			mainLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
+			mainLay.Padding = UDim.new(0, 10)
 			mainLay.Parent = musicGuiInstance
-
-			local topRow = Instance.new("Frame")
-			topRow.Size = UDim2.new(1, 0, 0, 34)
-			topRow.BackgroundTransparency = 1
-			topRow.Parent = musicGuiInstance
-
-			local rowLay = Instance.new("UIListLayout")
-			rowLay.FillDirection = Enum.FillDirection.Horizontal
-			rowLay.VerticalAlignment = Enum.VerticalAlignment.Center
-			rowLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
-			rowLay.Padding = UDim.new(0, 10)
-			rowLay.Parent = topRow
 
 			local iconFrame = Instance.new("Frame")
 			iconFrame.Size = UDim2.new(0, 32, 0, 32)
 			iconFrame.BackgroundColor3 = cl.field
 			iconFrame.BorderSizePixel = 0
-			iconFrame.Parent = topRow
+			iconFrame.Parent = musicGuiInstance
 			rnd(iconFrame, 5)
 			stk(iconFrame, Color3.fromRGB(36, 36, 44), 1)
 			local musicIcon = Instance.new("ImageLabel")
@@ -1299,15 +1283,16 @@ _qkaspq.Init = function(self, titleText)
 			musicIcon.ScaleType = Enum.ScaleType.Fit
 			musicIcon.Parent = iconFrame
 			local midFrame = Instance.new("Frame")
-			midFrame.Size = UDim2.new(0, 170, 0, 34)
+			midFrame.Size = UDim2.new(0, 170, 0, 36)
 			midFrame.BackgroundTransparency = 1
-			midFrame.Parent = topRow
+			midFrame.Parent = musicGuiInstance
 			local midLay = Instance.new("UIListLayout")
 			midLay.FillDirection = Enum.FillDirection.Vertical
 			midLay.VerticalAlignment = Enum.VerticalAlignment.Center
 			midLay.Padding = UDim.new(0, 4)
 			midLay.Parent = midFrame
 			local trackTitle = Instance.new("TextLabel")
+			trackTitle.Name = "TrackTitle"
 			trackTitle.Size = UDim2.new(1, 0, 0, 14)
 			trackTitle.BackgroundTransparency = 1
 			trackTitle.Text = Playlist[currentTrackIdx].name
@@ -1351,7 +1336,7 @@ _qkaspq.Init = function(self, titleText)
 			local ctrlFrame = Instance.new("Frame")
 			ctrlFrame.Size = UDim2.new(0, 70, 1, 0)
 			ctrlFrame.BackgroundTransparency = 1
-			ctrlFrame.Parent = topRow
+			ctrlFrame.Parent = musicGuiInstance
 			local ctrlLay = Instance.new("UIListLayout")
 			ctrlLay.FillDirection = Enum.FillDirection.Horizontal
 			ctrlLay.VerticalAlignment = Enum.VerticalAlignment.Center
@@ -1420,6 +1405,7 @@ _qkaspq.Init = function(self, titleText)
 			end
 			local prevBtn = createIconBtn(109754291227660, 12, prevTrack)
 			playBtn = createIconBtn(127467405552658, 14, updatePlayState)
+			playBtn.Name = "PlayBtn"
 			local nextBtn = createIconBtn(130872317323632, 12, nextTrack)
 			musicSound.Ended:Connect(nextTrack)
 			regConn(game:GetService("RunService").RenderStepped:Connect(function()
@@ -1460,46 +1446,6 @@ _qkaspq.Init = function(self, titleText)
 						musicSound.TimePosition = relX * musicSound.TimeLength
 						trackFill.Size = UDim2.new(relX, 0, 1, 0)
 					end
-				end
-			end)
-			local sep = Instance.new("Frame")
-			sep.Size = UDim2.new(1, 0, 0, 1)
-			sep.BackgroundColor3 = Color3.fromRGB(36, 36, 42)
-			sep.BorderSizePixel = 0
-			sep.Parent = musicGuiInstance
-
-			local inputFrame = Instance.new("Frame")
-			inputFrame.Size = UDim2.new(1, 0, 0, 20)
-			inputFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 20)
-			inputFrame.BorderSizePixel = 0
-			inputFrame.Parent = musicGuiInstance
-			rnd(inputFrame, 5)
-			stk(inputFrame, Color3.fromRGB(36, 36, 42))
-
-			local box = Instance.new("TextBox")
-			box.Size = UDim2.new(1, -12, 1, 0)
-			box.Position = UDim2.new(0, 6, 0, 0)
-			box.BackgroundTransparency = 1
-			box.Text = ""
-			box.PlaceholderText = "Paste Audio ID & press Enter..."
-			box.TextColor3 = Color3.fromRGB(220, 220, 225)
-			box.PlaceholderColor3 = Color3.fromRGB(100, 100, 110)
-			box.TextSize = 10
-			box.Font = Enum.Font.MontserratBold
-			box.TextXAlignment = Enum.TextXAlignment.Left
-			box.ClearTextOnFocus = true
-			box.Parent = inputFrame
-
-			box.FocusLost:Connect(function(enterPressed)
-				if enterPressed then
-					local clean = string.gsub(box.Text, "%D", "")
-					local id = tonumber(clean)
-					if id then
-						local trackName = "Custom ID (" .. id .. ")"
-						table.insert(Playlist, {name = trackName, id = "rbxassetid://" .. id})
-						loadTrack(#Playlist)
-					end
-					box.Text = ""
 				end
 			end)
 
@@ -3479,7 +3425,6 @@ _qkaspq.Init = function(self, titleText)
 	local function setTab(idx)
 		_qkaspq_store.ActiveTab = idx
 		activeTabTitle.Text = self.tabDefs[idx] and self.tabDefs[idx].id or ""
-		tw(columnsGroup, {GroupTransparency = 1}, 0.15)
 		for i, data in ipairs(self.tabBtns) do
 			if i == idx then
 				tw(data.btn, {BackgroundColor3 = ac, BackgroundTransparency = 0.9}, 0.22)
@@ -3491,12 +3436,18 @@ _qkaspq.Init = function(self, titleText)
 				tw(data.lbl, {TextColor3 = cl.dim}, 0.22)
 			end
 		end
-		task.delay(0.15, function()
-			if _qkaspq_store.ActiveTab == idx then
-				loadTab(idx, searchBox.Text)
-				tw(columnsGroup, {GroupTransparency = 0}, 0.22)
-			end
-		end)
+		if _qkaspq_store.FirstLoad then
+			_qkaspq_store.FirstLoad = false
+			loadTab(idx, searchBox.Text)
+		else
+			tw(columnsGroup, {GroupTransparency = 1}, 0.15)
+			task.delay(0.15, function()
+				if _qkaspq_store.ActiveTab == idx then
+					loadTab(idx, searchBox.Text)
+					tw(columnsGroup, {GroupTransparency = 0}, 0.22)
+				end
+			end)
+		end
 	end
 
 	for i, data in ipairs(self.tabBtns) do
@@ -3506,10 +3457,8 @@ _qkaspq.Init = function(self, titleText)
 	end
 
 	_qkaspq_store.ActiveTab = 1
-	task.spawn(function()
-		task.wait(0.05)
-		setTab(1)
-	end)
+	_qkaspq_store.FirstLoad = true
+	setTab(1)
 
 	buildBindsList()
 	regConn(UIS.InputBegan:Connect(function(input, gpe)
@@ -3906,6 +3855,39 @@ _qkaspq:CreateModule("Settings", {
 	nobind = true,
 	beta = true,
 	desc = "Music player GUI.",
+	opts = {
+		{
+			type = "textbox",
+			label = "Add Music ID",
+			value = "",
+			placeholder = "Enter Audio ID...",
+			callback = function(text, enter)
+				if enter and text ~= "" then
+					local clean = string.gsub(text, "%D", "")
+					local id = tonumber(clean)
+					if id then
+						local trackName = "Custom ID (" .. id .. ")"
+						table.insert(Playlist, {name = trackName, id = "rbxassetid://" .. id})
+						if musicSound then
+							local nextIdx = #Playlist
+							currentTrackIdx = nextIdx
+							musicSound:Stop()
+							musicSound.SoundId = Playlist[currentTrackIdx].id
+							local trackTitle = musicGuiInstance and musicGuiInstance:FindFirstChild("TrackTitle", true)
+							if trackTitle then
+								trackTitle.Text = Playlist[currentTrackIdx].name
+							end
+							musicSound:Play()
+							local playBtn = musicGuiInstance and musicGuiInstance:FindFirstChild("PlayBtn", true)
+							if playBtn then
+								playBtn.Image = "rbxassetid://94079325461679"
+							end
+						end
+					end
+				end
+			end
+		}
+	},
 	callback = function(val)
 		if updateMusicGui then updateMusicGui() end
 	end
@@ -3935,8 +3917,8 @@ _qkaspq:CreateModule("Settings", {
 		{
 			type = "dropdown",
 			label = "UI Theme",
-			value = "Amethyst",
-			list = {"Amethyst", "Cyberpunk", "Aquamarine", "Ruby", "Sapphire"},
+			value = "Default",
+			list = {"Default", "Amethyst", "Cyberpunk", "Aquamarine", "Ruby", "Sapphire"},
 			callback = function(val)
 				applyTheme(val)
 			end
