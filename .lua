@@ -416,12 +416,25 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		local success, coreGui = pcall(game.GetService, game, "CoreGui")
 		targetParent = success and coreGui or lp:WaitForChild("PlayerGui")
 	end
-	if targetParent then
-		pcall(function()
-			local old = targetParent:FindFirstChild("ZenithGUI")
-			if old then old:Destroy() end
-		end)
-	end
+	pcall(function()
+		local parents = {}
+		if typeof(gethui) == "function" then
+			local ok, res = pcall(gethui)
+			if ok and res then table.insert(parents, res) end
+		end
+		local ok, coreGui = pcall(game.GetService, game, "CoreGui")
+		if ok and coreGui then table.insert(parents, coreGui) end
+		local playerGui = lp:FindFirstChildOfClass("PlayerGui")
+		if playerGui then table.insert(parents, playerGui) end
+		
+		for _, p in ipairs(parents) do
+			for _, child in ipairs(p:GetChildren()) do
+				if child.Name == "ZenithGUI" then
+					child:Destroy()
+				end
+			end
+		end
+	end)
 	gui = Instance.new("ScreenGui")
 	gui.Name = "ZenithGUI"
 	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
