@@ -3999,6 +3999,7 @@ _qkaspq:CreateModule("Settings", {
 	on = true,
 	bind = "None",
 	nobind = true,
+	notoggle = true,
 	desc = "Adjust visual themes and transparency.",
 	opts = {
 		{
