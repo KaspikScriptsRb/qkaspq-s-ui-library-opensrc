@@ -3534,24 +3534,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			return
 		end
 		if input.KeyCode == _qkaspq_store.ToggleKey then
-			_qkaspq_store.Open = not _qkaspq_store.Open
-			if _qkaspq_store.Open then
-				main.Visible = true
-				mainScale.Scale = 0.88
-				main.GroupTransparency = 1
-				tw(mainScale, {Scale = 1}, 0.3)
-				tw(main, {GroupTransparency = 0}, 0.3)
-			else
-				tw(mainScale, {Scale = 0.88}, 0.25)
-				tw(main, {GroupTransparency = 1}, 0.25)
-				tooltip.Visible = false
-				currentHoveredMod = nil
-				task.delay(0.25, function()
-					if not _qkaspq_store.Open then
-						main.Visible = false
-					end
-				end)
-			end
+			self:Toggle()
 		elseif input.UserInputType == Enum.UserInputType.Keyboard then
 			local key = input.KeyCode.Name
 			for tabId, mods in pairs(_qkaspq_store.Modules) do
@@ -3865,6 +3848,26 @@ function _qkaspq:SetProfile(opts)
 		end)
 	end
 end
+function _qkaspq:Toggle()
+	_qkaspq_store.Open = not _qkaspq_store.Open
+	if _qkaspq_store.Open then
+		main.Visible = true
+		if mainScale then mainScale.Scale = 0.88 end
+		main.GroupTransparency = 1
+		if mainScale then tw(mainScale, {Scale = 1}, 0.3) end
+		tw(main, {GroupTransparency = 0}, 0.3)
+	else
+		if mainScale then tw(mainScale, {Scale = 0.88}, 0.25) end
+		tw(main, {GroupTransparency = 1}, 0.25)
+		if tooltip then tooltip.Visible = false end
+		currentHoveredMod = nil
+		task.delay(0.25, function()
+			if not _qkaspq_store.Open then
+				main.Visible = false
+			end
+		end)
+	end
+end
 function _qkaspq:GetOption(tabId, moduleName, optionLabel)
 	local tab = _qkaspq_store.Modules[tabId]
 	if not tab then return nil end
@@ -4016,6 +4019,17 @@ _qkaspq:CreateModule("Settings", {
 			suffix = "%",
 			callback = function(val)
 				applyTransparency(val / 100)
+			end
+		},
+		{
+			type = "bind",
+			label = "Toggle GUI Key",
+			key = _qkaspq_store.ToggleKey and _qkaspq_store.ToggleKey.Name or "RightShift",
+			callback = function(keyName)
+				local key = Enum.KeyCode[keyName]
+				if key then
+					_qkaspq_store.ToggleKey = key
+				end
 			end
 		}
 	}
