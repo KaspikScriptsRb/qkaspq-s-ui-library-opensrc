@@ -765,15 +765,9 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 
 	searchBox:GetPropertyChangedSignal("Text"):Connect(function()
 		local activeTabIdx = _qkaspq_store.ActiveTab or 1
-		local wasFocused = searchBox:IsFocused()
 		pcall(function()
 			loadTab(activeTabIdx, searchBox.Text)
 		end)
-		if wasFocused then
-			task.spawn(function()
-				searchBox:CaptureFocus()
-			end)
-		end
 	end)
 
 	tooltip = Instance.new("CanvasGroup")
@@ -2965,8 +2959,15 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		modIcon.ScaleType = Enum.ScaleType.Fit
 		modIcon.Parent = headBtn
 		modData.ui_modIcon = modIcon
+		local bindVisible = (not modData.nobind) and (not modData.notoggle)
+		local nameWidth = -38
+		if bindVisible then
+			nameWidth = -118
+		elseif not modData.notoggle then
+			nameWidth = -68
+		end
 		local nameLabel = Instance.new("TextLabel")
-		nameLabel.Size = UDim2.new(0.4, 0, 0, 12)
+		nameLabel.Size = UDim2.new(1, nameWidth, 0, 12)
 		nameLabel.Position = UDim2.new(0, 26, 0.5, -6)
 		nameLabel.BackgroundTransparency = 1
 		nameLabel.Text = modData.name
@@ -2977,7 +2978,6 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		nameLabel.TextTruncate = Enum.TextTruncate.AtEnd
 		nameLabel.Parent = headBtn
 		modData.ui_nameLabel = nameLabel
-		local bindVisible = (not modData.nobind) and (not modData.notoggle)
 		local badgeVisible = false
 		local rightOffset = modData.notoggle and 12 or 48
 		local bindFrame = Instance.new("Frame")
