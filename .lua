@@ -3663,6 +3663,17 @@ function _qkaspq:SetOption(tabId, moduleName, optionLabel, newValue)
 		if opt.callback then
 			pcall(opt.callback, newValue)
 		end
+	elseif opt.type == "toggle" then
+		opt.value = newValue
+		if opt.ui_togBg then
+			tw(opt.ui_togBg, {BackgroundColor3 = newValue and ac or cl.tog_off}, 0.18)
+		end
+		if opt.ui_togDot then
+			tw(opt.ui_togDot, {Position = newValue and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}, 0.18)
+		end
+		if opt.callback then
+			pcall(opt.callback, newValue)
+		end
 	elseif opt.type == "slider" then
 		opt.value = newValue
 		if opt.ui_fill and opt.ui_knob and opt.ui_track then
