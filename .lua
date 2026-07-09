@@ -2388,7 +2388,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		svBtn.Parent = valGrad
 
 		local function updateSV()
-			local mousePos = UIS:GetMouseLocation()
+			local mousePos = UIS:GetMouseLocation() - game:GetService("GuiService"):GetGuiInset()
 			local relX = math.clamp((mousePos.X - valGrad.AbsolutePosition.X) / valGrad.AbsoluteSize.X, 0, 1)
 			local relY = math.clamp((mousePos.Y - valGrad.AbsolutePosition.Y) / valGrad.AbsoluteSize.Y, 0, 1)
 			currentS = relX
@@ -2410,7 +2410,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		hueBtn.Parent = hueSlider
 
 		local function updateHue()
-			local mousePos = UIS:GetMouseLocation()
+			local mousePos = UIS:GetMouseLocation() - game:GetService("GuiService"):GetGuiInset()
 			local relX = math.clamp((mousePos.X - hueSlider.AbsolutePosition.X) / hueSlider.AbsoluteSize.X, 0, 1)
 			currentH = relX
 			hueCursor.Position = UDim2.new(relX, -2, 0, -2)
