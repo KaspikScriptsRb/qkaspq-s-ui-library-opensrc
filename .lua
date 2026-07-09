@@ -2522,7 +2522,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.Parent = row
 		row.MouseEnter:Connect(function()
-			tw(row, {BackgroundColor3 = Color3.fromRGB(22, 22, 28)}, 0.15)
+			tw(row, {BackgroundColor3 = cl.field}, 0.15)
 			if isRare then
 				tw(lbl, {TextColor3 = accentCol}, 0.15)
 			end
