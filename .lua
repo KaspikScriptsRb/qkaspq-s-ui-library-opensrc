@@ -405,21 +405,28 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	_qkaspq_store.TitleText = titleText
 	_qkaspq_store.SubtitleText = subtitleText or "Grow a Garden 2"
 	_qkaspq_store.IconId = iconId or MOD_ICON
-	if game:GetService("CoreGui"):FindFirstChild("ZenithGUI") then
-		game:GetService("CoreGui"):FindFirstChild("ZenithGUI"):Destroy()
+	local targetParent
+	if typeof(gethui) == "function" then
+		local success, res = pcall(gethui)
+		if success and res then
+			targetParent = res
+		end
+	end
+	if not targetParent then
+		local success, coreGui = pcall(game.GetService, game, "CoreGui")
+		targetParent = success and coreGui or lp:WaitForChild("PlayerGui")
+	end
+	if targetParent then
+		pcall(function()
+			local old = targetParent:FindFirstChild("ZenithGUI")
+			if old then old:Destroy() end
+		end)
 	end
 	gui = Instance.new("ScreenGui")
 	gui.Name = "ZenithGUI"
 	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	gui.ResetOnSpawn = false
 	gui.IgnoreGuiInset = true
-	local targetParent
-	if typeof(gethui) == "function" then
-		targetParent = gethui()
-	else
-		local success, coreGui = pcall(game.GetService, game, "CoreGui")
-		targetParent = success and coreGui or lp:WaitForChild("PlayerGui")
-	end
 	gui.Parent = targetParent
 
 	local wmFrame = Instance.new("Frame")
@@ -3829,11 +3836,7 @@ function _qkaspq:SetProfile(opts)
 		return
 	end
 	profFrame.Visible = true
-	if opts.name then
-		profName.Text = opts.name
-	else
-		profName.Text = (lp.DisplayName ~= "" and lp.DisplayName ~= lp.Name) and lp.DisplayName or lp.Name
-	end
+	profName.Text = lp.Name
 	if opts.subtitle and opts.subtitle ~= "" then
 		profSub.Text = opts.subtitle
 		profSub.Visible = true
