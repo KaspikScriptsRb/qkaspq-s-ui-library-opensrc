@@ -446,6 +446,20 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	main.BorderSizePixel = 0
 	main.ClipsDescendants = true
 	main.Parent = gui
+	local uiScale = Instance.new("UIScale")
+	uiScale.Parent = main
+	local function updateScale()
+		local viewport = workspace.CurrentCamera.ViewportSize
+		local w, h = viewport.X, viewport.Y
+		if w > 0 and h > 0 then
+			local scaleW = w / 720
+			local scaleH = h / 520
+			local scale = math.min(scaleW, scaleH)
+			uiScale.Scale = math.clamp(scale, 0.5, 1)
+		end
+	end
+	updateScale()
+	workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(updateScale)
 	registerRecolor(main, "BackgroundColor3", "bg")
 	registerTransparency(main, 0)
 	rnd(main, 12)
