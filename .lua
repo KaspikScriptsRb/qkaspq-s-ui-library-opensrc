@@ -465,10 +465,10 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		local viewport = workspace.CurrentCamera.ViewportSize
 		local w, h = viewport.X, viewport.Y
 		if w > 0 and h > 0 then
-			local scaleW = w / 950
-			local scaleH = h / 650
+			local scaleW = w / 1000
+			local scaleH = h / 700
 			local scale = math.min(scaleW, scaleH)
-			uiScale.Scale = math.clamp(scale, 0.4, 0.82)
+			uiScale.Scale = math.clamp(scale, 0.5, 1.0)
 		end
 	end
 	updateScale()
