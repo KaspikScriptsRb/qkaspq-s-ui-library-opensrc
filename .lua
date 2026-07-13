@@ -465,10 +465,10 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		local viewport = workspace.CurrentCamera.ViewportSize
 		local w, h = viewport.X, viewport.Y
 		if w > 0 and h > 0 then
-			local scaleW = w / 720
-			local scaleH = h / 520
+			local scaleW = w / 950
+			local scaleH = h / 650
 			local scale = math.min(scaleW, scaleH)
-			uiScale.Scale = math.clamp(scale, 0.5, 1)
+			uiScale.Scale = math.clamp(scale, 0.4, 0.82)
 		end
 	end
 	updateScale()
@@ -3282,7 +3282,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			end
 		end
 		headBtn.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.MouseButton2 then
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.MouseButton2 or input.UserInputType == Enum.UserInputType.Touch then
 				modData.expanded = not modData.expanded
 				updateCardHeight(false)
 			end
