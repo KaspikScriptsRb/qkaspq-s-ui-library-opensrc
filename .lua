@@ -3256,14 +3256,14 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 				infoDesc = tostring(modData.info)
 			end
 
-			local PAD_X = 12
+			local PAD_X = 0
 			local PAD_Y = 10
 			local ICON_SIZE = 18
 			local ICON_GAP = 8
 			local TITLE_H = 14
 			local TITLE_DESC_GAP = 4
-			local TEXT_X = PAD_X + ICON_SIZE + ICON_GAP
-			local TEXT_W = -(TEXT_X + PAD_X)
+			local TEXT_X = ICON_SIZE + ICON_GAP
+			local TEXT_W = -(TEXT_X + 8)
 
 			local textService = game:GetService("TextService")
 			local cleanDescText = infoDesc:gsub("<[^>]+>", "")
