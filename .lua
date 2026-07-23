@@ -961,6 +961,21 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		table.insert(self.tabDefs, settingsTab)
 	end
 
+	local function hideTooltip()
+		if currentTtTween then
+			currentTtTween:Cancel()
+		end
+		currentTtTween = TS:Create(tooltip, TweenInfo.new(0.15, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+			GroupTransparency = 1
+		})
+		currentTtTween:Play()
+		task.delay(0.15, function()
+			if tooltip.GroupTransparency == 1 then
+				tooltip.Visible = false
+			end
+		end)
+	end
+
 	local function showTooltip(descText, modActive)
 		if not descText or descText == "" or descText == "Описание отсутствует." then
 			hideTooltip()
@@ -977,21 +992,6 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			GroupTransparency = currentTransparencyValue
 		})
 		currentTtTween:Play()
-	end
-
-	local function hideTooltip()
-		if currentTtTween then
-			currentTtTween:Cancel()
-		end
-		currentTtTween = TS:Create(tooltip, TweenInfo.new(0.15, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-			GroupTransparency = 1
-		})
-		currentTtTween:Play()
-		task.delay(0.15, function()
-			if tooltip.GroupTransparency == 1 then
-				tooltip.Visible = false
-			end
-		end)
 	end
 
 	self.tabBtns = {}
