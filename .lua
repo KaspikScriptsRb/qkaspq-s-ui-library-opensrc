@@ -426,7 +426,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		if ok and coreGui then table.insert(parents, coreGui) end
 		local playerGui = lp:FindFirstChildOfClass("PlayerGui")
 		if playerGui then table.insert(parents, playerGui) end
-		
+
 		for _, p in ipairs(parents) do
 			for _, child in ipairs(p:GetChildren()) do
 				if child.Name == "ZenithGUI" then
@@ -733,7 +733,6 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	closeBtn.Parent = topbar
 	rnd(closeBtn, 5)
 	registerRecolor(closeBtn, "BackgroundColor3", "field")
-
 
 	closeBtn.MouseButton1Click:Connect(function()
 		_qkaspq_store.Open = false
@@ -1098,7 +1097,6 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end
 		colScroll.CanvasSize = UDim2.new(0, 0, 0, maxH)
 	end
-
 
 	local function triggerBindRefresh()
 		if buildBindsList then
@@ -3241,9 +3239,15 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			else
 				infoDesc = tostring(modData.info)
 			end
+
+			local textService = game:GetService("TextService")
+			local cleanDescText = infoDesc:gsub("<[^>]+>", "")
+			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratBold, Vector2.new(316, 10000))
+			local descHeight = math.max(descSize.Y, 12)
+			local infoFrameH = 16 + descHeight
+
 			local infoFrame = Instance.new("Frame")
-			infoFrame.Size = UDim2.new(1, 0, 0, 0)
-			infoFrame.AutomaticSize = Enum.AutomaticSize.Y
+			infoFrame.Size = UDim2.new(1, 0, 0, infoFrameH)
 			infoFrame.BackgroundColor3 = cl.field
 			infoFrame.BackgroundTransparency = 0.5
 			infoFrame.BorderSizePixel = 0
@@ -3278,9 +3282,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			registerRecolor(infoTitleLbl, "TextColor3", "ac")
 
 			local infoDescLbl = Instance.new("TextLabel")
-			infoDescLbl.Size = UDim2.new(1, -28, 0, 0)
+			infoDescLbl.Size = UDim2.new(1, -28, 0, descHeight)
 			infoDescLbl.Position = UDim2.new(0, 28, 0, 16)
-			infoDescLbl.AutomaticSize = Enum.AutomaticSize.Y
 			infoDescLbl.BackgroundTransparency = 1
 			infoDescLbl.Text = infoDesc
 			infoDescLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
@@ -4112,8 +4115,7 @@ function _qkaspq:SetOptionLabel(tabName, modName, oldLabel, newLabel)
 		end
 		if gui then updateText(gui) end
 		if _qkaspq_store and _qkaspq_store.Gui then updateText(_qkaspq_store.Gui) end
-		
-		-- Обновление внутренних таблиц
+
 		local tab = nil
 		for _, t in ipairs(self.Tabs or {}) do
 			if t.name == tabName then tab = t break end
@@ -4121,7 +4123,7 @@ function _qkaspq:SetOptionLabel(tabName, modName, oldLabel, newLabel)
 		if not tab and _qkaspq_store.Tabs then
 			tab = _qkaspq_store.Tabs[tabName]
 		end
-		
+
 		if tab and tab.modules then
 			local mod = tab.modules[modName]
 			if mod and mod.options then
