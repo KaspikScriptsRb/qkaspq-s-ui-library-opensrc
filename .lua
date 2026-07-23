@@ -3270,7 +3270,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local cardInnerW = 344
 			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratMedium, Vector2.new(cardInnerW + TEXT_W, 10000))
 			local descHeight = math.max(descSize.Y, 12)
-			local frameH = PAD_Y + TITLE_H + TITLE_DESC_GAP + descHeight + PAD_Y
+			local frameH = 40 + descHeight
 			infoFrameH = frameH
 
 			local infoFrame = Instance.new("Frame")
@@ -3286,7 +3286,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 
 			local infoIcon = Instance.new("ImageLabel")
 			infoIcon.Size = UDim2.new(0, ICON_SIZE, 0, ICON_SIZE)
-			infoIcon.Position = UDim2.new(0, PAD_X, 0, (frameH - ICON_SIZE) / 2)
+			infoIcon.Position = UDim2.new(0, PAD_X, 0, 10)
 			infoIcon.BackgroundTransparency = 1
 			infoIcon.Image = infoIconId
 			infoIcon.ImageColor3 = ac
@@ -3296,7 +3296,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 
 			local infoTitleLbl = Instance.new("TextLabel")
 			infoTitleLbl.Size = UDim2.new(1, TEXT_W, 0, TITLE_H)
-			infoTitleLbl.Position = UDim2.new(0, TEXT_X, 0, PAD_Y)
+			infoTitleLbl.Position = UDim2.new(0, TEXT_X, 0, 12)
 			infoTitleLbl.BackgroundTransparency = 1
 			infoTitleLbl.Text = infoTitle
 			infoTitleLbl.TextColor3 = ac
@@ -3310,7 +3310,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 
 			local infoDescLbl = Instance.new("TextLabel")
 			infoDescLbl.Size = UDim2.new(1, TEXT_W, 0, descHeight)
-			infoDescLbl.Position = UDim2.new(0, TEXT_X, 0, PAD_Y + TITLE_H + TITLE_DESC_GAP)
+			infoDescLbl.Position = UDim2.new(0, TEXT_X, 0, 30)
 			infoDescLbl.BackgroundTransparency = 1
 			infoDescLbl.Text = infoDesc
 			infoDescLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
