@@ -962,8 +962,12 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	end
 
 	local function showTooltip(descText, modActive)
+		if not descText or descText == "" or descText == "Описание отсутствует." then
+			hideTooltip()
+			return
+		end
 		ttIcon.ImageColor3 = modActive and ac or cl.dim
-		ttText.Text = descText or "Описание отсутствует."
+		ttText.Text = descText
 		if currentTtTween then
 			currentTtTween:Cancel()
 		end
@@ -3244,7 +3248,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local cleanDescText = infoDesc:gsub("<[^>]+>", "")
 			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratBold, Vector2.new(316, 10000))
 			local descHeight = math.max(descSize.Y, 12)
-			local infoFrameH = 16 + descHeight
+			local infoFrameH = 18 + descHeight
 
 			local infoFrame = Instance.new("Frame")
 			infoFrame.Size = UDim2.new(1, 0, 0, infoFrameH)
@@ -3262,7 +3266,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoIcon.Size = UDim2.new(0, 18, 0, 18)
 			infoIcon.Position = UDim2.new(0, 0, 0, 0)
 			infoIcon.BackgroundTransparency = 1
-			infoIcon.Image = "rbxassetid://15765548670"
+			infoIcon.Image = "rbxassetid://15928895003"
 			infoIcon.ImageColor3 = ac
 			infoIcon.ScaleType = Enum.ScaleType.Fit
 			infoIcon.Parent = infoFrame
@@ -3284,7 +3288,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 
 			local infoDescLbl = Instance.new("TextLabel")
 			infoDescLbl.Size = UDim2.new(1, -28, 0, descHeight)
-			infoDescLbl.Position = UDim2.new(0, 28, 0, 14)
+			infoDescLbl.Position = UDim2.new(0, 28, 0, 18)
 			infoDescLbl.BackgroundTransparency = 1
 			infoDescLbl.Text = infoDesc
 			infoDescLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
