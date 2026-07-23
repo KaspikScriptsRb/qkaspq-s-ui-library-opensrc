@@ -3262,7 +3262,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoIcon.Size = UDim2.new(0, 18, 0, 18)
 			infoIcon.Position = UDim2.new(0, 0, 0, 0)
 			infoIcon.BackgroundTransparency = 1
-			infoIcon.Image = "rbxthumb://type=Asset&id=110789965791116&w=150&h=150"
+			infoIcon.Image = "rbxthumb://type=Asset&id=15765548670&w=150&h=150"
 			infoIcon.ImageColor3 = ac
 			infoIcon.ScaleType = Enum.ScaleType.Fit
 			infoIcon.Parent = infoFrame
@@ -3277,19 +3277,21 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoTitleLbl.Font = Enum.Font.MontserratBold
 			infoTitleLbl.TextSize = 10
 			infoTitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+			infoTitleLbl.TextYAlignment = Enum.TextYAlignment.Top
 			infoTitleLbl.TextWrapped = true
 			infoTitleLbl.Parent = infoFrame
 			registerRecolor(infoTitleLbl, "TextColor3", "ac")
 
 			local infoDescLbl = Instance.new("TextLabel")
 			infoDescLbl.Size = UDim2.new(1, -28, 0, descHeight)
-			infoDescLbl.Position = UDim2.new(0, 28, 0, 16)
+			infoDescLbl.Position = UDim2.new(0, 28, 0, 14)
 			infoDescLbl.BackgroundTransparency = 1
 			infoDescLbl.Text = infoDesc
 			infoDescLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
 			infoDescLbl.Font = Enum.Font.MontserratBold
 			infoDescLbl.TextSize = 9
 			infoDescLbl.TextXAlignment = Enum.TextXAlignment.Left
+			infoDescLbl.TextYAlignment = Enum.TextYAlignment.Top
 			infoDescLbl.RichText = true
 			infoDescLbl.TextWrapped = true
 			infoDescLbl.Parent = infoFrame
