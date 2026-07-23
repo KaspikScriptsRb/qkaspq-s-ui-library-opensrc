@@ -3245,11 +3245,22 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			else
 				infoDesc = tostring(modData.info)
 			end
+
+			local PAD_X = 12
+			local PAD_Y = 10
+			local ICON_SIZE = 18
+			local ICON_GAP = 8
+			local TITLE_H = 14
+			local TITLE_DESC_GAP = 4
+			local TEXT_X = PAD_X + ICON_SIZE + ICON_GAP
+			local TEXT_W = -(TEXT_X + PAD_X)
+
 			local textService = game:GetService("TextService")
 			local cleanDescText = infoDesc:gsub("<[^>]+>", "")
-			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratMedium, Vector2.new(312, 10000))
+			local cardInnerW = 344
+			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratMedium, Vector2.new(cardInnerW + TEXT_W, 10000))
 			local descHeight = math.max(descSize.Y, 12)
-			local infoFrameH = 40 + descHeight
+			local infoFrameH = PAD_Y + TITLE_H + TITLE_DESC_GAP + descHeight + PAD_Y
 
 			local infoFrame = Instance.new("Frame")
 			infoFrame.Size = UDim2.new(1, 0, 0, infoFrameH)
@@ -3260,12 +3271,11 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoFrame.Parent = optsContainer
 			rnd(infoFrame, 6)
 			stk(infoFrame, Color3.fromRGB(45, 45, 52))
-			pad(infoFrame, 10, 10, 12, 12)
 			registerRecolor(infoFrame, "BackgroundColor3", "field")
 
 			local infoIcon = Instance.new("ImageLabel")
-			infoIcon.Size = UDim2.new(0, 18, 0, 18)
-			infoIcon.Position = UDim2.new(0, 0, 0, 0)
+			infoIcon.Size = UDim2.new(0, ICON_SIZE, 0, ICON_SIZE)
+			infoIcon.Position = UDim2.new(0, PAD_X, 0, PAD_Y)
 			infoIcon.BackgroundTransparency = 1
 			infoIcon.Image = infoIconId
 			infoIcon.ImageColor3 = ac
@@ -3274,22 +3284,22 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			registerRecolor(infoIcon, "ImageColor3", "ac")
 
 			local infoTitleLbl = Instance.new("TextLabel")
-			infoTitleLbl.Size = UDim2.new(1, -32, 0, 14)
-			infoTitleLbl.Position = UDim2.new(0, 32, 0, 2)
+			infoTitleLbl.Size = UDim2.new(1, TEXT_W, 0, TITLE_H)
+			infoTitleLbl.Position = UDim2.new(0, TEXT_X, 0, PAD_Y)
 			infoTitleLbl.BackgroundTransparency = 1
 			infoTitleLbl.Text = infoTitle
 			infoTitleLbl.TextColor3 = ac
 			infoTitleLbl.Font = Enum.Font.MontserratBold
 			infoTitleLbl.TextSize = 10
 			infoTitleLbl.TextXAlignment = Enum.TextXAlignment.Left
-			infoTitleLbl.TextYAlignment = Enum.TextYAlignment.Top
+			infoTitleLbl.TextYAlignment = Enum.TextYAlignment.Center
 			infoTitleLbl.TextWrapped = true
 			infoTitleLbl.Parent = infoFrame
 			registerRecolor(infoTitleLbl, "TextColor3", "ac")
 
 			local infoDescLbl = Instance.new("TextLabel")
-			infoDescLbl.Size = UDim2.new(1, -32, 0, descHeight)
-			infoDescLbl.Position = UDim2.new(0, 32, 0, 20)
+			infoDescLbl.Size = UDim2.new(1, TEXT_W, 0, descHeight)
+			infoDescLbl.Position = UDim2.new(0, TEXT_X, 0, PAD_Y + TITLE_H + TITLE_DESC_GAP)
 			infoDescLbl.BackgroundTransparency = 1
 			infoDescLbl.Text = infoDesc
 			infoDescLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
