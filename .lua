@@ -3285,8 +3285,9 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			registerRecolor(infoFrame, "BackgroundColor3", "field")
 
 			local infoIcon = Instance.new("ImageLabel")
+			infoIcon.AnchorPoint = Vector2.new(0, 0.5)
 			infoIcon.Size = UDim2.new(0, ICON_SIZE, 0, ICON_SIZE)
-			infoIcon.Position = UDim2.new(0, PAD_X, 0, PAD_Y)
+			infoIcon.Position = UDim2.new(0, PAD_X, 0, PAD_Y + TITLE_H / 2)
 			infoIcon.BackgroundTransparency = 1
 			infoIcon.Image = infoIconId
 			infoIcon.ImageColor3 = ac
