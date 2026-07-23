@@ -3286,7 +3286,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 
 			local infoIcon = Instance.new("ImageLabel")
 			infoIcon.Size = UDim2.new(0, ICON_SIZE, 0, ICON_SIZE)
-			infoIcon.Position = UDim2.new(0, PAD_X, 0, 22)
+			infoIcon.Position = UDim2.new(0, PAD_X, 0, math.floor((frameH - ICON_SIZE) / 2))
 			infoIcon.BackgroundTransparency = 1
 			infoIcon.Image = infoIconId
 			infoIcon.ImageColor3 = ac
