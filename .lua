@@ -3175,7 +3175,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		optsLay.SortOrder = Enum.SortOrder.LayoutOrder
 		optsLay.Padding = UDim.new(0, 8)
 		optsLay.Parent = optsContainer
-		pad(optsContainer, 10, 10, 12, 12)
+		pad(optsContainer, 10, 10, 10, 10)
+		local infoFrameH = 0
 		local sep
 		if (modData.opts and #modData.opts > 0) or modData.info then
 			sep = Instance.new("Frame")
@@ -3193,6 +3194,15 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local expanded = modData.expanded
 			local targetH = 38
 			local contentH = ((modData.opts and #modData.opts > 0) or modData.info) and (optsLay.AbsoluteContentSize.Y + 22) or 0
+			if contentH < 10 then
+				local manualH = infoFrameH
+				for _, child in ipairs(optsContainer:GetChildren()) do
+					if child:IsA("Frame") or child:IsA("CanvasGroup") then
+						manualH = manualH + child.Size.Y.Offset + 8
+					end
+				end
+				contentH = manualH + 22
+			end
 			local dur = 0.26
 			if expanded then
 				targetH = 38 + contentH
@@ -3260,10 +3270,11 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local cardInnerW = 344
 			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratMedium, Vector2.new(cardInnerW + TEXT_W, 10000))
 			local descHeight = math.max(descSize.Y, 12)
-			local infoFrameH = PAD_Y + TITLE_H + TITLE_DESC_GAP + descHeight + PAD_Y
+			local frameH = PAD_Y + TITLE_H + TITLE_DESC_GAP + descHeight + PAD_Y
+			infoFrameH = frameH
 
 			local infoFrame = Instance.new("Frame")
-			infoFrame.Size = UDim2.new(1, 0, 0, infoFrameH)
+			infoFrame.Size = UDim2.new(1, 0, 0, frameH)
 			infoFrame.BackgroundColor3 = cl.field
 			infoFrame.BackgroundTransparency = 0.5
 			infoFrame.BorderSizePixel = 0
