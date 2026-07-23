@@ -3247,9 +3247,9 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			end
 			local textService = game:GetService("TextService")
 			local cleanDescText = infoDesc:gsub("<[^>]+>", "")
-			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratBold, Vector2.new(312, 10000))
+			local descSize = textService:GetTextSize(cleanDescText, 9, Enum.Font.MontserratMedium, Vector2.new(312, 10000))
 			local descHeight = math.max(descSize.Y, 12)
-			local infoFrameH = 20 + descHeight
+			local infoFrameH = 40 + descHeight
 
 			local infoFrame = Instance.new("Frame")
 			infoFrame.Size = UDim2.new(1, 0, 0, infoFrameH)
@@ -3293,7 +3293,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoDescLbl.BackgroundTransparency = 1
 			infoDescLbl.Text = infoDesc
 			infoDescLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
-			infoDescLbl.Font = Enum.Font.MontserratBold
+			infoDescLbl.Font = Enum.Font.MontserratMedium
 			infoDescLbl.TextSize = 9
 			infoDescLbl.TextXAlignment = Enum.TextXAlignment.Left
 			infoDescLbl.TextYAlignment = Enum.TextYAlignment.Top
