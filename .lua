@@ -3256,13 +3256,13 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 				infoDesc = tostring(modData.info)
 			end
 
-			local PAD_X = 0
+			local PAD_X = 6
 			local PAD_Y = 10
 			local ICON_SIZE = 18
 			local ICON_GAP = 8
 			local TITLE_H = 14
 			local TITLE_DESC_GAP = 4
-			local TEXT_X = ICON_SIZE + ICON_GAP
+			local TEXT_X = PAD_X + ICON_SIZE + ICON_GAP
 			local TEXT_W = -(TEXT_X + 8)
 
 			local textService = game:GetService("TextService")
@@ -3287,7 +3287,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local infoIcon = Instance.new("ImageLabel")
 			infoIcon.AnchorPoint = Vector2.new(0, 0.5)
 			infoIcon.Size = UDim2.new(0, ICON_SIZE, 0, ICON_SIZE)
-			infoIcon.Position = UDim2.new(0, PAD_X, 0, PAD_Y + TITLE_H / 2)
+			infoIcon.Position = UDim2.new(0, PAD_X, 0.5, 0)
 			infoIcon.BackgroundTransparency = 1
 			infoIcon.Image = infoIconId
 			infoIcon.ImageColor3 = ac
