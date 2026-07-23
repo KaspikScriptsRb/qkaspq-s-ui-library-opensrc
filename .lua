@@ -3262,7 +3262,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoIcon.Size = UDim2.new(0, 18, 0, 18)
 			infoIcon.Position = UDim2.new(0, 0, 0, 0)
 			infoIcon.BackgroundTransparency = 1
-			infoIcon.Image = "rbxthumb://type=Asset&id=15765548670&w=150&h=150"
+			infoIcon.Image = "rbxassetid://15765548670"
 			infoIcon.ImageColor3 = ac
 			infoIcon.ScaleType = Enum.ScaleType.Fit
 			infoIcon.Parent = infoFrame
