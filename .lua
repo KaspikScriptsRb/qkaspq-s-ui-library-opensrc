@@ -393,6 +393,7 @@ local Playlist
 local bgImage
 local main
 _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
+	local showTooltip, hideTooltip
 	if type(titleText) == "table" then
 		local opts = titleText
 		titleText = opts.Title or opts.title
@@ -961,7 +962,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		table.insert(self.tabDefs, settingsTab)
 	end
 
-	local function hideTooltip()
+	hideTooltip = function()
 		if currentTtTween then
 			currentTtTween:Cancel()
 		end
@@ -976,7 +977,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end)
 	end
 
-	local function showTooltip(descText, modActive)
+	showTooltip = function(descText, modActive)
 		if not descText or descText == "" or descText == "Описание отсутствует." then
 			hideTooltip()
 			return
