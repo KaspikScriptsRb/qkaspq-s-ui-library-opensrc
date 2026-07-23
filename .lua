@@ -2214,8 +2214,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			if active and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
 				local rel = math.clamp((input.Position.X - track.AbsolutePosition.X) / track.AbsoluteSize.X, 0, 1)
 				local raw = data.min + (data.max - data.min) * rel
-				if data.max <= 10 then
-					data.value = math.floor(raw * 100) / 100
+				if data.max <= 15 then
+					data.value = math.floor(raw * 10) / 10
 				else
 					data.value = math.floor(raw)
 				end
