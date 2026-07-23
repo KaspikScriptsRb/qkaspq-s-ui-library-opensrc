@@ -3264,21 +3264,9 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoIcon.Parent = infoFrame
 			registerRecolor(infoIcon, "ImageColor3", "ac")
 
-			local infoTextContainer = Instance.new("Frame")
-			infoTextContainer.Size = UDim2.new(1, -28, 0, 0)
-			infoTextContainer.Position = UDim2.new(0, 28, 0, 0)
-			infoTextContainer.AutomaticSize = Enum.AutomaticSize.Y
-			infoTextContainer.BackgroundTransparency = 1
-			infoTextContainer.BorderSizePixel = 0
-			infoTextContainer.Parent = infoFrame
-
-			local infoTextLay = Instance.new("UIListLayout")
-			infoTextLay.SortOrder = Enum.SortOrder.LayoutOrder
-			infoTextLay.Padding = UDim.new(0, 2)
-			infoTextLay.Parent = infoTextContainer
-
 			local infoTitleLbl = Instance.new("TextLabel")
-			infoTitleLbl.Size = UDim2.new(1, 0, 0, 14)
+			infoTitleLbl.Size = UDim2.new(1, -28, 0, 14)
+			infoTitleLbl.Position = UDim2.new(0, 28, 0, 0)
 			infoTitleLbl.BackgroundTransparency = 1
 			infoTitleLbl.Text = infoTitle
 			infoTitleLbl.TextColor3 = ac
@@ -3286,11 +3274,12 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoTitleLbl.TextSize = 10
 			infoTitleLbl.TextXAlignment = Enum.TextXAlignment.Left
 			infoTitleLbl.TextWrapped = true
-			infoTitleLbl.Parent = infoTextContainer
+			infoTitleLbl.Parent = infoFrame
 			registerRecolor(infoTitleLbl, "TextColor3", "ac")
 
 			local infoDescLbl = Instance.new("TextLabel")
-			infoDescLbl.Size = UDim2.new(1, 0, 0, 0)
+			infoDescLbl.Size = UDim2.new(1, -28, 0, 0)
+			infoDescLbl.Position = UDim2.new(0, 28, 0, 16)
 			infoDescLbl.AutomaticSize = Enum.AutomaticSize.Y
 			infoDescLbl.BackgroundTransparency = 1
 			infoDescLbl.Text = infoDesc
@@ -3300,7 +3289,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoDescLbl.TextXAlignment = Enum.TextXAlignment.Left
 			infoDescLbl.RichText = true
 			infoDescLbl.TextWrapped = true
-			infoDescLbl.Parent = infoTextContainer
+			infoDescLbl.Parent = infoFrame
 		end
 		if modData.opts and #modData.opts > 0 then
 			for _, opt in ipairs(modData.opts) do
