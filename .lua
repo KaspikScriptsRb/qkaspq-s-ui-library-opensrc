@@ -3254,29 +3254,22 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			pad(infoFrame, 8, 8, 10, 10)
 			registerRecolor(infoFrame, "BackgroundColor3", "field")
 
-			local infoLay = Instance.new("UIListLayout")
-			infoLay.FillDirection = Enum.FillDirection.Horizontal
-			infoLay.VerticalAlignment = Enum.VerticalAlignment.Top
-			infoLay.SortOrder = Enum.SortOrder.LayoutOrder
-			infoLay.Padding = UDim.new(0, 10)
-			infoLay.Parent = infoFrame
-
 			local infoIcon = Instance.new("ImageLabel")
 			infoIcon.Size = UDim2.new(0, 18, 0, 18)
+			infoIcon.Position = UDim2.new(0, 0, 0, 0)
 			infoIcon.BackgroundTransparency = 1
-			infoIcon.Image = "rbxassetid://15928895003"
+			infoIcon.Image = "rbxassetid://110789965791116"
 			infoIcon.ImageColor3 = ac
 			infoIcon.ScaleType = Enum.ScaleType.Fit
-			infoIcon.LayoutOrder = 1
 			infoIcon.Parent = infoFrame
 			registerRecolor(infoIcon, "ImageColor3", "ac")
 
 			local infoTextContainer = Instance.new("Frame")
 			infoTextContainer.Size = UDim2.new(1, -28, 0, 0)
+			infoTextContainer.Position = UDim2.new(0, 28, 0, 0)
 			infoTextContainer.AutomaticSize = Enum.AutomaticSize.Y
 			infoTextContainer.BackgroundTransparency = 1
 			infoTextContainer.BorderSizePixel = 0
-			infoTextContainer.LayoutOrder = 2
 			infoTextContainer.Parent = infoFrame
 
 			local infoTextLay = Instance.new("UIListLayout")
@@ -3292,6 +3285,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoTitleLbl.Font = Enum.Font.MontserratBold
 			infoTitleLbl.TextSize = 10
 			infoTitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+			infoTitleLbl.TextWrapped = true
 			infoTitleLbl.Parent = infoTextContainer
 			registerRecolor(infoTitleLbl, "TextColor3", "ac")
 
@@ -3305,6 +3299,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			infoDescLbl.TextSize = 9
 			infoDescLbl.TextXAlignment = Enum.TextXAlignment.Left
 			infoDescLbl.RichText = true
+			infoDescLbl.TextWrapped = true
 			infoDescLbl.Parent = infoTextContainer
 		end
 		if modData.opts and #modData.opts > 0 then
