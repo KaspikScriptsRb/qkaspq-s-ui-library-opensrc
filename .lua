@@ -469,7 +469,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local scaleW = w / 1000
 			local scaleH = h / 700
 			local scale = math.min(scaleW, scaleH)
-			uiScale.Scale = math.clamp(scale, 0.5, 1.0)
+			uiScale.Scale = math.clamp(scale * 0.85, 0.4, 0.85)
 		end
 	end
 	updateScale()
@@ -999,7 +999,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	self.tabBtns = {}
 	for i, tab in ipairs(self.tabDefs) do
 		local btn = Instance.new("TextButton")
-		btn.Size = UDim2.new(1, 0, 0, 36)
+		btn.Size = UDim2.new(1, 0, 0, 30)
 		btn.BackgroundTransparency = 1
 		btn.Text = ""
 		btn.LayoutOrder = i
@@ -1019,12 +1019,12 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		btnLay.FillDirection = Enum.FillDirection.Horizontal
 		btnLay.VerticalAlignment = Enum.VerticalAlignment.Center
 		btnLay.HorizontalAlignment = Enum.HorizontalAlignment.Left
-		btnLay.Padding = UDim.new(0, 10)
+		btnLay.Padding = UDim.new(0, 8)
 		btnLay.Parent = contentFrame
-		pad(contentFrame, 0, 0, 10, 10)
+		pad(contentFrame, 0, 0, 8, 8)
 
 		local icon = Instance.new("ImageLabel")
-		icon.Size = UDim2.new(0, 16, 0, 16)
+		icon.Size = UDim2.new(0, 13, 0, 13)
 		icon.BackgroundTransparency = 1
 		icon.Image = tab.icon
 		icon.ImageColor3 = cl.dim
@@ -1035,9 +1035,9 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		lbl.BackgroundTransparency = 1
 		lbl.Text = self.tabNamesRu[tab.id] or tab.id
 		lbl.TextColor3 = cl.dim
-		lbl.TextSize = 12
+		lbl.TextSize = 10
 		lbl.Font = Enum.Font.MontserratBold
-		lbl.Size = UDim2.new(1, -26, 0, 14)
+		lbl.Size = UDim2.new(1, -22, 0, 12)
 		lbl.TextTruncate = Enum.TextTruncate.AtEnd
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.Parent = contentFrame
@@ -1822,7 +1822,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		makeDraggable(targetHudInstance)
 	end
 	local function makeCheckbox(parent, data, updateHeight)
-		local h = data.desc and 42 or 26
+		local h = data.desc and 36 or 22
 		local frame = Instance.new("Frame")
 		frame.Size = UDim2.new(1, 0, 0, h)
 		frame.BackgroundTransparency = 1
@@ -1830,11 +1830,11 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.frame = frame
 		data.height = h
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, -28, 0, 14)
+		label.Size = UDim2.new(1, -24, 0, 12)
 		label.BackgroundTransparency = 1
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
@@ -1842,12 +1842,12 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.originalLabel = data.originalLabel or data.label
 		if data.desc then
 			local desc = Instance.new("TextLabel")
-			desc.Size = UDim2.new(1, -28, 0, 11)
-			desc.Position = UDim2.new(0, 0, 0, 18)
+			desc.Size = UDim2.new(1, -24, 0, 10)
+			desc.Position = UDim2.new(0, 0, 0, 14)
 			desc.BackgroundTransparency = 1
 			desc.Text = data.desc
 			desc.TextColor3 = Color3.fromRGB(180, 180, 190)
-			desc.TextSize = 10
+			desc.TextSize = 9
 			desc.Font = Enum.Font.MontserratBold
 			desc.TextXAlignment = Enum.TextXAlignment.Left
 			desc.TextTruncate = Enum.TextTruncate.AtEnd
@@ -1855,17 +1855,17 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			data.ui_desc = desc
 		end
 		local box = Instance.new("Frame")
-		box.Size = UDim2.new(0, 18, 0, 18)
-		box.Position = UDim2.new(1, -18, 0.5, -9)
+		box.Size = UDim2.new(0, 14, 0, 14)
+		box.Position = UDim2.new(1, -14, 0.5, -7)
 		box.BackgroundColor3 = data.value and ac or cl.check
 		box.BorderSizePixel = 0
 		box.Parent = frame
-		rnd(box, 5)
+		rnd(box, 4)
 		data.ui_box = box
 		local checkIcon = Instance.new("ImageLabel")
 		checkIcon.AnchorPoint = Vector2.new(0.5, 0.5)
 		checkIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
-		checkIcon.Size = UDim2.new(0, 12, 0, 12)
+		checkIcon.Size = UDim2.new(0, 9, 0, 9)
 		checkIcon.BackgroundTransparency = 1
 		checkIcon.Image = "rbxassetid://14189590169"
 		checkIcon.ImageColor3 = Color3.fromRGB(20, 20, 20)
@@ -1904,58 +1904,58 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	local function makeDropdown(parent, data, updateHeight)
 		local isMulti = data.type == "multiselect"
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, 48)
+		frame.Size = UDim2.new(1, 0, 0, 42)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = 48
+		data.height = 42
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, 0, 0, 14)
+		label.Size = UDim2.new(1, 0, 0, 12)
 		label.BackgroundTransparency = 1
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
 		data.originalLabel = data.originalLabel or data.label
 		local field = Instance.new("Frame")
-		field.Size = UDim2.new(1, 0, 0, 30)
-		field.Position = UDim2.new(0, 0, 0, 18)
+		field.Size = UDim2.new(1, 0, 0, 24)
+		field.Position = UDim2.new(0, 0, 0, 14)
 		field.BackgroundColor3 = cl.field
 		field.BorderSizePixel = 0
 		field.ClipsDescendants = true
 		field.Parent = frame
-		rnd(field, 6)
+		rnd(field, 5)
 		stk(field, Color3.fromRGB(36, 36, 42))
 		data.ui_field = field
 		local fieldHeader = Instance.new("Frame")
-		fieldHeader.Size = UDim2.new(1, 0, 0, 30)
+		fieldHeader.Size = UDim2.new(1, 0, 0, 24)
 		fieldHeader.BackgroundTransparency = 1
 		fieldHeader.Parent = field
 		local ddIcon = Instance.new("ImageLabel")
-		ddIcon.Size = UDim2.new(0, 14, 0, 14)
-		ddIcon.Position = UDim2.new(0, 10, 0.5, -7)
+		ddIcon.Size = UDim2.new(0, 12, 0, 12)
+		ddIcon.Position = UDim2.new(0, 8, 0.5, -6)
 		ddIcon.BackgroundTransparency = 1
 		ddIcon.Image = "rbxassetid://15567843390"
 		ddIcon.ImageColor3 = Color3.fromRGB(160, 160, 170)
 		ddIcon.ScaleType = Enum.ScaleType.Fit
 		ddIcon.Parent = fieldHeader
 		local val = Instance.new("TextLabel")
-		val.Size = UDim2.new(1, -48, 1, 0)
-		val.Position = UDim2.new(0, 32, 0, 0)
+		val.Size = UDim2.new(1, -42, 1, 0)
+		val.Position = UDim2.new(0, 26, 0, 0)
 		val.BackgroundTransparency = 1
 		val.Text = data.value
 		val.TextColor3 = Color3.fromRGB(220, 220, 225)
-		val.TextSize = 11
+		val.TextSize = 10
 		val.Font = Enum.Font.MontserratBold
 		val.TextXAlignment = Enum.TextXAlignment.Left
 		val.Parent = fieldHeader
 		data.ui_val = val
 		local arrow = Instance.new("ImageLabel")
-		arrow.Size = UDim2.new(0, 10, 0, 10)
-		arrow.Position = UDim2.new(1, -15, 0.5, 0)
+		arrow.Size = UDim2.new(0, 8, 0, 8)
+		arrow.Position = UDim2.new(1, -12, 0.5, 0)
 		arrow.AnchorPoint = Vector2.new(0.5, 0.5)
 		arrow.BackgroundTransparency = 1
 		arrow.Image = "rbxassetid://91928301361749"
@@ -1965,7 +1965,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.ui_arrow = arrow
 		local optList = Instance.new("ScrollingFrame")
 		optList.Size = UDim2.new(1, 0, 0, 0)
-		optList.Position = UDim2.new(0, 0, 0, 30)
+		optList.Position = UDim2.new(0, 0, 0, 24)
 		optList.BackgroundTransparency = 1
 		optList.BorderSizePixel = 0
 		optList.Visible = false
@@ -1978,9 +1978,9 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.ui_optList = optList
 		local listLay = Instance.new("UIListLayout")
 		listLay.SortOrder = Enum.SortOrder.LayoutOrder
-		listLay.Padding = UDim.new(0, 3)
+		listLay.Padding = UDim.new(0, 2)
 		listLay.Parent = optList
-		pad(optList, 6, 6, 10, 10)
+		pad(optList, 4, 4, 8, 8)
 		local fieldBtn = Instance.new("TextButton")
 		fieldBtn.Size = UDim2.new(1, 0, 1, 0)
 		fieldBtn.BackgroundTransparency = 1
@@ -2012,19 +2012,19 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		if data.list then
 			for idx, opt in ipairs(data.list) do
 				local optBtn = Instance.new("TextButton")
-				optBtn.Size = UDim2.new(1, 0, 0, 26)
+				optBtn.Size = UDim2.new(1, 0, 0, 22)
 				optBtn.BackgroundTransparency = 1
 				optBtn.BorderSizePixel = 0
 				optBtn.Text = opt
 				local isSel = isMulti and activeSelections[opt] or (opt == data.value)
 				optBtn.TextColor3 = isSel and ac2 or Color3.fromRGB(200, 200, 205)
-				optBtn.TextSize = 11
+				optBtn.TextSize = 10
 				optBtn.Font = Enum.Font.MontserratBold
 				optBtn.TextXAlignment = Enum.TextXAlignment.Left
 				optBtn.AutoButtonColor = false
 				optBtn.Parent = optList
-				rnd(optBtn, 5)
-				pad(optBtn, 0, 0, 10, 0)
+				rnd(optBtn, 4)
+				pad(optBtn, 0, 0, 8, 0)
 				optBtn.MouseEnter:Connect(function()
 					tw(optBtn, {BackgroundTransparency = 0.95, BackgroundColor3 = ac, TextColor3 = ac}, 0.1)
 				end)
@@ -2061,8 +2061,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 								optList.Visible = false
 							end
 						end)
-						tw(field, {Size = UDim2.new(1, 0, 0, 30)}, 0.3, Enum.EasingStyle.Quint)
-						tw(frame, {Size = UDim2.new(1, 0, 0, 48)}, 0.3, Enum.EasingStyle.Quint)
+						tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.3, Enum.EasingStyle.Quint)
+						tw(frame, {Size = UDim2.new(1, 0, 0, 42)}, 0.3, Enum.EasingStyle.Quint)
 						task.spawn(function()
 							local startTime = os.clock()
 							local conn
@@ -2082,12 +2082,12 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 				if data.expanded then
 					optList.Visible = true
 					tw(arrow, {Rotation = 90}, 0.15)
-					local _0xfullH = #data.list * 28 + 12
-					local listH = math.min(_0xfullH, 160)
+					local _0xfullH = #data.list * 24 + 8
+					local listH = math.min(_0xfullH, 140)
 					optList.CanvasSize = UDim2.new(0, 0, 0, _0xfullH)
 					tw(optList, {Size = UDim2.new(1, 0, 0, listH)}, dur, Enum.EasingStyle.Quint)
-					tw(field, {Size = UDim2.new(1, 0, 0, 30 + listH)}, dur, Enum.EasingStyle.Quint)
-					tw(frame, {Size = UDim2.new(1, 0, 0, 48 + listH)}, dur, Enum.EasingStyle.Quint)
+					tw(field, {Size = UDim2.new(1, 0, 0, 24 + listH)}, dur, Enum.EasingStyle.Quint)
+					tw(frame, {Size = UDim2.new(1, 0, 0, 42 + listH)}, dur, Enum.EasingStyle.Quint)
 				else
 					tw(arrow, {Rotation = 0}, 0.15)
 					tw(optList, {Size = UDim2.new(1, 0, 0, 0)}, dur, Enum.EasingStyle.Quint)
@@ -2096,8 +2096,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 							optList.Visible = false
 						end
 					end)
-					tw(field, {Size = UDim2.new(1, 0, 0, 30)}, dur, Enum.EasingStyle.Quint)
-					tw(frame, {Size = UDim2.new(1, 0, 0, 48)}, dur, Enum.EasingStyle.Quint)
+					tw(field, {Size = UDim2.new(1, 0, 0, 24)}, dur, Enum.EasingStyle.Quint)
+					tw(frame, {Size = UDim2.new(1, 0, 0, 42)}, dur, Enum.EasingStyle.Quint)
 				end
 				task.spawn(function()
 					local startTime = os.clock()
@@ -2124,8 +2124,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	end
 	local function makeSlider(parent, data, updateHeight)
 		local hasDesc = data.desc ~= nil
-		local hasDesc = data.desc ~= nil
-		local h = hasDesc and 56 or 38
+		local h = hasDesc and 48 or 32
 		local frame = Instance.new("Frame")
 		frame.Size = UDim2.new(1, 0, 0, h)
 		frame.BackgroundTransparency = 1
@@ -2133,49 +2132,49 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.frame = frame
 		data.height = h
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(0.6, 0, 0, 14)
+		label.Size = UDim2.new(0.6, 0, 0, 12)
 		label.BackgroundTransparency = 1
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
 		data.originalLabel = data.originalLabel or data.label
 		local valText = Instance.new("TextLabel")
-		valText.Size = UDim2.new(0.4, 0, 0, 14)
+		valText.Size = UDim2.new(0.4, 0, 0, 12)
 		valText.Position = UDim2.new(0.6, 0, 0, 0)
 		valText.BackgroundTransparency = 1
 		valText.Text = tostring(data.value) .. (data.suffix or "")
 		valText.TextColor3 = ac2
-		valText.TextSize = 11
+		valText.TextSize = 10
 		valText.Font = Enum.Font.MontserratBold
 		valText.TextXAlignment = Enum.TextXAlignment.Right
 		valText.Parent = frame
 		data.ui_valText = valText
 		if hasDesc then
 			local desc = Instance.new("TextLabel")
-			desc.Size = UDim2.new(1, 0, 0, 12)
-			desc.Position = UDim2.new(0, 0, 0, 16)
+			desc.Size = UDim2.new(1, 0, 0, 10)
+			desc.Position = UDim2.new(0, 0, 0, 14)
 			desc.BackgroundTransparency = 1
 			desc.Text = data.desc
 			desc.TextColor3 = Color3.fromRGB(160, 160, 170)
-			desc.TextSize = 10
+			desc.TextSize = 9
 			desc.Font = Enum.Font.MontserratBold
 			desc.TextXAlignment = Enum.TextXAlignment.Left
 			desc.TextTruncate = Enum.TextTruncate.AtEnd
 			desc.Parent = frame
 			data.ui_desc = desc
 		end
-		local trackY = hasDesc and 34 or 22
+		local trackY = hasDesc and 30 or 18
 		local track = Instance.new("Frame")
-		track.Size = UDim2.new(1, 0, 0, 6)
+		track.Size = UDim2.new(1, 0, 0, 4)
 		track.Position = UDim2.new(0, 0, 0, trackY)
 		track.BackgroundColor3 = cl.field
 		track.BorderSizePixel = 0
 		track.Parent = frame
-		rnd(track, 3)
+		rnd(track, 2)
 		data.ui_track = track
 		local pct = math.clamp((data.value - data.min) / (data.max - data.min), 0, 1)
 		local fill = Instance.new("Frame")
@@ -2183,21 +2182,21 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		fill.BackgroundColor3 = ac
 		fill.BorderSizePixel = 0
 		fill.Parent = track
-		rnd(fill, 3)
+		rnd(fill, 2)
 		data.ui_fill = fill
 		local knob = Instance.new("Frame")
-		knob.Size = UDim2.new(0, 12, 0, 12)
-		knob.Position = UDim2.new(pct, -6, 0.5, -6)
+		knob.Size = UDim2.new(0, 10, 0, 10)
+		knob.Position = UDim2.new(pct, -5, 0.5, -5)
 		knob.BackgroundColor3 = ac
 		knob.BorderSizePixel = 0
 		knob.ZIndex = 2
 		knob.Parent = track
-		rnd(knob, 6)
+		rnd(knob, 5)
 		data.ui_knob = knob
 		local active = false
 		local hitArea = Instance.new("TextButton")
-		hitArea.Size = UDim2.new(1, 0, 0, 16)
-		hitArea.Position = UDim2.new(0, 0, 0, trackY - 5)
+		hitArea.Size = UDim2.new(1, 0, 0, 12)
+		hitArea.Position = UDim2.new(0, 0, 0, trackY - 4)
 		hitArea.BackgroundTransparency = 1
 		hitArea.Text = ""
 		hitArea.Parent = frame
@@ -2221,7 +2220,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 					data.value = math.floor(raw)
 				end
 				tw(fill, {Size = UDim2.new(rel, 0, 1, 0)}, 0.08)
-				tw(knob, {Position = UDim2.new(rel, -6, 0.5, -6)}, 0.08)
+				tw(knob, {Position = UDim2.new(rel, -5, 0.5, -5)}, 0.08)
 				valText.Text = tostring(data.value) .. (data.suffix or "")
 				if data.callback then
 					pcall(data.callback, data.value)
@@ -2237,19 +2236,19 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	end
 	local function makeColorPicker(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, 26)
+		frame.Size = UDim2.new(1, 0, 0, 22)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = 26
+		data.height = 22
 
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, -26, 0, 14)
-		label.Position = UDim2.new(0, 0, 0.5, -7)
+		label.Size = UDim2.new(1, -22, 0, 12)
+		label.Position = UDim2.new(0, 0, 0.5, -6)
 		label.BackgroundTransparency = 1
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
@@ -2257,32 +2256,32 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.originalLabel = data.originalLabel or data.label
 
 		local box = Instance.new("Frame")
-		box.Size = UDim2.new(0, 18, 0, 18)
-		box.Position = UDim2.new(1, -18, 0.5, -9)
+		box.Size = UDim2.new(0, 14, 0, 14)
+		box.Position = UDim2.new(1, -14, 0.5, -7)
 		box.BackgroundColor3 = data.color or Color3.fromRGB(120, 110, 250)
 		box.BorderSizePixel = 0
 		box.Parent = frame
-		rnd(box, 5)
+		rnd(box, 4)
 		stk(box, Color3.fromRGB(45, 45, 52))
 		data.ui_box = box
 
 		local pickerPanel = Instance.new("Frame")
 		pickerPanel.Size = UDim2.new(1, 0, 0, 0)
-		pickerPanel.Position = UDim2.new(0, 0, 0, 26)
+		pickerPanel.Position = UDim2.new(0, 0, 0, 22)
 		pickerPanel.BackgroundColor3 = cl.field
 		pickerPanel.BorderSizePixel = 0
 		pickerPanel.ClipsDescendants = true
 		pickerPanel.Visible = false
 		pickerPanel.Parent = frame
-		rnd(pickerPanel, 6)
+		rnd(pickerPanel, 5)
 		stk(pickerPanel, Color3.fromRGB(36, 36, 42))
 		data.ui_pickerPanel = pickerPanel
 
 		local pLay = Instance.new("UIListLayout")
 		pLay.SortOrder = Enum.SortOrder.LayoutOrder
-		pLay.Padding = UDim.new(0, 8)
+		pLay.Padding = UDim.new(0, 6)
 		pLay.Parent = pickerPanel
-		pad(pickerPanel, 8, 8, 8, 8)
+		pad(pickerPanel, 6, 6, 6, 6)
 
 		local currentH
 		local currentS
@@ -2290,7 +2289,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		currentH, currentS, currentV = Color3.toHSV(data.color or Color3.fromRGB(120, 110, 250))
 
 		local svFrame = Instance.new("Frame")
-		svFrame.Size = UDim2.new(1, 0, 0, 80)
+		svFrame.Size = UDim2.new(1, 0, 0, 64)
 		svFrame.BackgroundColor3 = Color3.fromHSV(currentH, 1, 1)
 		svFrame.BorderSizePixel = 0
 		svFrame.LayoutOrder = 1
@@ -2330,21 +2329,21 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		valUIGrad.Parent = valGrad
 
 		local svCursor = Instance.new("Frame")
-		svCursor.Size = UDim2.new(0, 8, 0, 8)
+		svCursor.Size = UDim2.new(0, 6, 0, 6)
 		svCursor.AnchorPoint = Vector2.new(0.5, 0.5)
 		svCursor.Position = UDim2.new(currentS, 0, 1 - currentV, 0)
 		svCursor.BackgroundTransparency = 1
 		svCursor.Parent = valGrad
-		rnd(svCursor, 4)
+		rnd(svCursor, 3)
 		data.ui_svCursor = svCursor
 
 		local cursorStroke = Instance.new("UIStroke")
 		cursorStroke.Color = Color3.fromRGB(255, 255, 255)
-		cursorStroke.Thickness = 1.5
+		cursorStroke.Thickness = 1
 		cursorStroke.Parent = svCursor
 
 		local hueSlider = Instance.new("Frame")
-		hueSlider.Size = UDim2.new(1, 0, 0, 10)
+		hueSlider.Size = UDim2.new(1, 0, 0, 8)
 		hueSlider.BorderSizePixel = 0
 		hueSlider.LayoutOrder = 2
 		hueSlider.Parent = pickerPanel
@@ -2363,8 +2362,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		hueGrad.Parent = hueSlider
 
 		local hueCursor = Instance.new("Frame")
-		hueCursor.Size = UDim2.new(0, 4, 1, 4)
-		hueCursor.Position = UDim2.new(currentH, -2, 0, -2)
+		hueCursor.Size = UDim2.new(0, 4, 1, 2)
+		hueCursor.Position = UDim2.new(currentH, -2, 0, -1)
 		hueCursor.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		hueCursor.BorderSizePixel = 0
 		hueCursor.Parent = hueSlider
@@ -2414,7 +2413,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local mousePos = UIS:GetMouseLocation() - game:GetService("GuiService"):GetGuiInset()
 			local relX = math.clamp((mousePos.X - hueSlider.AbsolutePosition.X) / hueSlider.AbsoluteSize.X, 0, 1)
 			currentH = relX
-			hueCursor.Position = UDim2.new(relX, -2, 0, -2)
+			hueCursor.Position = UDim2.new(relX, -2, 0, -1)
 			svFrame.BackgroundColor3 = Color3.fromHSV(currentH, 1, 1)
 			updateColor()
 		end
@@ -2442,18 +2441,18 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end))
 
 		local accBtn = Instance.new("TextButton")
-		accBtn.Size = UDim2.new(1, 0, 0, 24)
+		accBtn.Size = UDim2.new(1, 0, 0, 20)
 		accBtn.BackgroundColor3 = ac
 		accBtn.Text = "Принять"
 		accBtn.TextColor3 = Color3.fromRGB(20, 20, 20)
-		accBtn.TextSize = 10
+		accBtn.TextSize = 9
 		accBtn.Font = Enum.Font.MontserratBold
 		accBtn.LayoutOrder = 3
 		accBtn.Parent = pickerPanel
 		rnd(accBtn, 4)
 
 		local btn = Instance.new("TextButton")
-		btn.Size = UDim2.new(1, 0, 0, 26)
+		btn.Size = UDim2.new(1, 0, 0, 22)
 		btn.Position = UDim2.new(0, 0, 0, 0)
 		btn.BackgroundTransparency = 1
 		btn.Text = ""
@@ -2464,10 +2463,10 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			local dur = 0.26
 			if data.expanded then
 				pickerPanel.Visible = true
-				local panelH = 80 + 10 + 24 + 24
+				local panelH = 64 + 8 + 20 + 20
 				tw(pickerPanel, {Size = UDim2.new(1, 0, 0, panelH)}, dur, Enum.EasingStyle.Quint)
-				tw(frame, {Size = UDim2.new(1, 0, 0, 26 + panelH + 6)}, dur, Enum.EasingStyle.Quint)
-				data.height = 26 + panelH + 6
+				tw(frame, {Size = UDim2.new(1, 0, 0, 22 + panelH + 4)}, dur, Enum.EasingStyle.Quint)
+				data.height = 22 + panelH + 4
 			else
 				tw(pickerPanel, {Size = UDim2.new(1, 0, 0, 0)}, dur, Enum.EasingStyle.Quint)
 				task.delay(dur, function()
@@ -2475,8 +2474,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 						pickerPanel.Visible = false
 					end
 				end)
-				tw(frame, {Size = UDim2.new(1, 0, 0, 26)}, dur, Enum.EasingStyle.Quint)
-				data.height = 26
+				tw(frame, {Size = UDim2.new(1, 0, 0, 22)}, dur, Enum.EasingStyle.Quint)
+				data.height = 22
 			end
 			task.spawn(function()
 				local startTime = os.clock()
@@ -2508,14 +2507,14 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		["Bloodmoon"] = {Color3.fromRGB(255, 50, 50), Color3.fromRGB(150, 0, 0)},
 	}
 	local function renderPredictionRow(parent, item, index)
-		local rowH = 26
+		local rowH = 22
 		local row = Instance.new("Frame")
 		row.Size = UDim2.new(1, 0, 0, rowH)
 		row.BackgroundColor3 = cl.card
 		row.BorderSizePixel = 0
 		row.LayoutOrder = index
 		row.Parent = parent
-		rnd(row, 6)
+		rnd(row, 5)
 		stk(row, Color3.fromRGB(28, 28, 34), 1)
 		local accentCol = Color3.fromRGB(200, 200, 210)
 		local isRare = false
@@ -2530,23 +2529,23 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end
 		local accent = Instance.new("Frame")
 		accent.BorderSizePixel = 0
-		accent.Position = UDim2.new(0, 6, 0.5, -4)
-		accent.Size = UDim2.new(0, 8, 0, 8)
+		accent.Position = UDim2.new(0, 6, 0.5, -3)
+		accent.Size = UDim2.new(0, 6, 0, 6)
 		accent.BackgroundColor3 = accentCol
 		accent.Parent = row
-		rnd(accent, 4)
+		rnd(accent, 3)
 		if isRare and moonGradients[rareName] then
 			local grad = Instance.new("UIGradient")
 			grad.Color = ColorSequence.new(moonGradients[rareName][1], moonGradients[rareName][2])
 			grad.Parent = accent
 		end
 		local lbl = Instance.new("TextLabel")
-		lbl.Size = UDim2.new(1, -26, 1, 0)
-		lbl.Position = UDim2.new(0, 20, 0, 0)
+		lbl.Size = UDim2.new(1, -22, 1, 0)
+		lbl.Position = UDim2.new(0, 18, 0, 0)
 		lbl.BackgroundTransparency = 1
 		lbl.Text = item
 		lbl.TextColor3 = isRare and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(160, 160, 170)
-		lbl.TextSize = 10
+		lbl.TextSize = 9
 		lbl.Font = isRare and Enum.Font.MontserratBold or Enum.Font.MontserratBold
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.Parent = row
@@ -2564,44 +2563,44 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	local function makePredList(parent, data, updateHeight)
 		local items = data.items or {}
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, 48)
+		frame.Size = UDim2.new(1, 0, 0, 42)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = 48
+		data.height = 42
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, 0, 0, 14)
+		label.Size = UDim2.new(1, 0, 0, 12)
 		label.BackgroundTransparency = 1
 		label.Text = data.label or "Weather Predictions"
 		label.TextColor3 = Color3.fromRGB(255, 255, 255)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		local field = Instance.new("Frame")
-		field.Size = UDim2.new(1, 0, 0, 30)
-		field.Position = UDim2.new(0, 0, 0, 18)
+		field.Size = UDim2.new(1, 0, 0, 24)
+		field.Position = UDim2.new(0, 0, 0, 14)
 		field.BackgroundColor3 = cl.field
 		field.BorderSizePixel = 0
 		field.ClipsDescendants = true
 		field.Parent = frame
-		rnd(field, 6)
+		rnd(field, 5)
 		stk(field, Color3.fromRGB(36, 36, 42))
 		local fieldHeader = Instance.new("Frame")
-		fieldHeader.Size = UDim2.new(1, 0, 0, 30)
+		fieldHeader.Size = UDim2.new(1, 0, 0, 24)
 		fieldHeader.BackgroundTransparency = 1
 		fieldHeader.Parent = field
 		local ddIcon = Instance.new("ImageLabel")
-		ddIcon.Size = UDim2.new(0, 14, 0, 14)
-		ddIcon.Position = UDim2.new(0, 10, 0.5, -7)
+		ddIcon.Size = UDim2.new(0, 12, 0, 12)
+		ddIcon.Position = UDim2.new(0, 8, 0.5, -6)
 		ddIcon.BackgroundTransparency = 1
 		ddIcon.Image = "rbxassetid://16000149927"
 		ddIcon.ImageColor3 = Color3.fromRGB(160, 160, 170)
 		ddIcon.ScaleType = Enum.ScaleType.Fit
 		ddIcon.Parent = fieldHeader
 		local val = Instance.new("TextLabel")
-		val.Size = UDim2.new(1, -48, 1, 0)
-		val.Position = UDim2.new(0, 32, 0, 0)
+		val.Size = UDim2.new(1, -42, 1, 0)
+		val.Position = UDim2.new(0, 26, 0, 0)
 		val.BackgroundTransparency = 1
 		local summaryText = "Show Predictions"
 		for _, item in ipairs(items) do
@@ -2612,13 +2611,13 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end
 		val.Text = summaryText
 		val.TextColor3 = Color3.fromRGB(220, 220, 225)
-		val.TextSize = 11
+		val.TextSize = 10
 		val.Font = Enum.Font.MontserratBold
 		val.TextXAlignment = Enum.TextXAlignment.Left
 		val.Parent = fieldHeader
 		local arrow = Instance.new("ImageLabel")
-		arrow.Size = UDim2.new(0, 10, 0, 10)
-		arrow.Position = UDim2.new(1, -15, 0.5, 0)
+		arrow.Size = UDim2.new(0, 8, 0, 8)
+		arrow.Position = UDim2.new(1, -12, 0.5, 0)
 		arrow.AnchorPoint = Vector2.new(0.5, 0.5)
 		arrow.BackgroundTransparency = 1
 		arrow.Image = "rbxassetid://6031094678"
@@ -2627,7 +2626,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		arrow.Parent = fieldHeader
 		local optList = Instance.new("ScrollingFrame")
 		optList.Size = UDim2.new(1, 0, 0, 0)
-		optList.Position = UDim2.new(0, 0, 0, 30)
+		optList.Position = UDim2.new(0, 0, 0, 24)
 		optList.BackgroundTransparency = 1
 		optList.BorderSizePixel = 0
 		optList.Visible = false
@@ -2639,9 +2638,9 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		optList.Parent = field
 		local listLay = Instance.new("UIListLayout")
 		listLay.SortOrder = Enum.SortOrder.LayoutOrder
-		listLay.Padding = UDim.new(0, 6)
+		listLay.Padding = UDim.new(0, 4)
 		listLay.Parent = optList
-		pad(optList, 6, 6, 10, 10)
+		pad(optList, 4, 4, 8, 8)
 		local fieldBtn = Instance.new("TextButton")
 		fieldBtn.Size = UDim2.new(1, 0, 1, 0)
 		fieldBtn.BackgroundTransparency = 1
@@ -2655,21 +2654,21 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			if data.expanded then
 				optList.Visible = true
 				tw(arrow, {Rotation = 180}, 0.15)
-				local rowH = 26
-				local _0xfullH = #items * (rowH + 6) + 8
-				local listH = math.min(_0xfullH, 180)
+				local rowH = 22
+				local _0xfullH = #items * (rowH + 4) + 6
+				local listH = math.min(_0xfullH, 140)
 				optList.CanvasSize = UDim2.new(0, 0, 0, _0xfullH)
 				tw(optList, {Size = UDim2.new(1, 0, 0, listH)}, 0.18)
-				tw(field, {Size = UDim2.new(1, 0, 0, 30 + listH)}, 0.18)
-				tw(frame, {Size = UDim2.new(1, 0, 0, 48 + listH)}, 0.18)
+				tw(field, {Size = UDim2.new(1, 0, 0, 24 + listH)}, 0.18)
+				tw(frame, {Size = UDim2.new(1, 0, 0, 42 + listH)}, 0.18)
 			else
 				tw(arrow, {Rotation = 0}, 0.15)
 				tw(optList, {Size = UDim2.new(1, 0, 0, 0)}, 0.18)
 				task.delay(0.18, function()
 					optList.Visible = false
 				end)
-				tw(field, {Size = UDim2.new(1, 0, 0, 30)}, 0.18)
-				tw(frame, {Size = UDim2.new(1, 0, 0, 48)}, 0.18)
+				tw(field, {Size = UDim2.new(1, 0, 0, 24)}, 0.18)
+				tw(frame, {Size = UDim2.new(1, 0, 0, 42)}, 0.18)
 			end
 			task.delay(0.01, updateHeight)
 			task.delay(0.19, updateHeight)
@@ -2679,23 +2678,24 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			optList.ScrollBarImageColor3 = ac
 		end
 	end
+
 	local function makeButton(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, 32)
+		frame.Size = UDim2.new(1, 0, 0, 26)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = 32
+		data.height = 26
 		local btn = Instance.new("TextButton")
 		btn.Size = UDim2.new(1, 0, 1, 0)
 		btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		btn.BorderSizePixel = 0
 		btn.Text = data.label
 		btn.TextColor3 = Color3.fromRGB(20, 20, 20)
-		btn.TextSize = 11
+		btn.TextSize = 10
 		btn.Font = Enum.Font.MontserratBold
 		btn.Parent = frame
-		rnd(btn, 8)
+		rnd(btn, 6)
 		stk(btn, Color3.fromRGB(200, 200, 200))
 		data.ui_btn = btn
 		data.originalLabel = data.originalLabel or data.label
@@ -2722,38 +2722,38 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	end
 	local function makeToggle(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, 26)
+		frame.Size = UDim2.new(1, 0, 0, 22)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = 26
+		data.height = 22
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, -54, 0, 14)
-		label.Position = UDim2.new(0, 0, 0.5, -7)
+		label.Size = UDim2.new(1, -40, 0, 12)
+		label.Position = UDim2.new(0, 0, 0.5, -6)
 		label.BackgroundTransparency = 1
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
 		data.originalLabel = data.originalLabel or data.label
 		local togBg = Instance.new("Frame")
-		togBg.Size = UDim2.new(0, 42, 0, 22)
-		togBg.Position = UDim2.new(1, -42, 0.5, -11)
+		togBg.Size = UDim2.new(0, 32, 0, 16)
+		togBg.Position = UDim2.new(1, -32, 0.5, -8)
 		togBg.BackgroundColor3 = data.value and ac or cl.tog_off
 		togBg.BorderSizePixel = 0
 		togBg.Parent = frame
-		rnd(togBg, 11)
+		rnd(togBg, 8)
 		data.ui_togBg = togBg
 		local togDot = Instance.new("Frame")
-		togDot.Size = UDim2.new(0, 18, 0, 18)
-		togDot.Position = data.value and UDim2.new(1, -20, 0.5, -9) or UDim2.new(0, 2, 0.5, -9)
+		togDot.Size = UDim2.new(0, 12, 0, 12)
+		togDot.Position = data.value and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6)
 		togDot.BackgroundColor3 = data.value and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 		togDot.BorderSizePixel = 0
 		togDot.Parent = togBg
-		rnd(togDot, 9)
+		rnd(togDot, 6)
 		data.ui_togDot = togDot
 		local btn = Instance.new("TextButton")
 		btn.Size = UDim2.new(1, 0, 1, 0)
@@ -2764,7 +2764,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			data.value = not data.value
 			tw(togBg, {BackgroundColor3 = data.value and ac or cl.tog_off}, 0.18)
 			tw(togDot, {
-				Position = data.value and UDim2.new(1, -20, 0.5, -9) or UDim2.new(0, 2, 0.5, -9),
+				Position = data.value and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6),
 				BackgroundColor3 = data.value and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 			}, 0.18)
 			if data.callback then pcall(data.callback, data.value) end
@@ -2772,11 +2772,11 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.refresh = function()
 			togBg.BackgroundColor3 = data.value and ac or cl.tog_off
 			togDot.BackgroundColor3 = data.value and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
-			togDot.Position = data.value and UDim2.new(1, -20, 0.5, -9) or UDim2.new(0, 2, 0.5, -9)
+			togDot.Position = data.value and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6)
 		end
 	end
 	local function makeText(parent, data, updateHeight)
-		local h = data.desc and 32 or 18
+		local h = data.desc and 28 or 16
 		local frame = Instance.new("Frame")
 		frame.Size = UDim2.new(1, 0, 0, h)
 		frame.BackgroundTransparency = 1
@@ -2784,11 +2784,11 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.frame = frame
 		data.height = h
 		local lbl = Instance.new("TextLabel")
-		lbl.Size = UDim2.new(1, 0, 0, 14)
+		lbl.Size = UDim2.new(1, 0, 0, 12)
 		lbl.BackgroundTransparency = 1
 		lbl.Text = data.label
 		lbl.TextColor3 = data.color or Color3.fromRGB(190, 190, 210)
-		lbl.TextSize = 11
+		lbl.TextSize = 10
 		lbl.Font = Enum.Font.MontserratBold
 		lbl.TextXAlignment = Enum.TextXAlignment.Left
 		lbl.RichText = true
@@ -2797,12 +2797,12 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		data.originalLabel = data.originalLabel or data.label
 		if data.desc then
 			local sub = Instance.new("TextLabel")
-			sub.Size = UDim2.new(1, 0, 0, 12)
-			sub.Position = UDim2.new(0, 0, 0, 16)
+			sub.Size = UDim2.new(1, 0, 0, 10)
+			sub.Position = UDim2.new(0, 0, 0, 14)
 			sub.BackgroundTransparency = 1
 			sub.Text = data.desc
 			sub.TextColor3 = Color3.fromRGB(120, 120, 140)
-			sub.TextSize = 10
+			sub.TextSize = 9
 			sub.Font = Enum.Font.MontserratBold
 			sub.TextXAlignment = Enum.TextXAlignment.Left
 			sub.RichText = true
@@ -2812,30 +2812,30 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	end
 	local function makeTextBox(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, 48)
+		frame.Size = UDim2.new(1, 0, 0, 42)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = 48
+		data.height = 42
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, 0, 0, 14)
+		label.Size = UDim2.new(1, 0, 0, 12)
 		label.BackgroundTransparency = 1
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
 		data.originalLabel = data.originalLabel or data.label
 		local field = Instance.new("Frame")
-		field.Size = UDim2.new(1, 0, 0, 30)
-		field.Position = UDim2.new(0, 0, 0, 18)
+		field.Size = UDim2.new(1, 0, 0, 24)
+		field.Position = UDim2.new(0, 0, 0, 14)
 		field.BackgroundColor3 = cl.field
 		field.BorderSizePixel = 0
 		field.Parent = frame
 		registerRecolor(field, "BackgroundColor3", "field")
-		rnd(field, 6)
+		rnd(field, 5)
 		local stroke = stk(field, Color3.fromRGB(36, 36, 42))
 		data.ui_field = field
 		local box = Instance.new("TextBox")
@@ -2846,7 +2846,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		box.PlaceholderText = data.placeholder or "Enter value..."
 		box.TextColor3 = Color3.fromRGB(220, 220, 230)
 		box.PlaceholderColor3 = Color3.fromRGB(90, 90, 110)
-		box.TextSize = 11
+		box.TextSize = 10
 		box.Font = Enum.Font.MontserratBold
 		box.TextXAlignment = Enum.TextXAlignment.Left
 		box.ClearTextOnFocus = data.clearOnFocus == true
@@ -2866,48 +2866,48 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 	end
 	local function makeBind(parent, data, updateHeight)
 		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(1, 0, 0, 26)
+		frame.Size = UDim2.new(1, 0, 0, 22)
 		frame.BackgroundTransparency = 1
 		frame.Parent = parent
 		data.frame = frame
-		data.height = 26
+		data.height = 22
 		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, -96, 0, 14)
-		label.Position = UDim2.new(0, 0, 0.5, -7)
+		label.Size = UDim2.new(1, -76, 0, 12)
+		label.Position = UDim2.new(0, 0, 0.5, -6)
 		label.BackgroundTransparency = 1
 		label.Text = data.label
 		label.TextColor3 = Color3.fromRGB(200, 200, 205)
-		label.TextSize = 11
+		label.TextSize = 10
 		label.Font = Enum.Font.MontserratBold
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		label.Parent = frame
 		data.ui_label = label
 		data.originalLabel = data.originalLabel or data.label
 		local bindF = Instance.new("Frame")
-		bindF.Size = UDim2.new(0, 86, 0, 22)
-		bindF.Position = UDim2.new(1, -86, 0.5, -11)
+		bindF.Size = UDim2.new(0, 68, 0, 16)
+		bindF.Position = UDim2.new(1, -68, 0.5, -8)
 		bindF.BackgroundColor3 = cl.field
 		bindF.BorderSizePixel = 0
 		bindF.Parent = frame
 		registerRecolor(bindF, "BackgroundColor3", "field")
-		rnd(bindF, 6)
+		rnd(bindF, 4)
 		stk(bindF, Color3.fromRGB(36, 36, 44))
 		data.ui_bindFrame = bindF
 		local bIco = Instance.new("ImageLabel")
-		bIco.Size = UDim2.new(0, 10, 0, 10)
-		bIco.Position = UDim2.new(0, 6, 0.5, -5)
+		bIco.Size = UDim2.new(0, 8, 0, 8)
+		bIco.Position = UDim2.new(0, 5, 0.5, -4)
 		bIco.BackgroundTransparency = 1
 		bIco.Image = BIND_ICON
 		bIco.ImageColor3 = cl.dim
 		bIco.ScaleType = Enum.ScaleType.Fit
 		bIco.Parent = bindF
 		local bLbl = Instance.new("TextLabel")
-		bLbl.Size = UDim2.new(1, -24, 1, 0)
-		bLbl.Position = UDim2.new(0, 20, 0, 0)
+		bLbl.Size = UDim2.new(1, -18, 1, 0)
+		bLbl.Position = UDim2.new(0, 14, 0, 0)
 		bLbl.BackgroundTransparency = 1
 		bLbl.Text = data.key or "None"
 		bLbl.TextColor3 = Color3.fromRGB(160, 160, 170)
-		bLbl.TextSize = 10
+		bLbl.TextSize = 9
 		bLbl.Font = Enum.Font.MontserratBold
 		bLbl.TextXAlignment = Enum.TextXAlignment.Left
 		bLbl.Parent = bindF
@@ -2957,7 +2957,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end
 	end
 	local function buildCard(modData, colIdx, order)
-		modData.expanded = true
+		modData.expanded = false
 		local target = self.columns[colIdx]
 		if not target then
 			return
@@ -2970,18 +2970,18 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		card.ClipsDescendants = true
 		registerRecolor(card, "BackgroundColor3", "card")
 		registerTransparency(card, 0.1)
-		rnd(card, 10)
+		rnd(card, 8)
 		local cardStroke = stk(card, Color3.fromRGB(28, 28, 34))
 		registerRecolor(cardStroke, "Color", "sep")
 		modData.ui_card = card
 		local headBtn = Instance.new("TextButton")
-		headBtn.Size = UDim2.new(1, 0, 0, 38)
+		headBtn.Size = UDim2.new(1, 0, 0, 32)
 		headBtn.BackgroundTransparency = 1
 		headBtn.Text = ""
 		headBtn.Parent = card
 		local modIcon = Instance.new("ImageLabel")
-		modIcon.Size = UDim2.new(0, 14, 0, 14)
-		modIcon.Position = UDim2.new(0, 10, 0.5, -7)
+		modIcon.Size = UDim2.new(0, 12, 0, 12)
+		modIcon.Position = UDim2.new(0, 8, 0.5, -6)
 		modIcon.BackgroundTransparency = 1
 		modIcon.Image = modData.icon or MOD_ICON
 		modIcon.ImageColor3 = modData.on and ac or cl.dim
@@ -2989,33 +2989,33 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		modIcon.Parent = headBtn
 		modData.ui_modIcon = modIcon
 		local bindVisible = (not modData.nobind) and (not modData.notoggle)
-		local nameWidth = -38
+		local nameWidth = -32
 		if bindVisible then
-			nameWidth = -118
+			nameWidth = -102
 		elseif not modData.notoggle then
-			nameWidth = -68
+			nameWidth = -62
 		end
 		local nameLabel = Instance.new("TextLabel")
-		nameLabel.Size = UDim2.new(1, nameWidth, 0, 14)
-		nameLabel.Position = UDim2.new(0, 28, 0.5, -7)
+		nameLabel.Size = UDim2.new(1, nameWidth, 0, 12)
+		nameLabel.Position = UDim2.new(0, 24, 0.5, -6)
 		nameLabel.BackgroundTransparency = 1
 		nameLabel.Text = modData.name
 		nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-		nameLabel.TextSize = 11
+		nameLabel.TextSize = 10
 		nameLabel.Font = Enum.Font.MontserratBold
 		nameLabel.TextXAlignment = Enum.TextXAlignment.Left
 		nameLabel.TextTruncate = Enum.TextTruncate.AtEnd
 		nameLabel.Parent = headBtn
 		modData.ui_nameLabel = nameLabel
 		local badgeVisible = false
-		local rightOffset = modData.notoggle and 12 or 48
+		local rightOffset = modData.notoggle and 12 or 40
 		local bindFrame = Instance.new("Frame")
 		bindFrame.Size = UDim2.new(0, 46, 0, 16)
 		bindFrame.BorderSizePixel = 0
 		bindFrame.Visible = bindVisible
 		bindFrame.Parent = headBtn
 		registerRecolor(bindFrame, "BackgroundColor3", "field")
-		rnd(bindFrame, 5)
+		rnd(bindFrame, 4)
 		stk(bindFrame, Color3.fromRGB(36, 36, 44))
 		local bindIcon = Instance.new("ImageLabel")
 		bindIcon.Size = UDim2.new(0, 8, 0, 8)
@@ -3043,8 +3043,8 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		bindBtn.ZIndex = 4
 		bindBtn.Parent = bindFrame
 		if bindVisible then
-			bindFrame.Position = UDim2.new(1, -92, 0.5, -8)
-			rightOffset = 92
+			bindFrame.Position = UDim2.new(1, -82, 0.5, -8)
+			rightOffset = 82
 		end
 		if badgeVisible then
 			local badgeText = "BETA"
@@ -3123,24 +3123,24 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		local togBg, togDot, togBtn
 		if not modData.notoggle then
 			togBg = Instance.new("Frame")
-			togBg.Size = UDim2.new(0, 36, 0, 20)
-			togBg.Position = UDim2.new(1, -46, 0.5, -10)
+			togBg.Size = UDim2.new(0, 32, 0, 16)
+			togBg.Position = UDim2.new(1, -38, 0.5, -8)
 			togBg.BackgroundColor3 = modData.on and ac or cl.tog_off
 			togBg.BorderSizePixel = 0
 			togBg.Parent = headBtn
-			rnd(togBg, 10)
+			rnd(togBg, 8)
 			modData.ui_togBg = togBg
 			togDot = Instance.new("Frame")
-			togDot.Size = UDim2.new(0, 16, 0, 16)
-			togDot.Position = modData.on and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)
+			togDot.Size = UDim2.new(0, 12, 0, 12)
+			togDot.Position = modData.on and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6)
 			togDot.BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 			togDot.BorderSizePixel = 0
 			togDot.Parent = togBg
-			rnd(togDot, 8)
+			rnd(togDot, 6)
 			modData.ui_togDot = togDot
 			togBtn = Instance.new("TextButton")
-			togBtn.Size = UDim2.new(0, 42, 0, 26)
-			togBtn.Position = UDim2.new(1, -48, 0.5, -13)
+			togBtn.Size = UDim2.new(0, 34, 0, 20)
+			togBtn.Position = UDim2.new(1, -38, 0.5, -10)
 			togBtn.BackgroundTransparency = 1
 			togBtn.Text = ""
 			togBtn.ZIndex = 4
@@ -3149,7 +3149,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 				modData.on = not modData.on
 				tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
 				tw(togDot, {
-					Position = modData.on and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8),
+					Position = modData.on and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6),
 					BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
 				}, 0.18)
 				tw(modIcon, {ImageColor3 = modData.on and ac or cl.dim}, 0.18)
@@ -3169,20 +3169,20 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end
 		local optsContainer = Instance.new("CanvasGroup")
 		optsContainer.BackgroundTransparency = 1
-		optsContainer.Position = UDim2.new(0, 0, 0, 38)
+		optsContainer.Position = UDim2.new(0, 0, 0, 32)
 		optsContainer.Visible = false
 		optsContainer.Parent = card
 		local optsLay = Instance.new("UIListLayout")
 		optsLay.SortOrder = Enum.SortOrder.LayoutOrder
-		optsLay.Padding = UDim.new(0, 8)
+		optsLay.Padding = UDim.new(0, 6)
 		optsLay.Parent = optsContainer
-		pad(optsContainer, 10, 10, 10, 10)
+		pad(optsContainer, 8, 8, 8, 8)
 		local infoFrameH = 0
 		local sep
 		if (modData.opts and #modData.opts > 0) or modData.info then
 			sep = Instance.new("Frame")
-			sep.Size = UDim2.new(1, -16, 0, 1)
-			sep.Position = UDim2.new(0, 8, 0, 37)
+			sep.Size = UDim2.new(1, -12, 0, 1)
+			sep.Position = UDim2.new(0, 6, 0, 31)
 			sep.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
 			sep.BackgroundTransparency = 0.5
 			sep.BorderSizePixel = 0
@@ -3193,20 +3193,20 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 		end
 		local function updateCardHeight(instant)
 			local expanded = modData.expanded
-			local targetH = 38
-			local contentH = ((modData.opts and #modData.opts > 0) or modData.info) and (optsLay.AbsoluteContentSize.Y + 22) or 0
+			local targetH = 32
+			local contentH = ((modData.opts and #modData.opts > 0) or modData.info) and (optsLay.AbsoluteContentSize.Y + 18) or 0
 			if contentH < 10 then
 				local manualH = infoFrameH
 				for _, child in ipairs(optsContainer:GetChildren()) do
 					if child:IsA("Frame") or child:IsA("CanvasGroup") then
-						manualH = manualH + child.Size.Y.Offset + 8
+						manualH = manualH + child.Size.Y.Offset + 6
 					end
 				end
-				contentH = manualH + 22
+				contentH = manualH + 18
 			end
 			local dur = 0.26
 			if expanded then
-				targetH = 38 + contentH
+				targetH = 32 + contentH
 				optsContainer.Visible = true
 				if instant then
 					card.Size = UDim2.new(1, 0, 0, targetH)
@@ -3224,7 +3224,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 				end
 			else
 				if instant then
-					card.Size = UDim2.new(1, 0, 0, 38)
+					card.Size = UDim2.new(1, 0, 0, 32)
 					optsContainer.Size = UDim2.new(1, 0, 0, 0)
 					optsContainer.GroupTransparency = 1
 					optsContainer.Visible = false
@@ -3233,7 +3233,7 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 					if sep then
 						tw(sep, {BackgroundTransparency = 1}, dur * 0.7)
 					end
-					tw(card, {Size = UDim2.new(1, 0, 0, 38)}, dur)
+					tw(card, {Size = UDim2.new(1, 0, 0, 32)}, dur)
 					tw(optsContainer, {Size = UDim2.new(1, 0, 0, 0), GroupTransparency = 1}, dur)
 					task.delay(dur, function()
 						if not modData.expanded then
@@ -3357,8 +3357,36 @@ _qkaspq.Init = function(self, titleText, toggleKey, subtitleText, iconId)
 			if togBg and togDot then
 				tw(togBg, {BackgroundColor3 = modData.on and ac or cl.tog_off}, 0.18)
 				tw(togDot, {
-					Position = modData.on and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8),
+					Position = modData.on and UDim2.new(1, -14, 0.5, -6) or UDim2.new(0, 2, 0.5, -6),
 					BackgroundColor3 = modData.on and Color3.fromRGB(20, 20, 20) or Color3.fromRGB(255, 255, 255)
+				}, 0.18)
+			end
+			if currentHoveredMod == modData then
+				ttIcon.ImageColor3 = (modData.on or modData.notoggle) and ac or cl.dim
+			end
+			if modData.opts then
+				for _, opt in ipairs(modData.opts) do
+					if opt.refresh then
+						pcall(opt.refresh)
+					end
+				end
+			end
+		end
+		headBtn.MouseButton1Click:Connect(function()
+			modData.expanded = not modData.expanded
+			updateCardHeight()
+		end)
+		headBtn.MouseEnter:Connect(function()
+			currentHoveredMod = modData
+			showTooltip(modData.desc, modData.on)
+		end)
+		headBtn.MouseLeave:Connect(function()
+			if currentHoveredMod == modData then
+				currentHoveredMod = nil
+				hideTooltip()
+			end
+		end)
+	end5)
 				}, 0.18)
 			end
 			if currentHoveredMod == modData then
